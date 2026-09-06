@@ -894,6 +894,7 @@ body{background:var(--paper);margin:0}
           <button class="pp-tool" id="ppReset">Reset</button>
           <button class="pp-tool" id="ppGrav" aria-pressed="true">Gravity</button>
           <button class="pp-tool" id="ppGust">Gust</button>
+          <button class="pp-tool" id="ppSwap" aria-pressed="false">Chameleon</button>
           <button class="pp-tool" id="ppFull">Fullscreen</button>
           <span class="pp-hud-read" id="ppRead">60 fps</span>
         </div>
@@ -2122,6 +2123,35 @@ body{background:var(--paper);margin:0}
     " gl_Position=projectionMatrix*viewMatrix*wp;}"
   ].join("\n");
 
+  /* Imported models bring their own surface detail, so they skip the
+     noise displacement entirely — three fbm samples per vertex across
+     60k vertices would cost more than the whole carrot. */
+  var MECH_V = [
+    "attribute float aT;",
+    "uniform mat4 uBone[5];",
+    "varying vec3 vW;varying vec3 vN;varying float vB;varying float vAO;varying float vT;",
+    "void main(){",
+    " vB=0.62;vAO=1.0;vT=-1.0;",
+    /* linear blend skinning: aT runs 0 at the tail to 1 at the head */
+    " float f=clamp(aT,0.0,1.0)*4.0;",
+    " int i0=int(floor(f));",
+    " if(i0>3) i0=3;",
+    " float w=f-float(i0);",
+    " mat4 A=uBone[0];mat4 B=uBone[1];",
+    " if(i0==1){A=uBone[1];B=uBone[2];}",
+    " else if(i0==2){A=uBone[2];B=uBone[3];}",
+    " else if(i0==3){A=uBone[3];B=uBone[4];}",
+    " vec4 pa=A*vec4(position,1.0);",
+    " vec4 pb=B*vec4(position,1.0);",
+    " vec4 wp=mix(pa,pb,w);",
+    " wp.y=max(wp.y,0.015);",                 /* he never sinks through the ground */
+    " vec3 na=mat3(A)*normal;",
+    " vec3 nb=mat3(B)*normal;",
+    " vN=normalize(mix(na,nb,w));",
+    " vW=wp.xyz;",
+    " gl_Position=projectionMatrix*viewMatrix*wp;}"
+  ].join("\n");
+
   var PLAIN_V = "varying vec3 vW;void main(){vec4 wp=modelMatrix*vec4(position,1.0);vW=wp.xyz;gl_Position=projectionMatrix*viewMatrix*wp;}";
 
   var GROUND_F = COMMON + [
@@ -2605,6 +2635,128 @@ body{background:var(--paper);margin:0}
     resize();
   }
 
+  /* ---------------------------------------------------- the other guy
+     A mecha chameleon, loaded only if you ask for him. He rides the
+     same spine as the carrot, so he tumbles and throws identically. */
+  var chamMat = organic({
+    amp: 0, freq: 1, seed: 5.0, sh: 0x123037, mid: 0x2c7a6c, hi: 0x84d6b2,
+    fiber: 0, rough: 0.34, spec: 0.55, sss: 0.30, shA: 0x1d1147, shB: 0x6a3fb0
+  });
+  chamMat.vertexShader = MECH_V;
+  chamMat.uniforms.uBone = { value: [
+    new THREE.Matrix4(), new THREE.Matrix4(), new THREE.Matrix4(),
+    new THREE.Matrix4(), new THREE.Matrix4()
+  ] };
+  chamMat.needsUpdate = true;
+  var chamRestY = [0, 0, 0, 0, 0];
+
+  var chamMesh = null, chamBusy = false, chamOn = false, chamLift = 0;
+  var chamDir = new THREE.Vector3(), chamQ = new THREE.Quaternion(), chamRest = new THREE.Matrix4();
+  var swapBtn = document.getElementById("ppSwap");
+
+  var carrotR = null;
+  function setBulk(asCham) {
+    if (!carrotR) { carrotR = []; for (var i = 0; i < 5; i++) carrotR.push(P[stalk[i]].r); }
+    for (var j = 0; j < 5; j++) P[stalk[j]].r = asCham ? Math.max(carrotR[j], 0.34) : carrotR[j];
+  }
+
+  function showCarrot(v) {
+    rootMesh.visible = v;
+    budMesh.visible = v;
+    var i;
+    for (i = 0; i < cores.length; i++) cores[i].visible = v;
+    for (i = 0; i < segs.length; i++) segs[i].m.visible = v;
+    for (i = 0; i < joints.length; i++) joints[i].m.visible = v;
+    if (chamMesh) chamMesh.visible = !v;
+  }
+
+  function withGLTFLoader(cb) {
+    if (THREE.GLTFLoader) { cb(); return; }
+    var sc = document.createElement("script");
+    sc.src = "https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js";
+    sc.onload = function () { cb(); };
+    sc.onerror = function () { chamBusy = false; if (swapBtn) swapBtn.textContent = "Load failed"; };
+    document.head.appendChild(sc);
+  }
+
+  function buildCham(geo) {
+    /* His long axis becomes the spine, so the ragdoll chain can bend him
+       the way it bends the carrot. Then every vertex is tagged with how
+       far along that spine it sits, which is its skinning weight. */
+    geo.computeBoundingBox();
+    var size = new THREE.Vector3(), ctr = new THREE.Vector3();
+    geo.boundingBox.getSize(size);
+    geo.boundingBox.getCenter(ctr);
+    geo.translate(-ctr.x, -ctr.y, -ctr.z);
+    var rot = new THREE.Matrix4();
+    if (size.x >= size.y && size.x >= size.z) { rot.makeRotationZ(Math.PI / 2); geo.applyMatrix4(rot); }
+    else if (size.z >= size.y && size.z >= size.x) { rot.makeRotationX(-Math.PI / 2); geo.applyMatrix4(rot); }
+    geo.computeBoundingBox();
+    geo.boundingBox.getSize(size);
+
+    /* match his length to the rig so the five bones land where they should */
+    var span = P[stalk[4]].home.y - P[stalk[0]].home.y;
+    var sc = span / Math.max(size.y, 1e-6);
+    geo.scale(sc, sc, sc);
+    geo.computeBoundingBox();
+
+    var minY = geo.boundingBox.min.y, hgt = Math.max(geo.boundingBox.max.y - minY, 1e-6);
+    var pos = geo.attributes.position, n = pos.count;
+    var ts = new Float32Array(n);
+    for (var v = 0; v < n; v++) ts[v] = (pos.getY(v) - minY) / hgt;
+    geo.setAttribute("aT", new THREE.BufferAttribute(ts, 1));
+    for (var k = 0; k < 5; k++) chamRestY[k] = minY + (k / 4) * hgt;
+    geo.computeBoundingSphere();
+    chamLift = 0;
+    chamMesh = new THREE.Mesh(geo, chamMat);
+    chamMesh.frustumCulled = false;
+    chamMesh.visible = false;
+    scene.add(chamMesh);
+  }
+
+  function toggleCham() {
+    if (chamBusy) return;
+    if (chamOn) {                      /* back to the vegetable */
+      chamOn = false;
+      setBulk(false);
+      showCarrot(true);
+      swapBtn.textContent = "Chameleon";
+      swapBtn.setAttribute("aria-pressed", "false");
+      return;
+    }
+    if (chamMesh) {
+      chamOn = true;
+      setBulk(true);
+      showCarrot(false);
+      swapBtn.textContent = "Carrot";
+      swapBtn.setAttribute("aria-pressed", "true");
+      return;
+    }
+    chamBusy = true;
+    swapBtn.textContent = "Loading…";
+    withGLTFLoader(function () {
+      new THREE.GLTFLoader().load("chameleon.glb", function (g) {
+        g.scene.updateMatrixWorld(true);
+        var found = null;
+        g.scene.traverse(function (o) {
+          if (o.isMesh && !found) { found = o.geometry.clone(); found.applyMatrix4(o.matrixWorld); }
+        });
+        chamBusy = false;
+        if (!found) { swapBtn.textContent = "No mesh"; return; }
+        buildCham(found);
+        chamOn = true;
+        setBulk(true);
+        showCarrot(false);
+        swapBtn.textContent = "Carrot";
+        swapBtn.setAttribute("aria-pressed", "true");
+      }, null, function () {
+        chamBusy = false;
+        swapBtn.textContent = "Load failed";
+      });
+    });
+  }
+  if (swapBtn) swapBtn.addEventListener("click", toggleCham);
+
   var headMat = new THREE.Matrix4(), budWorld = new THREE.Matrix4();
   var headQ = [];
   for (var hq = 0; hq < NB; hq++) headQ.push(new THREE.Quaternion());
@@ -2655,6 +2807,22 @@ body{background:var(--paper);margin:0}
       if (i < 5) { var bp = P[stalk[i]].p; OCC[i].set(bp.x, bp.y, bp.z, BODY_R[i] * 1.55); }
     }
     budMesh.instanceMatrix.needsUpdate = true;
+
+    if (chamOn && chamMesh) {
+      /* Each bone is "where this node is now" times "undo where it rested",
+         so a rest-pose vertex lands wherever the ragdoll has taken it. */
+      var bones = chamMat.uniforms.uBone.value;
+      for (var bn = 0; bn < 5; bn++) {
+        var prev = P[stalk[Math.max(bn - 1, 0)]].p;
+        var next = P[stalk[Math.min(bn + 1, 4)]].p;
+        chamDir.subVectors(next, prev);
+        if (chamDir.lengthSq() < 1e-9) chamDir.copy(UP); else chamDir.normalize();
+        chamQ.setFromUnitVectors(UP, chamDir);
+        bones[bn].compose(P[stalk[bn]].p, chamQ, ONE3);
+        chamRest.makeTranslation(0, -chamRestY[bn], 0);
+        bones[bn].multiply(chamRest);
+      }
+    }
     for (i = 0; i < 5 && i + 5 < 8; i++) {
       groundU.uPts.value[i + 5].copy(P[stalk[i]].p);
       groundU.uR.value[i + 5] = BODY_R[i] * 2.0;
