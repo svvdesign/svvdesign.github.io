@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light dark">
-<meta name="description" content="Saad — graphic designer and art director. Brand identity, editorial design, packaging and type direction.">
+<meta name="description" content="Saad — developer. Notes on the craft of programming: shaders, physics, and a page written entirely by hand.">
 <meta property="og:title" content="Saad">
-<meta property="og:description" content="Graphic designer and art director. Identities that survive contact with the real world.">
+<meta property="og:description" content="Notes on the craft of programming — shaders, physics, and a page written entirely by hand.">
 <meta property="og:type" content="website">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Ccircle cx=%2213%22 cy=%2216%22 r=%228%22 fill=%22%230E8FB6%22/%3E%3Ccircle cx=%2219%22 cy=%2216%22 r=%228%22 fill=%22%23C6316F%22 fill-opacity=%22.8%22/%3E%3C/svg%3E">
 <title>Saad</title>
@@ -468,6 +468,16 @@ body{background:var(--paper);margin:0}
 .pp-gate-row{display:flex;gap:9px;flex-wrap:wrap;margin-top:3px}
 .pp-adslot.is-live{border-style:solid;border-color:var(--rule);padding:10px;min-height:0}
 #ppVid{width:100%;max-width:290px;max-height:46vh;display:block;border-radius:2px;background:#0b0d11;margin:0 auto}
+.pp-gate-card.is-thanks{text-align:center;justify-items:center;padding-top:clamp(30px,5vw,44px);padding-bottom:clamp(26px,4vw,36px)}
+.pp-gate-card.is-thanks h3{
+  font-size:clamp(56px,13vw,104px);line-height:.82;letter-spacing:-.01em;
+  animation:pp-thanks .7s cubic-bezier(.16,.9,.3,1) both;
+}
+.pp-gate-card.is-thanks h3 span{display:block;color:var(--m)}
+.pp-gate-card.is-thanks p{animation:pp-thanks .7s .16s cubic-bezier(.16,.9,.3,1) both;max-width:34ch}
+.pp-gate-card.is-thanks .pp-gate-row{justify-content:center;animation:pp-thanks .7s .3s cubic-bezier(.16,.9,.3,1) both}
+@keyframes pp-thanks{from{opacity:0;transform:translateY(16px) scale(.94)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.pp-gate-card.is-thanks h3,.pp-gate-card.is-thanks p,.pp-gate-card.is-thanks .pp-gate-row{animation:none}}
 .pp-gate-links{display:grid;gap:0;border-top:1px solid var(--rule);width:100%;margin-top:10px}
 .pp-gate-links a{
   display:flex;justify-content:space-between;align-items:center;gap:10px;
@@ -499,9 +509,9 @@ body{background:var(--paper);margin:0}
         Saad
       </a>
       <nav class="pp-nav" id="ppNav">
-        <a href="#work">Work</a>
-        <a href="#studio">Studio</a>
-        <a href="#process">Process</a>
+        <a href="#work">Craft</a>
+        <a href="#studio">This page</a>
+        <a href="#process">Principles</a>
         <a href="#contact">Contact</a>
         <a href="#play">Play</a>
       </nav>
@@ -519,9 +529,9 @@ body{background:var(--paper);margin:0}
     <canvas class="pp-halftone" id="ppHalftone" aria-hidden="true"></canvas>
     <div class="pp-shell pp-hero-in">
       <p class="pp-mono pp-eyebrow">
-        <span>Graphic designer &amp; art director</span>
-        <span>Remote worldwide</span>
-        <span>Booking Q1 2027</span>
+        <span>Developer</span>
+        <span>Graphics, shaders, the browser</span>
+        <span>Everything here is hand-written</span>
       </p>
 
       <h1 class="pp-name is-loading" id="ppName">
@@ -532,7 +542,7 @@ body{background:var(--paper);margin:0}
 
       <div class="pp-hero-grid">
         <div>
-          <p class="pp-lede">I build identities that survive contact with the real world — off the screen, onto paper, into hands.</p>
+          <p class="pp-lede">Code is a material. Most of it gets treated like plumbing — but the good stuff is made, not assembled.</p>
           <div class="pp-cta">
             <a class="pp-btn" href="#work">See selected work</a>
             <a class="pp-btn pp-btn-ghost" href="#contact">Start a project</a>
@@ -540,9 +550,9 @@ body{background:var(--paper);margin:0}
         </div>
         <div class="pp-hero-meta">
           <dl class="pp-spec">
-            <dt>Practice</dt><dd>Brand systems, editorial design, packaging, type direction</dd>
-            <dt>Clients</dt><dd>Independent makers, cultural institutions, small-batch producers</dd>
-            <dt>Proofing</dt><dd>Every identity press-checked before it ships</dd>
+            <dt>Interests</dt><dd>Graphics programming, shaders, physics, typography in the browser</dd>
+            <dt>Method</dt><dd>No framework, no build step, no dependency except one 3D library</dd>
+            <dt>Proof</dt><dd>Scroll down — the argument is the page itself</dd>
           </dl>
         </div>
       </div>
@@ -558,27 +568,27 @@ body{background:var(--paper);margin:0}
     <i class="pp-reg pp-reg-tl"><span></span></i><i class="pp-reg pp-reg-tr"><span></span></i>
     <div class="pp-shell">
       <div class="pp-sec-head">
-        <span class="pp-mono pp-plate">Plate C — Work</span>
-        <h2 class="pp-dis pp-sec-title">Selected<br>work</h2>
+        <span class="pp-mono pp-plate">Plate C — Craft</span>
+        <h2 class="pp-dis pp-sec-title">Notes on<br>the craft</h2>
         <span class="pp-sec-note"><span id="ppCount">6</span> of 6 shown</span>
       </div>
 
       <div class="pp-filters">
         <div class="pp-chipset" id="ppChips" role="group" aria-label="Filter work by discipline">
           <button class="pp-chip" data-f="all" aria-pressed="true">All</button>
-          <button class="pp-chip" data-f="identity" aria-pressed="false">Identity</button>
-          <button class="pp-chip" data-f="editorial" aria-pressed="false">Editorial</button>
-          <button class="pp-chip" data-f="packaging" aria-pressed="false">Packaging</button>
-          <button class="pp-chip" data-f="digital" aria-pressed="false">Digital</button>
+          <button class="pp-chip" data-f="practice" aria-pressed="false">Practice</button>
+          <button class="pp-chip" data-f="graphics" aria-pressed="false">Graphics</button>
+          <button class="pp-chip" data-f="performance" aria-pressed="false">Performance</button>
+          <button class="pp-chip" data-f="play" aria-pressed="false">Play</button>
         </div>
         <div class="pp-search">
           <label class="pp-mono" for="ppSearch" style="position:absolute;left:-9999px">Search work</label>
-          <input id="ppSearch" type="search" placeholder="Search projects" autocomplete="off">
+          <input id="ppSearch" type="search" placeholder="Search notes" autocomplete="off">
         </div>
       </div>
 
       <div class="pp-grid" id="ppGrid"></div>
-      <p class="pp-empty" id="ppEmpty" hidden>No projects match that filter. Try “All”, or search for a material — paper, foil, risograph.</p>
+      <p class="pp-empty" id="ppEmpty" hidden>Nothing matches that filter. Try “All”, or search for a term — shader, solver, budget.</p>
     </div>
   </section>
 
@@ -587,22 +597,22 @@ body{background:var(--paper);margin:0}
     <i class="pp-reg pp-reg-tl"><span></span></i><i class="pp-reg pp-reg-tr"><span></span></i>
     <div class="pp-shell">
       <div class="pp-sec-head">
-        <span class="pp-mono pp-plate">Plate M — Studio</span>
-        <h2 class="pp-dis pp-sec-title">The<br>studio</h2>
-        <span class="pp-sec-note">Est. 2017</span>
+        <span class="pp-mono pp-plate">Plate M — This page</span>
+        <h2 class="pp-dis pp-sec-title">This<br>page</h2>
+        <span class="pp-sec-note">No frameworks</span>
       </div>
       <div class="pp-two">
         <div class="pp-prose">
-          <p class="pp-drop">Nine years in, I still judge a brand the same way: print it, hold it, and see whether it holds up under a desk lamp. Screens flatter everything. Paper doesn't.</p>
-          <p>I work as a one-person studio with a rotating bench of collaborators — a photographer in Lisbon, a type designer in Rotterdam, a risograph shop twenty minutes from my desk. Small enough that you talk to the person doing the work; connected enough that a project can grow a custom typeface or a six-colour print run when it needs one.</p>
-          <p>The work runs from full identity systems through to the unglamorous parts nobody photographs: <em>spacing tables, ink-limit charts, a 40-page guideline that a junior at your agency can actually follow.</em> That's the part that decides whether an identity lasts three years or three months.</p>
-          <p>Currently taking two projects per quarter so each one gets a real press check.</p>
+          <p class="pp-drop">People argue about whether programming is art. That argument is usually settled by looking at the thing — so: this page is the argument.</p>
+          <p>There is no framework here. No build step, no bundler, no <em>node_modules</em>. One HTML file, written by hand, that you can open in a text editor and read from top to bottom. The only outside code is a 3D library loaded from a CDN, for the piece at the bottom.</p>
+          <p>That broccoli is not a physics engine talking. It is sixteen point masses and thirty-one distance constraints, integrated with Verlet and relaxed eight times a frame — about forty lines of arithmetic. Its surface is displaced by fractal noise in a vertex shader, then screened back through rotated CMY halftone dots, because that is what the rest of the page is made of too.</p>
+          <p>None of it is useful. That is rather the point: <em>the craft shows up most clearly when nothing is at stake.</em></p>
         </div>
         <div class="pp-stats">
-          <div class="pp-stat"><b data-count="21">21</b><span>Brand systems built</span></div>
-          <div class="pp-stat"><b data-count="112">112</b><span>Pantones specified</span></div>
-          <div class="pp-stat"><b data-count="38400">38,400</b><span>Copies printed</span></div>
-          <div class="pp-stat"><b data-count="9">9</b><span>Years in practice</span></div>
+          <div class="pp-stat"><b data-count="4">4</b><span>Custom GLSL shaders</span></div>
+          <div class="pp-stat"><b data-count="16">16</b><span>Point masses in the solver</span></div>
+          <div class="pp-stat"><b data-count="31">31</b><span>Distance constraints</span></div>
+          <div class="pp-stat"><b data-count="0">0</b><span>Frameworks used</span></div>
         </div>
       </div>
     </div>
@@ -613,8 +623,8 @@ body{background:var(--paper);margin:0}
     <i class="pp-reg pp-reg-tl"><span></span></i><i class="pp-reg pp-reg-tr"><span></span></i>
     <div class="pp-shell">
       <div class="pp-sec-head">
-        <span class="pp-mono pp-plate">Plate Y — Process</span>
-        <h2 class="pp-dis pp-sec-title">Five<br>passes</h2>
+        <span class="pp-mono pp-plate">Plate Y — Principles</span>
+        <h2 class="pp-dis pp-sec-title">How it<br>gets made</h2>
         <span class="pp-sec-note">Run in order</span>
       </div>
       <div class="pp-steps" id="ppSteps"></div>
@@ -627,8 +637,8 @@ body{background:var(--paper);margin:0}
     <div class="pp-shell">
       <div class="pp-sec-head">
         <span class="pp-mono pp-plate">Plate K — Contact</span>
-        <h2 class="pp-dis pp-sec-title">Send a<br>brief</h2>
-        <span class="pp-sec-note">Reply within 2 working days</span>
+        <h2 class="pp-dis pp-sec-title">Say<br>hello</h2>
+        <span class="pp-sec-note">No brief required</span>
       </div>
       <div class="pp-two">
         <form class="pp-form" id="ppForm" novalidate>
@@ -645,39 +655,37 @@ body{background:var(--paper);margin:0}
             </div>
           </div>
           <div class="pp-field">
-            <label for="ppT">What are we making</label>
+            <label for="ppT">What is this about</label>
             <select id="ppT" name="type">
               <option value="">Choose one</option>
-              <option>Identity system</option>
-              <option>Editorial / publication</option>
-              <option>Packaging</option>
-              <option>Digital product design</option>
-              <option>Something else entirely</option>
+              <option>How something here works</option>
+              <option>A bug you found</option>
+              <option>Working on something together</option>
+              <option>Just saying hello</option>
             </select>
             <span class="pp-err" data-for="ppT"></span>
           </div>
           <div class="pp-field">
             <label for="ppM">The brief</label>
-            <textarea id="ppM" name="message" placeholder="Timeline, budget range, and what's actually broken about the current thing."></textarea>
+            <textarea id="ppM" name="message" placeholder="Say as much or as little as you like."></textarea>
             <span class="pp-err" data-for="ppM"></span>
           </div>
           <div>
-            <button class="pp-btn" type="submit">Send brief</button>
+            <button class="pp-btn" type="submit">Send message</button>
           </div>
         </form>
 
         <div class="pp-contact-side">
-          <p style="color:var(--ink-soft);font-size:15px">Prefer email? Everything below reaches the same inbox. Briefs with a budget range get answered first — it's not gatekeeping, it just saves us both a call.</p>
+          <p style="color:var(--ink-soft);font-size:15px">Questions about how something here works, corrections, or an argument about whether any of this counts as art — all welcome.</p>
           <div class="pp-link-list">
             <button type="button" id="ppCopy"><span>studio@saad.design</span><em id="ppCopyLabel">Copy</em></button>
-            <a href="#work"><span>Instagram</span><em>@saad.proof ↗</em></a>
-            <a href="#work"><span>Are.na</span><em>saad ↗</em></a>
-            <a href="#work"><span>Full CV</span><em>PDF ↗</em></a>
+            <a href="https://github.com/svvdesign" target="_blank" rel="noopener noreferrer"><span>GitHub</span><em>svvdesign ↗</em></a>
+            <a href="https://github.com/svvdesign/svvdesign.github.io" target="_blank" rel="noopener noreferrer"><span>Source of this page</span><em>Read it ↗</em></a>
           </div>
           <dl class="pp-spec">
-            <dt>Studio</dt><dd>Remote · GMT+1</dd>
-            <dt>Rates</dt><dd>Project-based. Identity systems from 14k€.</dd>
-            <dt>Next slot</dt><dd>January 2027</dd>
+            <dt>Where</dt><dd>Remote · GMT+1</dd>
+            <dt>Source</dt><dd>Every line of this page is public on GitHub</dd>
+            <dt>Built with</dt><dd>A text editor and Three.js. That is the whole stack.</dd>
           </dl>
         </div>
       </div>
@@ -721,8 +729,8 @@ body{background:var(--paper);margin:0}
         <strong style="color:var(--ink);font-weight:500">Colophon —</strong><br>
         Set in Big Shoulders Display and Newsreader, with IBM&nbsp;Plex&nbsp;Mono for specifications.<br>
         12-column grid · 24px gutter · 8pt baseline.<br>
-        Proof colours sampled from process CMYK, trapped at 0.2pt.<br>
-        © 2026 Saad. All work shown with client permission.<br>
+        Colours sampled from process CMYK. Hand-written HTML, CSS and JavaScript.<br>
+        © 2026 Saad.<br>
         <a href="privacy.html" style="border-bottom:1px solid var(--rule)">Privacy policy</a>
       </div>
       <div style="display:grid;gap:10px;align-content:start">
@@ -777,60 +785,68 @@ body{background:var(--paper);margin:0}
   var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
 
   /* ---------------------------------------------------- data */
+  
   var PROJECTS = [
-    { id:"meridian", t:"Meridian", cat:"identity", year:"2025", kind:"arcs", plate:"c",
-      blurb:"Identity and packaging for a single-origin roaster who wanted the farm on the bag, not a logo.",
-      role:"Identity, packaging, type direction", dur:"14 weeks", deliv:"Wordmark, 3 label systems, 62-page guidelines",
-      specs:[["Pantone","7526 C / 5535 C"],["Stock","Colorplan Ebony 270gsm"],["Finish","Blind deboss, no foil"],["Type","Custom-drawn wordmark"]],
-      body:["Meridian roasts eleven origins and had eleven unrelated bags. The fix wasn't a new logo — it was one grid strict enough to hold eleven different origin stories without turning into eleven different brands.",
-            "Every label runs the same 4-column field: origin block top-left, altitude and process as running specs down the right edge, tasting notes set in the client's own words rather than the usual wheel vocabulary. The only variable is a single spot colour drawn from the roast.",
-            "Deboss instead of foil was a cost decision that became the signature — it survives the oil that inevitably gets on a coffee bag, which foil does not."]},
-    { id:"fieldnotes", t:"Field Notes", cat:"editorial", year:"2024", kind:"grid", plate:"m",
-      blurb:"A quarterly journal of regional agriculture, redesigned from a Word template into something people keep.",
-      role:"Art direction, typesetting, production", dur:"9 months, 4 issues", deliv:"Masthead, grid, 4 issues, template kit",
-      specs:[["Trim","200 × 270mm"],["Grid","6 col / 12pt baseline"],["Paper","Munken Print Cream 90gsm"],["Run","4,800 per issue"]],
-      body:["The previous issues were laid out by the editors in Word. That was the actual constraint: whatever I designed had to be maintainable by two people with no design training and no budget for a designer between issues.",
-            "So the system is built from six paragraph styles and one rule: nothing sits outside the baseline grid. Photography is duotone throughout, which hides the wide quality range of farmer-submitted images and gives four very different issues one voice.",
-            "The template kit ships with a two-page cheat sheet. Three issues have since gone out without me touching them, and they still look right."]},
-    { id:"halcyon", t:"Halcyon", cat:"digital", year:"2025", kind:"bars", plate:"c",
-      blurb:"Design system and marketing site for a sleep-tracking app that refused to look like a hospital.",
-      role:"Design system, art direction", dur:"11 weeks", deliv:"Token set, 40 components, marketing site",
-      specs:[["Tokens","112 semantic"],["Type","Variable, 2 axes"],["Contrast","AA min, AAA body"],["Dark mode","Designed first"]],
-      body:["Sleep apps live on a phone at 3am, so this one was designed dark-first and light-second — the reverse of the usual order, and the reason the light theme is the weaker of the two on most competitors.",
-            "The whole palette is built from one blue-violet ramp plus a strictly separated semantic set for alerts. No decorative gradients: at low brightness they band badly on OLED, which is exactly when this app gets opened.",
-            "The marketing site reuses the product's own tokens, so a palette change ships to both at once."]},
-    { id:"sorn", t:"Sørn Bakeri", cat:"packaging", year:"2024", kind:"stack", plate:"y",
-      blurb:"Packaging for a Nordic bakery, printed two-colour on unbleached kraft to keep the whole range affordable.",
-      role:"Identity, packaging, signage", dur:"7 weeks", deliv:"Marque, 9 pack formats, shopfront",
-      specs:[["Colours","2 spot, no CMYK"],["Substrate","Unbleached kraft 120gsm"],["Print","Flexo, 1 plate change"],["Range","9 SKUs"]],
-      body:["Nine products, a budget for one print setup. Everything is built so a single plate change covers the range: the second colour moves, the black stays.",
-            "The marque is a bread scoring mark — the slash a baker cuts before the loaf goes in. It reads at 8mm on a bag tie and at two metres on the shopfront, which is the entire test.",
-            "Kraft was the cheap option and it warms both inks by about a step, so the palette was chosen on the actual stock rather than on screen."]},
-    { id:"atlas", t:"Atlas Foundry", cat:"editorial", year:"2023", kind:"type", plate:"m",
-      blurb:"A 240-page specimen for an independent type foundry, printed risograph in four passes.",
-      role:"Editorial design, print production", dur:"5 months", deliv:"240pp specimen, 600 copies",
-      specs:[["Extent","240pp + cover"],["Process","Risograph, 4 passes"],["Registration","±1.5mm by hand"],["Edition","600, numbered"]],
-      body:["Risograph misregisters. Rather than fighting a ±1.5mm drift across 240 pages, the whole specimen was designed to use it: every headline is a deliberate two-pass overprint where the slip is the point.",
-            "Type is shown at working sizes on working paper — 9pt body text on the actual stock, not 200pt display letters floating in white. Designers buy fonts for text settings and get sold display specimens.",
-            "Sold out in eleven weeks. The second edition kept the misregistration and printed offset, which was the only real argument of the project."]},
-    { id:"verge", t:"Verge Festival", cat:"identity", year:"2025", kind:"dots", plate:"y",
-      blurb:"A generative identity for a three-day music festival — one system, 340 unique posters.",
-      role:"Identity, generative system, print", dur:"10 weeks", deliv:"System, 340 posters, full signage",
-      specs:[["Outputs","340 unique"],["Seed","Set time + stage"],["Print","Screen, 3 colours"],["Sizes","A2 / A1 / 6-sheet"]],
-      body:["Every act got its own poster, generated from a seed built out of its set time and stage. Same rules, 340 results, none repeated — and no designer laying out 340 posters by hand.",
-            "The generator was tuned against print, not screen: minimum stroke width was set by the screen mesh, and the palette limited to three colours because that was the print budget.",
-            "The organisers still run the generator themselves for next year's line-up. That was the deliverable — not the posters, the machine that makes them."]}
+    { id:"constraints", t:"Constraints", cat:"practice", year:"3 min", kind:"grid", plate:"c",
+      blurb:"A tight budget of pixels, milliseconds or bytes will shape the work better than taste alone.",
+      role:"Limits are a tool, not an obstacle", dur:"The ragdoll at the bottom of this page", deliv:"You give up generality",
+      specs:[["Solver","Verlet, 8 iterations"],["Point masses","16"],["Constraints","31"],["Physics library","none"]],
+      body:["The broccoli needed physics. The obvious move is to reach for a physics engine — but the smallest of those is well over a hundred kilobytes, and this simulation has sixteen particles in it. The library would have outweighed the entire rest of the page.",
+            "So it got written by hand instead: integrate each point, then relax the distances between them, eight times a frame. About forty lines. It is not a general engine and it never will be — it cannot do friction properly, it knows nothing about rotation, and it would fall apart with a thousand particles.",
+            "That narrowness is exactly why it works. A general engine has to be correct for every case; this one only has to be convincing for one. Constraints did not limit the result, they specified it."]},
+
+    { id:"byhand", t:"By hand", cat:"practice", year:"3 min", kind:"bars", plate:"m",
+      blurb:"No framework, no build step, no node_modules. One file you can read from top to bottom.",
+      role:"Understand every line you ship", dur:"The whole page — view source", deliv:"You write things others get free",
+      specs:[["Files","1 HTML"],["Build step","none"],["Dependencies","1"],["Total size","~93 KB"]],
+      body:["This page is a single HTML file. The CSS is at the top, the markup in the middle, the JavaScript at the bottom. No compiler, no bundler, nothing to install before it runs. Open it in any text editor and the whole thing is there.",
+            "The honest trade is real. There is no component model, no type checking, no hot reload, and a large team would be slowed down by all three absences. Writing by hand does not scale, and pretending otherwise is how people end up re-inventing React badly.",
+            "But at this size the trade pays. Nothing is hidden behind an abstraction that has to be learned before it can be debugged, the page loads in one request, and it will still run unchanged in ten years — which is more than most build pipelines can promise."]},
+
+    { id:"shaders", t:"Shaders", cat:"graphics", year:"4 min", kind:"dots", plate:"y",
+      blurb:"A shader is a small program run once per pixel. It is the closest programming gets to drawing.",
+      role:"Maths, evaluated a million times a frame", dur:"Every green surface below, and the background", deliv:"Debugging is genuinely hard",
+      specs:[["Shaders here","4"],["Language","GLSL"],["Noise","4-octave value fBm"],["Normals","screen-space derivatives"]],
+      body:["A shader does not draw shapes. It answers one question — what colour is this pixel — and the GPU asks it a few million times per frame, in parallel, with no memory of any other pixel. That constraint changes how you think: no loops over objects, no state, just a formula.",
+            "The broccoli's bumps are not modelled. Each vertex is pushed out along its normal by a fractal noise function, so the surface is generated rather than sculpted, and the same three lines produce a different result at every scale. The lighting normal is then recovered from the derivative of the position across the screen, because the displaced geometry no longer matches the original normals.",
+            "The catch is that a shader has no print statement worth the name. You debug by rendering values as colours and reading the picture — which is either the most frustrating part of graphics programming, or the most fun, depending on the hour."]},
+
+    { id:"budget", t:"The frame budget", cat:"performance", year:"3 min", kind:"stack", plate:"c",
+      blurb:"Sixty frames a second means 16.7 milliseconds. Everything you do has to fit inside that.",
+      role:"Performance is a design constraint", dur:"The fps counter under the broccoli", deliv:"Some ideas simply do not fit",
+      specs:[["Budget","16.7 ms"],["Physics","8 iterations"],["Pixel ratio","capped at 2"],["Off-screen","paused"]],
+      body:["Sixty frames a second is not a target, it is a ceiling. Once you accept 16.7 milliseconds as the whole budget, decisions stop being about elegance and start being about arithmetic: how many iterations, how many draw calls, how many pixels.",
+            "Most of the wins here are refusals rather than optimisations. The device pixel ratio is capped at 2, because rendering at 3x on a phone triples the pixel count for a difference nobody can see. The simulation stops entirely when the section scrolls out of view, and again when the tab is hidden — a loop that runs unseen is pure battery drain.",
+            "The remaining cost is honest work: sixteen particles relaxed eight times is a hundred and twenty-eight constraint solves a frame, which is nothing. The expensive part is the shader, and that is where the budget is deliberately spent."]},
+
+    { id:"legibility", t:"Legibility", cat:"practice", year:"2 min", kind:"type", plate:"m",
+      blurb:"Code is read far more often than it is written — usually by you, months later, at speed.",
+      role:"Write for the next reader", dur:"The comments in the source", deliv:"It takes longer up front",
+      specs:[["Comments","why, not what"],["Names","full words"],["Functions","one job each"],["Cleverness","rationed"]],
+      body:["The useful comment does not say what the line does — the line already says that. It says why the line is that way, which is the part that gets lost. A note explaining that pointer capture sits after the drag setup because it throws on unknown pointer ids will save somebody an hour.",
+            "Clever code is a loan against your future attention. A dense one-liner feels good to write and costs real time to re-read, and the person paying that cost is almost always you.",
+            "This page contains a bug that made the argument for me. Two CSS rules collided on specificity, and the buttons rendered with text the same colour as their background — invisible in both themes. The code was short, tidy, and completely wrong. Legibility would not have prevented it, but it is why the fix took two minutes instead of an afternoon."]},
+
+    { id:"useless", t:"Useless things", cat:"play", year:"2 min", kind:"arcs", plate:"y",
+      blurb:"A ragdoll broccoli teaches you more about numerical stability than any tutorial will.",
+      role:"Play is how the craft is practised", dur:"Everything below the contact form", deliv:"Nothing, which is the point",
+      specs:[["Purpose","none"],["Stakeholders","none"],["Deadline","none"],["Lessons","several"]],
+      body:["Nobody asked for a broccoli with a spine. There is no requirement it satisfies, no metric it improves, and no user whose day it makes better. It exists because making it was interesting.",
+            "That is precisely why it teaches. With no stakeholders there is nothing to hide behind: if the simulation explodes, the damping is wrong, and no amount of framing will make it look right. The feedback is immediate and completely honest, which is rare in software.",
+            "Every technique on this page arrived through something equally pointless — the halftone screen, the noise displacement, the constraint solver. Useful work tends to reuse what you already know. Useless work is where the knowing comes from."]}
   ];
 
+  
   var STEPS = [
-    { n:"01", t:"Brief & audit", p:"I read everything you already have — decks, old guidelines, the file where the logo actually lives — and print it. <b>Half of the problems are visible the moment the work leaves the screen</b> and sits on a desk next to your competitors." },
-    { n:"02", t:"Territory", p:"Research narrowed into two or three genuinely different directions, shown as real applications rather than mood boards. <b>A direction you can't imagine on a package isn't a direction</b>, it's a colour scheme." },
-    { n:"03", t:"Direction", p:"One route chosen, then pushed until it breaks — smallest legible size, worst-case photography, the application nobody planned for. <b>An identity is only as good as its ugliest use case.</b>" },
-    { n:"04", t:"System build", p:"The unglamorous months. Type scales, spacing tables, colour with ink limits, asset naming, and guidelines written for the person who'll use them, not for the awards jury. <b>If a junior can't follow it, it isn't finished.</b>" },
-    { n:"05", t:"Press check", p:"I go to the printer. Colour gets approved on the actual stock under the actual light, and the digital files get handed over with the source, the fonts, and a licence you actually own. <b>Then the work is yours.</b>" }
+    { n:"01", t:"Make it run", p:"The first version does one thing badly, on screen, today. A particle that falls and bounces. <b>Nothing is understood until it moves</b> — plans on paper hide every problem that matters." },
+    { n:"02", t:"Read the real thing", p:"Not the tutorial, not the blog post — the specification, the source of the library, the actual maths. <b>Tutorials teach you a result; sources teach you the rules</b>, and only rules generalise." },
+    { n:"03", t:"Break it deliberately", p:"Turn the numbers up until it explodes. Drag the broccoli through the floor at speed. <b>You do not know a system until you have seen it fail</b>, and every failure names a constraint you had not written down." },
+    { n:"04", t:"Cut it back", p:"Delete what does not earn its place: the extra octave of noise nobody sees, the parameter that never gets changed, the abstraction with one caller. <b>Most of the improvement is subtraction.</b>" },
+    { n:"05", t:"Put it where it can break", p:"Ship it, then open it on a phone, in another browser, on a slow connection, with an ad blocker on. <b>Software that has only ever run on the machine that made it is not finished</b>, it is a rehearsal." }
   ];
 
-  var TAPE = ["Brand identity","Editorial design","Packaging","Type direction","Print production","Design systems","Art direction","Naming","Signage","Risograph","Colour management","Press checks"];
+  
+  var TAPE = ["GLSL shaders","Verlet integration","Canvas &amp; WebGL","Constraint solvers","Procedural noise","Halftone screening","Frame budgets","Hand-written CSS","No frameworks","Numerical stability","Typography on the web","Useless side projects"];
 
   /* ---------------------------------------------------- tape */
   var tape = $("#ppTape");
@@ -985,9 +1001,9 @@ body{background:var(--paper);margin:0}
       '<h3 id="ppSheetTitle">' + p.t + '</h3>' +
       '<p style="font-size:19px;line-height:1.5;color:var(--ink)">' + p.blurb + '</p>' +
       '<dl class="pp-sheet-specs">' +
-        '<div><dt>Role</dt><dd>' + p.role + '</dd></div>' +
-        '<div><dt>Duration</dt><dd>' + p.dur + '</dd></div>' +
-        '<div><dt>Delivered</dt><dd>' + p.deliv + '</dd></div>' +
+        '<div><dt>Claim</dt><dd>' + p.role + '</dd></div>' +
+        '<div><dt>On this page</dt><dd>' + p.dur + '</dd></div>' +
+        '<div><dt>Trade-off</dt><dd>' + p.deliv + '</dd></div>' +
       '</dl>' +
       p.body.map(function (t) { return "<p>" + t + "</p>"; }).join("") +
       '<dl class="pp-sheet-specs">' + p.specs.map(function (s) {
@@ -1212,14 +1228,14 @@ body{background:var(--paper);margin:0}
     ok = setErr("ppN", $("#ppN").value.trim() ? "" : "Add a name so I know who I'm replying to") && ok;
     var em = $("#ppE").value.trim();
     ok = setErr("ppE", !em ? "An email address is required" : (/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(em) ? "" : "That address is missing an @ or a domain")) && ok;
-    ok = setErr("ppT", $("#ppT").value ? "" : "Pick the closest match — it can change later") && ok;
+    ok = setErr("ppT", $("#ppT").value ? "" : "Pick the closest match") && ok;
     var msg = $("#ppM").value.trim();
     ok = setErr("ppM", msg.length >= 20 ? "" : "A few more lines, please — at least 20 characters") && ok;
     if (!ok) { $('[aria-invalid="true"]').focus(); return; }
     var panel = document.createElement("div");
     panel.className = "pp-sent";
     panel.setAttribute("role", "status");
-    panel.innerHTML = "<b>Brief received</b>" +
+    panel.innerHTML = "<b>Message received</b>" +
       "<p style='color:var(--ink-soft);font-size:15px'>Thanks, " + $("#ppN").value.trim().split(" ")[0].replace(/[<>&]/g, "") +
       ". You'll get a reply within two working days.</p>" +
       "<p class='pp-mono' style='color:var(--ink-faint);letter-spacing:.08em'>Note for the site owner: this form validates in the browser only. Connect it to Webflow Forms before launch.</p>";
@@ -1320,8 +1336,12 @@ body{background:var(--paper);margin:0}
       note("The clip could not load — but thank you for the thought.");
     });
     vid.addEventListener("ended", function () {
-      body.textContent = "That is the whole thing. Thanks for watching.";
-      if (supportList()) note("If you would rather help directly:");
+      slot.hidden = true;
+      slot.classList.remove("is-live");
+      card.classList.add("is-thanks");
+      title.innerHTML = "Thank<span>you</span>";
+      body.textContent = "That is the whole thing. Five seconds, and it genuinely helps.";
+      if (supportList()) note("Or help directly:");
       no.focus();
     });
   }
@@ -1336,6 +1356,7 @@ body{background:var(--paper);margin:0}
     else if (!e.shiftKey && document.activeElement === lastF) { e.preventDefault(); first.focus(); }
   }
   function reset() {
+    card.classList.remove("is-thanks");
     title.textContent = ASK_T;
     body.textContent = ASK_B;
     slot.hidden = true;
