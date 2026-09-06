@@ -2116,16 +2116,27 @@ body{background:var(--paper);margin:0}
   /* A carrot: a tapered root that barely bends, and five floppy leaf
      stems on top. The root is stiff, the leaves are not — which is
      what makes it fun to fling. */
+  /* The rendered radius and the collision radius must be the same number,
+     or the skin sinks through the floor. This is that number. */
+  var ROOT_LEN = 1.9;
+  function rootRadius(t) {                    /* t: 0 at the point, 1 at the shoulder */
+    var r = Math.pow(Math.max(t, 0.0), 0.52) * 0.330;
+    r *= 1.0 - 0.16 * Math.pow(Math.max(0, (t - 0.80) / 0.20), 2.0);
+    return Math.max(0.010, r);
+  }
+  var SKIN = 0.030;                           /* headroom for noise + ridge displacement */
+
   var NB = 5, stalk = [], tips = [], mids = [];
-  var BODY_R = [0.035, 0.130, 0.200, 0.252, 0.292];
+  var BODY_R = [];
+  for (var br = 0; br < 5; br++) BODY_R.push(rootRadius(br / 4) + SKIN);
   var BODY_Y = [0.10, 0.55, 1.00, 1.42, 1.80];
   for (var bi = 0; bi < 5; bi++) stalk.push(addP(0, BODY_Y[bi], 0, BODY_R[bi], 1.2 + bi * 0.55));
 
   for (var i = 0; i < NB; i++) {
     var a = (i / NB) * Math.PI * 2 + 0.4;
     var dx = Math.cos(a), dz = Math.sin(a);
-    mids.push(addP(dx * 0.24, 2.16, dz * 0.24, 0.055, 0.5));
-    tips.push(addP(dx * 0.52, 2.58, dz * 0.52, 0.05, 0.4));
+    mids.push(addP(dx * 0.24, 2.16, dz * 0.24, 0.085, 0.5));
+    tips.push(addP(dx * 0.52, 2.58, dz * 0.52, 0.150, 0.4));
   }
 
   for (var i = 0; i < 4; i++) addC(stalk[i], stalk[i + 1], 1);
@@ -2252,13 +2263,7 @@ body{background:var(--paper);margin:0}
      One skin, no joins. Rings are swept along a Catmull-Rom curve
      through the five body particles, with a parallel-transport frame
      so the surface never twists as the carrot bends. */
-  var RINGS = 60, RADIAL = 28, ROOT_LEN = 1.9;
-
-  function rootRadius(t) {                    /* t: 0 at the point, 1 at the shoulder */
-    var r = Math.pow(Math.max(t, 0.0), 0.52) * 0.330;
-    r *= 1.0 - 0.16 * Math.pow(Math.max(0, (t - 0.80) / 0.20), 2.0);   /* soften the shoulder */
-    return Math.max(0.010, r);
-  }
+  var RINGS = 60, RADIAL = 28;
 
   var VCOUNT = RINGS * RADIAL + 2;          /* +2: top cap centre, bottom cap centre */
   var TOPC = RINGS * RADIAL, BOTC = TOPC + 1;
@@ -2328,7 +2333,7 @@ body{background:var(--paper);margin:0}
         var a2 = (j2 / RADIAL) * Math.PI * 2, ca = Math.cos(a2), sa = Math.sin(a2);
         var o2 = (r2 * RADIAL + j2) * 3;
         rootPos[o2]     = cP.x + (cN.x * ca + cB.x * sa) * rad2;
-        rootPos[o2 + 1] = cP.y + (cN.y * ca + cB.y * sa) * rad2;
+        rootPos[o2 + 1] = Math.max(0, cP.y + (cN.y * ca + cB.y * sa) * rad2);
         rootPos[o2 + 2] = cP.z + (cN.z * ca + cB.z * sa) * rad2;
         var nx = cN.x * ca + cB.x * sa - cT.x * slope;
         var ny = cN.y * ca + cB.y * sa - cT.y * slope;
@@ -2339,10 +2344,10 @@ body{background:var(--paper);margin:0}
     }
     /* cap centres follow the two ends of the curve */
     rootCurve.getPoint(1, cP);
-    rootPos[TOPC * 3] = cP.x; rootPos[TOPC * 3 + 1] = cP.y; rootPos[TOPC * 3 + 2] = cP.z;
+    rootPos[TOPC * 3] = cP.x; rootPos[TOPC * 3 + 1] = Math.max(0, cP.y); rootPos[TOPC * 3 + 2] = cP.z;
     rootNrm[TOPC * 3] = cT.x; rootNrm[TOPC * 3 + 1] = cT.y; rootNrm[TOPC * 3 + 2] = cT.z;
     rootCurve.getPoint(0, cP);
-    rootPos[BOTC * 3] = cP.x; rootPos[BOTC * 3 + 1] = cP.y; rootPos[BOTC * 3 + 2] = cP.z;
+    rootPos[BOTC * 3] = cP.x; rootPos[BOTC * 3 + 1] = Math.max(0, cP.y); rootPos[BOTC * 3 + 2] = cP.z;
     rootNrm[BOTC * 3] = -cT.x; rootNrm[BOTC * 3 + 1] = -cT.y; rootNrm[BOTC * 3 + 2] = -cT.z;
 
     rootGeo.attributes.position.needsUpdate = true;
@@ -2497,6 +2502,9 @@ body{background:var(--paper);margin:0}
       headMat.compose(P[tips[i]].p, headQ[i], ONE3);
       for (var bi = headStart[i]; bi <= headEnd[i] && bi < budCount; bi++) {
         budWorld.multiplyMatrices(headMat, budLocal[bi]);
+        /* a leaflet is decorative, not simulated — just refuse to let it sink */
+        var brad = buds[bi].s * 0.85;
+        if (budWorld.elements[13] < brad) budWorld.elements[13] = brad;
         budMesh.setMatrixAt(bi, budWorld);
       }
       groundU.uPts.value[i].copy(P[tips[i]].p);
