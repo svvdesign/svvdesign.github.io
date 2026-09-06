@@ -467,8 +467,7 @@ body{background:var(--paper);margin:0}
 .pp-gate-chips i{width:8px;height:8px;border-radius:50%;display:block}
 .pp-gate-row{display:flex;gap:9px;flex-wrap:wrap;margin-top:3px}
 .pp-adslot.is-live{border-style:solid;border-color:var(--rule);padding:10px;min-height:0}
-#ppAdHost{width:100%;display:grid;place-items:center}
-#ppAdHost:empty{display:none}
+#ppVid{width:100%;max-width:290px;max-height:46vh;display:block;border-radius:2px;background:#0b0d11;margin:0 auto}
 .pp-gate-links{display:grid;gap:0;border-top:1px solid var(--rule);width:100%;margin-top:10px}
 .pp-gate-links a{
   display:flex;justify-content:space-between;align-items:center;gap:10px;
@@ -742,13 +741,15 @@ body{background:var(--paper);margin:0}
     <div class="pp-gate-card" id="ppGateCard" tabindex="-1">
       <span class="pp-gate-chips" aria-hidden="true"><i style="background:var(--c)"></i><i style="background:var(--m)"></i><i style="background:var(--y)"></i><i style="background:var(--ink)"></i></span>
       <h3 id="ppGateTitle">Fancy supporting this?</h3>
-      <p id="ppGateBody">No account, no newsletter, no tracking on this site. If you feel like helping, you can watch one short ad. And if not — genuinely, that is fine. Nothing here changes either way.</p>
+      <p id="ppGateBody">No account, no newsletter, nothing tracked. If you feel like helping, watch this five-second clip. And if not — genuinely, that is fine.</p>
       <div class="pp-adslot" id="ppGateSlot" hidden>
-        <div id="ppAdHost"></div>
+        <video id="ppVid" playsinline preload="none" controls poster="support-poster.jpg">
+          <source src="support.mp4" type="video/mp4">
+        </video>
         <div id="ppAdMsg" hidden></div>
       </div>
       <div class="pp-gate-row">
-        <button class="pp-btn" type="button" id="ppGateYes">Watch an ad</button>
+        <button class="pp-btn" type="button" id="ppGateYes">Watch the clip</button>
         <button class="pp-btn pp-btn-ghost" type="button" id="ppGateNo">No thanks</button>
       </div>
     </div>
@@ -1249,103 +1250,38 @@ body{background:var(--paper);margin:0}
 
 <script>
 /* ------------------------------------------------------------
-   SUPPORT + ADS
-
-   Ads are consent-gated: no third-party script loads until the
-   visitor presses "Watch an ad". Decline, and nothing external
-   ever runs — which keeps the "no tracking" line honest.
-
-   TO TURN ADS ON: set AD.provider and paste your ids below.
-     "adsense"    -> needs AD.client and AD.slot
-     "ethicalads" -> needs AD.publisher
-     ""           -> ads off; the direct support links show instead
+   SUPPORT PROMPT
+   Shows on every visit. "Watch" plays a short clip served from
+   this site — no ad network, no third party, no tracking.
+   Add a URL to SUPPORT below to show a donate link alongside it.
    ------------------------------------------------------------ */
 (function () {
   "use strict";
 
-  /* ---------- configure here ---------- */
-  var AD = {
-    provider: "",                            /* "adsense" | "ethicalads" | "" */
-    client: "ca-pub-0000000000000000",       /* AdSense publisher id */
-    slot: "0000000000",                      /* AdSense ad unit id */
-    publisher: "your-publisher-id"           /* EthicalAds publisher id */
-  };
-
-  /* Direct support links — these need no approval. Add a URL to switch one on. */
+  /* Direct support links — add a URL to switch one on, leave "" to hide. */
   var SUPPORT = [
     { label: "GitHub Sponsors", url: "" },
     { label: "Ko-fi", url: "" },
-    { label: "Buy Me a Coffee", url: "" },
     { label: "PayPal", url: "" }
   ];
-  /* ---------- end configuration ---------- */
 
   var gate = document.getElementById("ppGate");
   if (!gate) return;
-
-  var KEY = "pp-support-v1";
-  function recall() { try { return window.localStorage.getItem(KEY); } catch (e) { return null; } }
-  function store(v) { try { window.localStorage.setItem(KEY, v); } catch (e) {} }
 
   var card = document.getElementById("ppGateCard"),
       yes = document.getElementById("ppGateYes"),
       no = document.getElementById("ppGateNo"),
       slot = document.getElementById("ppGateSlot"),
-      host = document.getElementById("ppAdHost"),
+      vid = document.getElementById("ppVid"),
       msg = document.getElementById("ppAdMsg"),
       title = document.getElementById("ppGateTitle"),
       body = document.getElementById("ppGateBody"),
       reopen = document.getElementById("ppSupportOpen"),
       reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches,
-      adsConfigured = (AD.provider === "adsense" && AD.client.indexOf("0000") === -1) ||
-                      (AD.provider === "ethicalads" && AD.publisher.indexOf("your-") === -1),
-      loaded = false, last = null;
+      last = null;
 
   var ASK_T = "Fancy supporting this?",
-      ASK_B = "No account, no newsletter, no tracking on this site. If you feel like helping, you can watch one short ad. And if not — genuinely, that is fine. Nothing here changes either way.";
-
-  /* ---------- ad mounting ---------- */
-  function mountAdsense(done) {
-    var ins = document.createElement("ins");
-    ins.className = "adsbygoogle";
-    ins.style.display = "block";
-    ins.style.width = "100%";
-    ins.setAttribute("data-ad-client", AD.client);
-    ins.setAttribute("data-ad-slot", AD.slot);
-    ins.setAttribute("data-ad-format", "rectangle");
-    ins.setAttribute("data-full-width-responsive", "true");
-    host.appendChild(ins);
-
-    var sc = document.createElement("script");
-    sc.async = true;
-    sc.crossOrigin = "anonymous";
-    sc.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=" + encodeURIComponent(AD.client);
-    sc.onerror = function () { done(false); };
-    sc.onload = function () {
-      try { (window.adsbygoogle = window.adsbygoogle || []).push({}); }
-      catch (e) { done(false); return; }
-      window.setTimeout(function () {
-        done(ins.getAttribute("data-ad-status") === "filled" || ins.clientHeight > 30);
-      }, 2600);
-    };
-    document.head.appendChild(sc);
-  }
-
-  function mountEthical(done) {
-    var d = document.createElement("div");
-    d.setAttribute("data-ea-publisher", AD.publisher);
-    d.setAttribute("data-ea-type", "image");
-    host.appendChild(d);
-
-    var sc = document.createElement("script");
-    sc.async = true;
-    sc.src = "https://media.ethicalads.io/media/client/ethicalads.min.js";
-    sc.onerror = function () { done(false); };
-    sc.onload = function () {
-      window.setTimeout(function () { done(!!host.querySelector("iframe, a, img")); }, 2600);
-    };
-    document.head.appendChild(sc);
-  }
+      ASK_B = "No account, no newsletter, nothing tracked. If you feel like helping, watch this five-second clip. And if not — genuinely, that is fine.";
 
   function supportList() {
     var live = SUPPORT.filter(function (x) { return x.url; });
@@ -1355,39 +1291,45 @@ body{background:var(--paper);margin:0}
              x.label + '</span><span>Open ↗</span></a>';
     }).join("") + "</div>";
   }
-
-  function showFallback(reason) {
-    slot.classList.remove("is-live");
-    var links = supportList();
-    msg.innerHTML = '<div class="pp-note">' + reason + "</div>" + links;
+  function note(text) {
+    msg.innerHTML = '<div class="pp-note">' + text + "</div>" + supportList();
     msg.hidden = false;
   }
 
-  function loadAd() {
-    if (loaded) return;
-    loaded = true;
-    if (!adsConfigured) {
-      showFallback(supportList()
-        ? "No ad to show right now — but these go straight to me:"
-        : "No ad network is connected to this site yet. Thank you for the thought.");
-      return;
+  function play() {
+    title.textContent = "Thank you";
+    body.textContent = "Five seconds of your life, well spent.";
+    slot.hidden = false;
+    slot.classList.add("is-live");
+    yes.hidden = true;
+    no.textContent = "Close";
+    no.classList.remove("pp-btn-ghost");
+    msg.hidden = true;
+
+    if (!vid) { note("The clip could not load."); return; }
+    try { vid.load(); } catch (e) {}
+    var pr = vid.play();
+    if (pr && pr.catch) {
+      pr.catch(function () { note("Press play to watch."); });
     }
-    msg.hidden = false;
-    msg.innerHTML = '<div class="pp-note">Loading an ad…</div>';
-    var done = function (ok) {
-      if (ok) { msg.hidden = true; slot.classList.add("is-live"); }
-      else { showFallback("The ad could not load — an ad blocker, most likely. No hard feelings."); }
-    };
-    if (AD.provider === "adsense") mountAdsense(done);
-    else if (AD.provider === "ethicalads") mountEthical(done);
-    else done(false);
   }
 
-  /* ---------- dialog ---------- */
+  if (vid) {
+    vid.addEventListener("error", function () {
+      slot.classList.remove("is-live");
+      note("The clip could not load — but thank you for the thought.");
+    });
+    vid.addEventListener("ended", function () {
+      body.textContent = "That is the whole thing. Thanks for watching.";
+      if (supportList()) note("If you would rather help directly:");
+      no.focus();
+    });
+  }
+
   function onKey(e) {
-    if (e.key === "Escape") { decline(); return; }
+    if (e.key === "Escape") { close(); return; }
     if (e.key !== "Tab") return;
-    var f = [].slice.call(card.querySelectorAll("button:not([hidden]), a[href]"));
+    var f = [].slice.call(card.querySelectorAll("button:not([hidden]), a[href], video[controls]"));
     if (!f.length) return;
     var first = f[0], lastF = f[f.length - 1];
     if (e.shiftKey && document.activeElement === first) { e.preventDefault(); lastF.focus(); }
@@ -1398,13 +1340,12 @@ body{background:var(--paper);margin:0}
     body.textContent = ASK_B;
     slot.hidden = true;
     slot.classList.remove("is-live");
-    host.innerHTML = "";
     msg.hidden = true;
     msg.innerHTML = "";
-    loaded = false;
     yes.hidden = false;
     no.textContent = "No thanks";
     no.classList.add("pp-btn-ghost");
+    if (vid) { try { vid.pause(); vid.currentTime = 0; } catch (e) {} }
   }
   function open() {
     last = document.activeElement;
@@ -1413,31 +1354,21 @@ body{background:var(--paper);margin:0}
     window.setTimeout(function () { gate.classList.add("on"); no.focus(); }, 20);
   }
   function close() {
+    if (vid) { try { vid.pause(); } catch (e) {} }
     gate.classList.remove("on");
     document.removeEventListener("keydown", onKey);
     window.setTimeout(function () { gate.hidden = true; }, reduce ? 0 : 340);
     if (last && last.focus) last.focus();
   }
-  function decline() { if (!recall()) store("declined"); close(); }
 
-  yes.addEventListener("click", function () {
-    store("supported");
-    title.textContent = "Thank you";
-    body.textContent = "That genuinely helps keep this online. Close whenever you like.";
-    slot.hidden = false;
-    yes.hidden = true;
-    no.textContent = "Close";
-    no.classList.remove("pp-btn-ghost");
-    no.focus();
-    loadAd();
-  });
-  no.addEventListener("click", decline);
+  yes.addEventListener("click", play);
+  no.addEventListener("click", close);
   var scrim = gate.querySelector("[data-gate-no]");
-  if (scrim) scrim.addEventListener("click", decline);
-
+  if (scrim) scrim.addEventListener("click", close);
   if (reopen) reopen.addEventListener("click", function () { reset(); open(); });
 
-  if (!recall()) window.setTimeout(open, reduce ? 500 : 1200);
+  /* every visit, every time */
+  window.setTimeout(open, reduce ? 500 : 1200);
 })();
 </script>
 
