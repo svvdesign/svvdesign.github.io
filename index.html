@@ -449,6 +449,29 @@ body{background:var(--paper);margin:0}
 }
 .pp-hint.gone{opacity:0}
 .pp-nogl{display:grid;place-items:center;height:100%;padding:30px;text-align:center;color:var(--ink-soft);font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;line-height:1.9}
+/* ============================================================ SUPPORT GATE */
+.pp-gate{position:fixed;inset:0;z-index:95;display:grid;place-items:center;padding:20px}
+.pp-gate-scrim{position:absolute;inset:0;background:rgba(6,8,12,.74);backdrop-filter:blur(5px);opacity:0;transition:opacity .35s}
+.pp-gate.on .pp-gate-scrim{opacity:1}
+.pp-gate-card{
+  position:relative;width:min(430px,100%);background:var(--card);
+  border:1px solid var(--rule);border-top:3px solid var(--m);border-radius:3px;padding:clamp(22px,3.2vw,30px);
+  display:grid;gap:13px;box-shadow:0 20px 54px rgba(8,10,14,.30);
+  opacity:0;transform:translateY(14px) scale(.985);
+  transition:transform .38s cubic-bezier(.2,.85,.3,1),opacity .3s;
+}
+.pp-gate.on .pp-gate-card{opacity:1;transform:none}
+.pp-gate-card h3{font-family:var(--f-display);font-weight:800;text-transform:uppercase;font-size:clamp(28px,4.2vw,40px);line-height:.9}
+.pp-gate-card p{color:var(--ink-soft);font-size:15.5px;line-height:1.6}
+.pp-gate-chips{display:flex;gap:4px}
+.pp-gate-chips i{width:8px;height:8px;border-radius:50%;display:block}
+.pp-gate-row{display:flex;gap:9px;flex-wrap:wrap;margin-top:3px}
+.pp-adslot{
+  border:1px dashed var(--rule);border-radius:2px;min-height:132px;
+  display:grid;place-content:center;justify-items:center;gap:5px;text-align:center;padding:18px;
+  font-family:var(--f-mono);font-size:10px;letter-spacing:.11em;text-transform:uppercase;
+  color:var(--ink-faint);line-height:1.9;
+}
 </style>
 </head>
 <body>
@@ -697,6 +720,23 @@ body{background:var(--paper);margin:0}
       </div>
     </div>
   </footer>
+
+  <div class="pp-gate" id="ppGate" hidden role="dialog" aria-modal="true" aria-labelledby="ppGateTitle" aria-describedby="ppGateBody">
+    <div class="pp-gate-scrim" data-gate-no></div>
+    <div class="pp-gate-card" id="ppGateCard" tabindex="-1">
+      <span class="pp-gate-chips" aria-hidden="true"><i style="background:var(--c)"></i><i style="background:var(--m)"></i><i style="background:var(--y)"></i><i style="background:var(--ink)"></i></span>
+      <h3 id="ppGateTitle">Fancy supporting this?</h3>
+      <p id="ppGateBody">No account, no newsletter, no tracking on this site. If you feel like helping, you can watch one short ad. And if not — genuinely, that is fine. Nothing here changes either way.</p>
+      <div class="pp-adslot" id="ppGateSlot" hidden>
+        <span>Ad slot</span>
+        <span style="color:var(--ink-soft)">Paste your ad unit here</span>
+      </div>
+      <div class="pp-gate-row">
+        <button class="pp-btn" type="button" id="ppGateYes">Watch an ad</button>
+        <button class="pp-btn pp-btn-ghost" type="button" id="ppGateNo">No thanks</button>
+      </div>
+    </div>
+  </div>
 
   <div class="pp-modal" id="ppModal" hidden role="dialog" aria-modal="true" aria-labelledby="ppSheetTitle">
     <div class="pp-scrim" data-close></div>
@@ -1188,6 +1228,74 @@ body{background:var(--paper);margin:0}
       copyLabel.textContent = addr;
     }
   });
+})();
+</script>
+
+<script>
+/* ------------------------------------------------------------
+   Support gate. Asks once per browser, then never again.
+   TO WIRE A REAL AD: drop your AdSense / Ethical Ads unit inside
+   #ppGateSlot, and load its script in the page head. Until then
+   the slot is a labelled placeholder — no fake ad is shown.
+   To ask every visit instead of once, swap localStorage for
+   sessionStorage in store() / recall() below.
+   ------------------------------------------------------------ */
+(function () {
+  "use strict";
+  var gate = document.getElementById("ppGate");
+  if (!gate) return;
+  var KEY = "pp-support-v1";
+  function recall() { try { return window.localStorage.getItem(KEY); } catch (e) { return null; } }
+  function store(v) { try { window.localStorage.setItem(KEY, v); } catch (e) {} }
+  if (recall()) return;
+
+  var card = document.getElementById("ppGateCard"),
+      yes = document.getElementById("ppGateYes"),
+      no = document.getElementById("ppGateNo"),
+      slot = document.getElementById("ppGateSlot"),
+      title = document.getElementById("ppGateTitle"),
+      body = document.getElementById("ppGateBody"),
+      reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+      last = null;
+
+  function onKey(e) {
+    if (e.key === "Escape") { decline(); return; }
+    if (e.key !== "Tab") return;
+    var f = [].slice.call(card.querySelectorAll("button:not([hidden])"));
+    if (!f.length) return;
+    var first = f[0], lastF = f[f.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); lastF.focus(); }
+    else if (!e.shiftKey && document.activeElement === lastF) { e.preventDefault(); first.focus(); }
+  }
+  function open() {
+    last = document.activeElement;
+    gate.hidden = false;
+    document.addEventListener("keydown", onKey);
+    window.setTimeout(function () { gate.classList.add("on"); no.focus(); }, 20);
+  }
+  function close() {
+    gate.classList.remove("on");
+    document.removeEventListener("keydown", onKey);
+    window.setTimeout(function () { gate.hidden = true; }, reduce ? 0 : 340);
+    if (last && last.focus) last.focus();
+  }
+  function decline() { if (!recall()) store("declined"); close(); }
+
+  yes.addEventListener("click", function () {
+    store("supported");
+    title.textContent = "Thank you";
+    body.textContent = "That genuinely helps keep this online. Close whenever you like — you will not be asked again.";
+    slot.hidden = false;
+    yes.hidden = true;
+    no.textContent = "Close";
+    no.classList.remove("pp-btn-ghost");
+    no.focus();
+  });
+  no.addEventListener("click", decline);
+  var scrim = gate.querySelector("[data-gate-no]");
+  if (scrim) scrim.addEventListener("click", decline);
+
+  window.setTimeout(open, reduce ? 500 : 1200);
 })();
 </script>
 
