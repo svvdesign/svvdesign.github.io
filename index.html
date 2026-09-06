@@ -504,6 +504,25 @@ body{background:var(--paper);margin:0}
 .pp .pp-detour-btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--m)}
 .pp-detour-note{color:var(--ink-faint);line-height:1.8}
 .pp-detour-note b{color:var(--ink);font-weight:500}
+/* ============================================================ ESSAY */
+.pp-article{max-width:68ch;display:grid;gap:clamp(14px,1.8vw,20px)}
+.pp-article p{font-size:clamp(17px,1.6vw,19px);line-height:1.72}
+.pp-article h3{
+  font-family:var(--f-display);font-weight:700;text-transform:uppercase;
+  font-size:clamp(21px,3vw,31px);line-height:1;letter-spacing:.004em;
+  margin-top:clamp(16px,2.4vw,26px);padding-top:18px;border-top:1px solid var(--rule);
+}
+.pp-article em{font-style:italic;color:var(--ink)}
+.pp-article strong{font-weight:500;color:var(--ink)}
+.pp-pull{
+  font-family:var(--f-display);font-weight:700;text-transform:uppercase;
+  font-size:clamp(25px,4.4vw,46px);line-height:.98;letter-spacing:.004em;
+  color:var(--ink);border-left:3px solid var(--m);
+  padding:4px 0 4px clamp(16px,2.4vw,24px);
+  margin:clamp(10px,1.8vw,18px) 0;text-wrap:balance;
+}
+.pp-byline{font-family:var(--f-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);line-height:1.8}
+.pp-endmark::after{content:"";display:inline-block;width:9px;height:9px;background:var(--m);margin-left:9px;vertical-align:baseline;border-radius:50%}
 </style>
 </head>
 <body>
@@ -521,6 +540,7 @@ body{background:var(--paper);margin:0}
       </a>
       <nav class="pp-nav" id="ppNav">
         <a href="#work">Craft</a>
+        <a href="#essay">Essay</a>
         <a href="#studio">This page</a>
         <a href="#process">Principles</a>
         <a href="#contact">Contact</a>
@@ -602,6 +622,66 @@ body{background:var(--paper);margin:0}
 
       <div class="pp-grid" id="ppGrid"></div>
       <p class="pp-empty" id="ppEmpty" hidden>Nothing matches that filter. Try “All”, or search for a term — shader, solver, budget.</p>
+    </div>
+  </section>
+
+  <!-- ======================= ESSAY ======================= -->
+  <section class="pp-sec" id="essay" style="--plate:var(--ink)">
+    <i class="pp-reg pp-reg-tl"><span></span></i><i class="pp-reg pp-reg-tr"><span></span></i>
+    <div class="pp-shell">
+      <div class="pp-sec-head">
+        <span class="pp-mono pp-plate">Plate K — Essay</span>
+        <h2 class="pp-dis pp-sec-title">The people<br>who built it</h2>
+        <span class="pp-sec-note">≈ 6 min read</span>
+      </div>
+
+      <article class="pp-article">
+        <p class="pp-byline">On why programmers matter, and why the small ones are artists</p>
+
+        <p class="pp-drop">Almost nothing you did today happened without software. The alarm that woke you. The payment that bought your coffee. The lights at the junction on the way in, the scanner in the hospital wing, the routing that put a lorry full of food outside a shop before it opened. None of it announced itself. That is the strange position programmers occupy: they built the layer everybody stands on, and it is invisible by design.</p>
+
+        <p>We are fluent about the people who build visible things. Architects get their names on buildings; engineers get plaques on bridges. The person who wrote the code that keeps an intensive-care monitor accurate gets a line in a changelog. This is not a complaint about credit. It is a problem of understanding: <em>you cannot value what you cannot see</em>, and most people have no picture at all of what holds the modern world upright.</p>
+
+        <h3>The infrastructure nobody sees</h3>
+
+        <p>Good software disappears. A bridge is admired every day; a payment system is noticed only in the minute it fails. So the clearest way to measure what programmers built is to watch what happens when a small piece of it breaks.</p>
+
+        <p>In 2014 a bug called Heartbleed was found in OpenSSL, the library encrypting a very large share of the web's traffic. At the time OpenSSL was maintained by a handful of people on a budget that would not have covered a single engineer at any of the companies depending on it. In 2021 the same story repeated through Log4Shell, a flaw in Log4j — a logging library maintained by volunteers — and a good part of the internet spent Christmas patching servers.</p>
+
+        <p>Neither project was obscure. Both were load-bearing. That is the pattern worth understanding: <strong>an enormous amount of the world runs on code written and maintained by very small numbers of people</strong>, most of whom you could not name if you tried.</p>
+
+        <p class="pp-pull">The world runs on software written by people nobody can name.</p>
+
+        <h3>The one in Nebraska</h3>
+
+        <p>There is a comic every programmer recognises — xkcd 2347 — showing a precarious tower labelled “all modern digital infrastructure”, its entire weight resting on one thin block at the bottom: “a project some random person in Nebraska has been thanklessly maintaining since 2003.” It is repeated so often not because it is funny but because it is accurate.</p>
+
+        <p>Real examples are easy to find. <em>curl</em>, begun by Daniel Stenberg in 1998, now runs inside cars, televisions, printers and phones — installed billions of times over. <em>SQLite</em> is very likely the most widely deployed database engine on earth and is kept by a tiny team. Neither is a corporate product. Both are what happens when individuals keep going for decades on work nobody applauds.</p>
+
+        <p>The lesson is not that these people should be famous. It is that the choice to maintain something carefully, year after year, with no audience, is a moral and creative act — and the world is quietly built out of those acts.</p>
+
+        <h3>Small developers are artists</h3>
+
+        <p>This is the part that gets an eye-roll, so let us be precise about what is meant. The claim is not that all code is art, or that writing a loop is comparable to painting. It is narrower and more defensible: <strong>when a single person shapes a piece of software end to end, under real constraint, the result carries authorship in the way any other made object does.</strong></p>
+
+        <p>The demoscene has argued this since the 1980s, producing entire animated worlds with soundtracks inside sixty-four kilobytes — less than a single photograph — where every texture and note is generated by mathematics as it runs. In 2020 Finland became the first country to add the demoscene to its national inventory of intangible cultural heritage under the UNESCO convention. Not as engineering. As culture.</p>
+
+        <p>It did not begin there either. Vera Molnár, Frieder Nake and Georg Nees were exhibiting computer-generated drawings in the 1960s, arguing about algorithms and randomness in gallery spaces. Processing exists because Casey Reas and Ben Fry wanted artists to be able to write code without becoming software engineers first. That lineage is older than most of the industry that ignores it.</p>
+
+        <p class="pp-pull">Authorship is the difference between software that was manufactured and software that was made.</p>
+
+        <p>In a large system nobody decides how the thing feels. A hundred people each own a fragment, decisions are averaged into committee outcomes, and the result is competent and characterless — which is often exactly what a bank needs. A one-person project is the opposite. Every choice has a name on it: this easing curve, this word in this error message, this refusal to add the feature everyone asked for. That is authorship, and authorship is the precondition for art.</p>
+
+        <h3>Why the small ones matter most</h3>
+
+        <p>Independent developers are where the strange ideas survive. The odd personal site, the tool that solves one problem for eleven people, the toy built to teach its author something on a Sunday. None of it passes a business case. Nearly all of it is where technique comes from.</p>
+
+        <p>The things that later become standard practice almost always start as somebody's pointless experiment — a rendering trick from a demo, an interface idea from a hobby project, a language feature someone built because the existing ones annoyed them. Industry does not generate these. It notices them, some years later, and adopts them.</p>
+
+        <p>So the argument runs both ways. Programmers deserve to be understood as the people quietly holding up the infrastructure of ordinary life. And the small ones — the single maintainers, the weekend builders, the people making something useless with real care — deserve to be understood as what they plainly are: <strong>people practising a craft, and now and then making art with it.</strong></p>
+
+        <p class="pp-endmark">This page is a small argument for that position. It is useless on purpose, hand-written on purpose, and every decision in it has one name attached.</p>
+      </article>
     </div>
   </section>
 
@@ -1136,7 +1216,7 @@ body{background:var(--paper);margin:0}
 
   /* ---------------------------------------------------- scroll: progress, nav, ink */
   var prog = $("#ppProg"), ink = $("#ppInk"), navLinks = $$("#ppNav a");
-  var sections = ["work", "studio", "process", "contact", "play", "detour"].map(function (id) { return document.getElementById(id); });
+  var sections = ["work", "essay", "studio", "process", "contact", "play", "detour"].map(function (id) { return document.getElementById(id); });
   var ticking = false;
   function onScroll() {
     var max = document.documentElement.scrollHeight - window.innerHeight;
