@@ -466,6 +466,18 @@ body{background:var(--paper);margin:0}
 .pp-gate-chips{display:flex;gap:4px}
 .pp-gate-chips i{width:8px;height:8px;border-radius:50%;display:block}
 .pp-gate-row{display:flex;gap:9px;flex-wrap:wrap;margin-top:3px}
+.pp-adslot.is-live{border-style:solid;border-color:var(--rule);padding:10px;min-height:0}
+#ppAdHost{width:100%;display:grid;place-items:center}
+#ppAdHost:empty{display:none}
+.pp-gate-links{display:grid;gap:0;border-top:1px solid var(--rule);width:100%;margin-top:10px}
+.pp-gate-links a{
+  display:flex;justify-content:space-between;align-items:center;gap:10px;
+  padding:11px 2px;border-bottom:1px solid var(--rule);
+  font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-soft);transition:padding-left .2s,color .2s;
+}
+.pp-gate-links a:hover{padding-left:8px;color:var(--m)}
+.pp-note{font-family:var(--f-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint);line-height:1.8;text-align:left}
 .pp-adslot{
   border:1px dashed var(--rule);border-radius:2px;min-height:132px;
   display:grid;place-content:center;justify-items:center;gap:5px;text-align:center;padding:18px;
@@ -713,6 +725,9 @@ body{background:var(--paper);margin:0}
         Proof colours sampled from process CMYK, trapped at 0.2pt.<br>
         © 2026 Saad. All work shown with client permission.
       </div>
+      <div style="display:grid;gap:10px;align-content:start">
+        <button class="pp-btn pp-btn-ghost" type="button" id="ppSupportOpen">Support this site</button>
+      </div>
       <div class="pp-keys">
         <div><kbd>G</kbd> &nbsp;Show grid</div>
         <div><kbd>T</kbd> &nbsp;Switch plate</div>
@@ -728,8 +743,8 @@ body{background:var(--paper);margin:0}
       <h3 id="ppGateTitle">Fancy supporting this?</h3>
       <p id="ppGateBody">No account, no newsletter, no tracking on this site. If you feel like helping, you can watch one short ad. And if not — genuinely, that is fine. Nothing here changes either way.</p>
       <div class="pp-adslot" id="ppGateSlot" hidden>
-        <span>Ad slot</span>
-        <span style="color:var(--ink-soft)">Paste your ad unit here</span>
+        <div id="ppAdHost"></div>
+        <div id="ppAdMsg" hidden></div>
       </div>
       <div class="pp-gate-row">
         <button class="pp-btn" type="button" id="ppGateYes">Watch an ad</button>
@@ -1233,39 +1248,162 @@ body{background:var(--paper);margin:0}
 
 <script>
 /* ------------------------------------------------------------
-   Support gate. Asks once per browser, then never again.
-   TO WIRE A REAL AD: drop your AdSense / Ethical Ads unit inside
-   #ppGateSlot, and load its script in the page head. Until then
-   the slot is a labelled placeholder — no fake ad is shown.
-   To ask every visit instead of once, swap localStorage for
-   sessionStorage in store() / recall() below.
+   SUPPORT + ADS
+
+   Ads are consent-gated: no third-party script loads until the
+   visitor presses "Watch an ad". Decline, and nothing external
+   ever runs — which keeps the "no tracking" line honest.
+
+   TO TURN ADS ON: set AD.provider and paste your ids below.
+     "adsense"    -> needs AD.client and AD.slot
+     "ethicalads" -> needs AD.publisher
+     ""           -> ads off; the direct support links show instead
    ------------------------------------------------------------ */
 (function () {
   "use strict";
+
+  /* ---------- configure here ---------- */
+  var AD = {
+    provider: "",                            /* "adsense" | "ethicalads" | "" */
+    client: "ca-pub-0000000000000000",       /* AdSense publisher id */
+    slot: "0000000000",                      /* AdSense ad unit id */
+    publisher: "your-publisher-id"           /* EthicalAds publisher id */
+  };
+
+  /* Direct support links — these need no approval. Add a URL to switch one on. */
+  var SUPPORT = [
+    { label: "GitHub Sponsors", url: "" },
+    { label: "Ko-fi", url: "" },
+    { label: "Buy Me a Coffee", url: "" },
+    { label: "PayPal", url: "" }
+  ];
+  /* ---------- end configuration ---------- */
+
   var gate = document.getElementById("ppGate");
   if (!gate) return;
+
   var KEY = "pp-support-v1";
   function recall() { try { return window.localStorage.getItem(KEY); } catch (e) { return null; } }
   function store(v) { try { window.localStorage.setItem(KEY, v); } catch (e) {} }
-  if (recall()) return;
 
   var card = document.getElementById("ppGateCard"),
       yes = document.getElementById("ppGateYes"),
       no = document.getElementById("ppGateNo"),
       slot = document.getElementById("ppGateSlot"),
+      host = document.getElementById("ppAdHost"),
+      msg = document.getElementById("ppAdMsg"),
       title = document.getElementById("ppGateTitle"),
       body = document.getElementById("ppGateBody"),
+      reopen = document.getElementById("ppSupportOpen"),
       reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches,
-      last = null;
+      adsConfigured = (AD.provider === "adsense" && AD.client.indexOf("0000") === -1) ||
+                      (AD.provider === "ethicalads" && AD.publisher.indexOf("your-") === -1),
+      loaded = false, last = null;
 
+  var ASK_T = "Fancy supporting this?",
+      ASK_B = "No account, no newsletter, no tracking on this site. If you feel like helping, you can watch one short ad. And if not — genuinely, that is fine. Nothing here changes either way.";
+
+  /* ---------- ad mounting ---------- */
+  function mountAdsense(done) {
+    var ins = document.createElement("ins");
+    ins.className = "adsbygoogle";
+    ins.style.display = "block";
+    ins.style.width = "100%";
+    ins.setAttribute("data-ad-client", AD.client);
+    ins.setAttribute("data-ad-slot", AD.slot);
+    ins.setAttribute("data-ad-format", "rectangle");
+    ins.setAttribute("data-full-width-responsive", "true");
+    host.appendChild(ins);
+
+    var sc = document.createElement("script");
+    sc.async = true;
+    sc.crossOrigin = "anonymous";
+    sc.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=" + encodeURIComponent(AD.client);
+    sc.onerror = function () { done(false); };
+    sc.onload = function () {
+      try { (window.adsbygoogle = window.adsbygoogle || []).push({}); }
+      catch (e) { done(false); return; }
+      window.setTimeout(function () {
+        done(ins.getAttribute("data-ad-status") === "filled" || ins.clientHeight > 30);
+      }, 2600);
+    };
+    document.head.appendChild(sc);
+  }
+
+  function mountEthical(done) {
+    var d = document.createElement("div");
+    d.setAttribute("data-ea-publisher", AD.publisher);
+    d.setAttribute("data-ea-type", "image");
+    host.appendChild(d);
+
+    var sc = document.createElement("script");
+    sc.async = true;
+    sc.src = "https://media.ethicalads.io/media/client/ethicalads.min.js";
+    sc.onerror = function () { done(false); };
+    sc.onload = function () {
+      window.setTimeout(function () { done(!!host.querySelector("iframe, a, img")); }, 2600);
+    };
+    document.head.appendChild(sc);
+  }
+
+  function supportList() {
+    var live = SUPPORT.filter(function (x) { return x.url; });
+    if (!live.length) return "";
+    return '<div class="pp-gate-links">' + live.map(function (x) {
+      return '<a href="' + x.url + '" target="_blank" rel="noopener noreferrer"><span>' +
+             x.label + '</span><span>Open ↗</span></a>';
+    }).join("") + "</div>";
+  }
+
+  function showFallback(reason) {
+    slot.classList.remove("is-live");
+    var links = supportList();
+    msg.innerHTML = '<div class="pp-note">' + reason + "</div>" + links;
+    msg.hidden = false;
+  }
+
+  function loadAd() {
+    if (loaded) return;
+    loaded = true;
+    if (!adsConfigured) {
+      showFallback(supportList()
+        ? "No ad to show right now — but these go straight to me:"
+        : "No ad network is connected to this site yet. Thank you for the thought.");
+      return;
+    }
+    msg.hidden = false;
+    msg.innerHTML = '<div class="pp-note">Loading an ad…</div>';
+    var done = function (ok) {
+      if (ok) { msg.hidden = true; slot.classList.add("is-live"); }
+      else { showFallback("The ad could not load — an ad blocker, most likely. No hard feelings."); }
+    };
+    if (AD.provider === "adsense") mountAdsense(done);
+    else if (AD.provider === "ethicalads") mountEthical(done);
+    else done(false);
+  }
+
+  /* ---------- dialog ---------- */
   function onKey(e) {
     if (e.key === "Escape") { decline(); return; }
     if (e.key !== "Tab") return;
-    var f = [].slice.call(card.querySelectorAll("button:not([hidden])"));
+    var f = [].slice.call(card.querySelectorAll("button:not([hidden]), a[href]"));
     if (!f.length) return;
     var first = f[0], lastF = f[f.length - 1];
     if (e.shiftKey && document.activeElement === first) { e.preventDefault(); lastF.focus(); }
     else if (!e.shiftKey && document.activeElement === lastF) { e.preventDefault(); first.focus(); }
+  }
+  function reset() {
+    title.textContent = ASK_T;
+    body.textContent = ASK_B;
+    slot.hidden = true;
+    slot.classList.remove("is-live");
+    host.innerHTML = "";
+    msg.hidden = true;
+    msg.innerHTML = "";
+    loaded = false;
+    yes.hidden = false;
+    no.textContent = "No thanks";
+    no.classList.add("pp-btn-ghost");
   }
   function open() {
     last = document.activeElement;
@@ -1284,18 +1422,21 @@ body{background:var(--paper);margin:0}
   yes.addEventListener("click", function () {
     store("supported");
     title.textContent = "Thank you";
-    body.textContent = "That genuinely helps keep this online. Close whenever you like — you will not be asked again.";
+    body.textContent = "That genuinely helps keep this online. Close whenever you like.";
     slot.hidden = false;
     yes.hidden = true;
     no.textContent = "Close";
     no.classList.remove("pp-btn-ghost");
     no.focus();
+    loadAd();
   });
   no.addEventListener("click", decline);
   var scrim = gate.querySelector("[data-gate-no]");
   if (scrim) scrim.addEventListener("click", decline);
 
-  window.setTimeout(open, reduce ? 500 : 1200);
+  if (reopen) reopen.addEventListener("click", function () { reset(); open(); });
+
+  if (!recall()) window.setTimeout(open, reduce ? 500 : 1200);
 })();
 </script>
 
