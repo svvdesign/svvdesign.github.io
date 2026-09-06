@@ -813,9 +813,10 @@ body{background:var(--paper);margin:0}
       </div>
       <p style="color:var(--ink-soft);max-width:60ch;margin-bottom:4px">
         A carrot with a spine. Fifteen point masses, thirty-eight distance constraints, and a Verlet
-        solver running at 8 iterations a frame — the root is stiff, the leaf stems are not. Every
-        surface is displaced by fractal noise in the vertex shader, lit with specular and subsurface
-        terms, and shadowed by ray-sphere occlusion against the root itself.
+        solver running at 8 iterations a frame — the root is stiff, the leaf stems are not. The skin is
+        one continuous mesh swept along the physics chain, displaced by fractal noise in the vertex
+        shader, then shaded like a comic panel: light quantised into four hard bands, violet shadows,
+        Ben-Day dots screened into the shade, and a chromatic ink rim on the silhouette.
       </p>
     </div>
     <div class="pp-stage-wrap">
@@ -1916,7 +1917,8 @@ body{background:var(--paper);margin:0}
 
   var ORGANIC_F = COMMON + [
     "uniform vec3 uCam,uLight,uFill,uShadow,uMid,uHi,uInkC,uInkM,uSky,uGround;",
-    "uniform float uFiber,uDotSz,uHalf,uRough,uSpec,uSSS;",
+    "uniform float uFiber,uDotSz,uHalf,uRough,uSpec,uSSS,uToon;",
+    "uniform vec3 uShadeA,uShadeB,uRimA,uRimB;",
     "uniform vec4 uOcc[6];",
     "varying vec3 vW;varying vec3 vN;varying float vB;varying float vAO;varying float vT;",
     /* Soft shadow by ray-sphere occlusion against the six heads.
@@ -1971,6 +1973,33 @@ body{background:var(--paper);margin:0}
     " col+=vec3(1.0,0.98,0.92)*spec*(0.30+0.70*cav)*shadow;",
     " col+=uSky*fres*0.09;",
     " if(uFiber>0.5){float fib=vn(vec3(vW.x*26.0,vW.y*3.2,vW.z*26.0));col*=0.88+0.20*fib;}",
+    /* ---- Spider-Verse pass: banded light, violet shadow, Ben-Day dots ---- */
+    " if(uToon>0.5){",
+    "  float q=floor(clamp(diff,0.0,1.0)*4.0)/4.0;",          /* four hard light bands */
+    "  vec3 lit=uShadeA;",
+    "  lit=mix(lit,uShadow,step(0.24,q));",
+    "  lit=mix(lit,uMid,step(0.49,q));",
+    "  lit=mix(lit,uHi,step(0.74,q));",
+    "  lit=mix(lit,uHi*1.05,step(0.99,q));",
+    /* everything unlit or occluded drifts toward violet */
+    "  float dark=clamp((1.0-q)*0.70+(1.0-shadow)*0.60,0.0,1.0);",
+    "  lit=mix(lit,uShadeB,dark*0.52);",
+    /* Ben-Day dots, densest in the shadow, offset per plate for the print fringe */
+    "  float band=clamp(q*1.45,0.0,1.0);",
+    "  float dm=dots(gl_FragCoord.xy,0.26,band,uDotSz*1.5);",
+    "  float dc=dots(gl_FragCoord.xy+vec2(6.0,2.5),1.31,band,uDotSz*1.62);",
+    "  lit-=vec3(0.42,0.10,0.52)*dm*(1.0-band)*0.62;",
+    "  lit-=vec3(0.10,0.34,0.52)*dc*(1.0-band)*0.34;",
+    /* hard ink rim, cyan on one side, magenta on the other */
+    "  float rim2=step(0.55,fres);",
+    "  lit+=mix(uRimA,uRimB,clamp(dot(N,L)*0.5+0.5,0.0,1.0))*rim2*0.55;",
+    /* specular becomes a clipped comic highlight */
+    "  lit+=vec3(1.0,0.97,0.92)*step(0.22,spec)*0.30*shadow;",
+    "  lit*=ao*mix(0.80,1.0,cav);",
+    "  lit+=uHi*sss*0.45;",
+    "  gl_FragColor=vec4(clamp(aces(lit*0.92),0.0,1.0),1.0);",
+    "  return;",
+    " }",
     " col=aces(col*1.06);",
     /* the print screen stays, but light enough that the form still reads */
     " float lum=clamp(dot(col,vec3(0.32,0.52,0.16))*1.35,0.0,1.0);",
@@ -2027,9 +2056,11 @@ body{background:var(--paper);margin:0}
     "  float r=uR[i]*(1.0+hh*0.75);",
     "  sh+=(1.0-smoothstep(0.0,r,length(d)))*(1.0/(1.0+hh*1.8));}",
     " sh=clamp(sh,0.0,1.0);",
-    " vec3 col=uPaper*(1.0-sh*0.52);",
+    " vec3 col=uPaper*(1.0-sh*0.42);",
+    " col=mix(col,vec3(0.30,0.13,0.48),sh*0.55);",
     " col+=(vn(vec3(vW.xz*24.0,0.0))-0.5)*0.05;",
-    " col-=uInkC*dots(gl_FragCoord.xy,0.26,1.0-sh*0.9,uDotSz)*0.18*sh;",
+    " col-=vec3(0.34,0.08,0.44)*dots(gl_FragCoord.xy,0.26,1.0-sh*0.95,uDotSz*1.5)*0.34*sh;",
+    " col-=vec3(0.08,0.28,0.44)*dots(gl_FragCoord.xy+vec2(6.0,2.5),1.31,1.0-sh*0.95,uDotSz*1.6)*0.20*sh;",
     " float fade=1.0-smoothstep(3.2,8.5,length(vW.xz));",
     " gl_FragColor=vec4(col,fade);}"
   ].join("\n");
@@ -2092,6 +2123,11 @@ body{background:var(--paper);margin:0}
         uSky: { value: new THREE.Color(0.42, 0.52, 0.62) }, uGround: { value: new THREE.Color(0.16, 0.14, 0.10) },
         uInkC: { value: new THREE.Color(0.05, 0.56, 0.71) }, uInkM: { value: new THREE.Color(0.78, 0.19, 0.44) },
         uOcc: { value: OCC },
+        uToon: { value: 1 },
+        uShadeA: { value: new THREE.Color(o.shA || 0x2a1247) },
+        uShadeB: { value: new THREE.Color(o.shB || 0x6b3aa8) },
+        uRimA: { value: new THREE.Color(0.28, 0.72, 1.00) },
+        uRimB: { value: new THREE.Color(1.00, 0.42, 0.86) },
         uFiber: { value: o.fiber ? 1 : 0 }, uDotSz: { value: 4.6 }, uHalf: { value: 0.22 },
         uRough: { value: o.rough === undefined ? 0.55 : o.rough },
         uSpec: { value: o.spec === undefined ? 0.35 : o.spec },
@@ -2218,14 +2254,14 @@ body{background:var(--paper);margin:0}
   /* ---------------------------------------------------- meshes */
   /* the root: orange, faintly ridged, waxy rather than glossy */
   var carrotMat = organic({ amp: 0.030, freq: 7.0, seed: 3.1, sh: 0x6d2a06, mid: 0xcf5f10, hi: 0xf5a341, fiber: 1, rough: 0.62, spec: 0.30, sss: 0.50 });
-  var rootMat = organic({ amp: 0.055, freq: 5.2, seed: 3.1, sh: 0x6a2705, mid: 0xc9590d, hi: 0xf2a047, fiber: 0, rough: 0.58, spec: 0.34, sss: 0.55 });
+  var rootMat = organic({ amp: 0.055, freq: 5.2, seed: 3.1, sh: 0x7d3113, mid: 0xd05a0c, hi: 0xf39a33, fiber: 0, rough: 0.58, spec: 0.34, sss: 0.55, shA: 0x35164f, shB: 0x7c3fb4 });
   rootMat.vertexShader = ROOT_V;
   rootMat.uniforms.uRidge = { value: 0.048 };
   rootMat.side = THREE.DoubleSide;   /* a closed root: never show a gap, whatever the winding */
   rootMat.needsUpdate = true;
   /* the leaf stems and the feathery top */
-  var leafMat = organic({ amp: 0.045, freq: 8.0, seed: 17.5, sh: 0x18351a, mid: 0x3d7a2b, hi: 0x8fc255, fiber: 0, rough: 0.50, spec: 0.36, sss: 0.60 });
-  var frondMat = organic({ amp: 0.22, freq: 6.4, seed: 27.3, sh: 0x1a3d1c, mid: 0x448432, hi: 0xa2d15e, fiber: 0, rough: 0.44, spec: 0.42, sss: 0.70 });
+  var leafMat = organic({ amp: 0.045, freq: 8.0, seed: 17.5, sh: 0x1d4020, mid: 0x3f7f2b, hi: 0x8cc24e, fiber: 0, rough: 0.50, spec: 0.36, sss: 0.60, shA: 0x241452, shB: 0x6740b8 });
+  var frondMat = organic({ amp: 0.22, freq: 6.4, seed: 27.3, sh: 0x224a1f, mid: 0x478a33, hi: 0x9bce58, fiber: 0, rough: 0.44, spec: 0.42, sss: 0.70, shA: 0x281659, shB: 0x7148c4 });
 
   var CYL = new THREE.CylinderGeometry(1, 1, 1, 24, 6);
   CYL.translate(0, 0.5, 0);
