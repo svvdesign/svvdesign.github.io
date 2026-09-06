@@ -595,7 +595,7 @@ body{background:var(--paper);margin:0}
             <a class="pp-btn pp-btn-ghost" href="#work">Read the notes</a>
             <a class="pp-btn pp-btn-ghost" href="#essay">The essay</a>
           </div>
-          <p class="pp-mono pp-cta-note" data-detour-note>Opens one of <b data-detour-count>188</b> genuinely useless websites, picked at random, in a new tab. Nothing is tracked.</p>
+          <p class="pp-mono pp-cta-note" data-detour-note>Opens one of <b data-detour-count>223</b> genuinely useless websites, picked at random, in a new tab. Nothing is tracked.</p>
         </div>
         <div class="pp-hero-meta">
           <dl class="pp-spec">
@@ -840,12 +840,12 @@ body{background:var(--paper);margin:0}
       <div class="pp-sec-head">
         <span class="pp-mono pp-plate">Plate M — Detour</span>
         <h2 class="pp-dis pp-sec-title">Somewhere<br>useless</h2>
-        <span class="pp-sec-note"><span data-detour-count>188</span> verified links</span>
+        <span class="pp-sec-note"><span data-detour-count>223</span> verified links</span>
       </div>
       <div class="pp-detour">
         <p class="pp-lede">The web used to be full of things built for no reason whatsoever. Press the button and it throws you at one of them.</p>
         <button class="pp-btn pp-detour-btn" type="button" data-detour>Send me to a random website ↗</button>
-        <p class="pp-mono pp-detour-note" data-detour-note>One of <b data-detour-count>188</b> sites, chosen at random · every link verified live · opens in a new tab · nothing tracked</p>
+        <p class="pp-mono pp-detour-note" data-detour-note>One of <b data-detour-count>223</b> sites, chosen at random · every link verified live · opens in a new tab · nothing tracked</p>
       </div>
     </div>
   </section>
@@ -1554,6 +1554,9 @@ body{background:var(--paper);margin:0}
   var counts = document.querySelectorAll("[data-detour-count]");
 
   var SITES = [
+    ["1kb.club", "https://1kb.club"],
+    ["accent.gmu.edu", "https://accent.gmu.edu/language"],
+    ["albinoblacksheep.com", "http://www.albinoblacksheep.com/flash/llama.php"],
     ["alwaysjudgeabookbyitscover.com", "https://alwaysjudgeabookbyitscover.com"],
     ["amialright.com", "http://www.amialright.com"],
     ["ant.toys", "https://ant.toys"],
@@ -1561,8 +1564,10 @@ body{background:var(--paper);margin:0}
     ["asoftmurmur.com", "https://asoftmurmur.com"],
     ["autodraw.com", "https://www.autodraw.com"],
     ["beesbeesbees.com", "http://beesbeesbees.com"],
+    ["binaryclock.com", "http://www.binaryclock.com"],
     ["binarypiano.com", "https://binarypiano.com"],
     ["blank.org", "http://blank.org"],
+    ["blankwindows.com", "https://blankwindows.com"],
     ["bomomo.com", "https://bomomo.com"],
     ["bongo.cat", "https://bongo.cat"],
     ["boredbutton.com", "https://www.boredbutton.com"],
@@ -1595,24 +1600,34 @@ body{background:var(--paper);margin:0}
     ["crzy.site", "https://crzy.site"],
     ["cursoreffects.com", "https://cursoreffects.com"],
     ["dadlaughbutton.com", "https://dadlaughbutton.com"],
+    ["dan-ball.jp", "https://dan-ball.jp/en/javagame/aquarium"],
+    ["danielben.itch.io", "https://danielben.itch.io/dragonsweeper"],
+    ["deepsadness.com", "http://www.deepsadness.com"],
     ["dice.toys", "https://dice.toys/toy/greedy-pig"],
     ["dontevenreply.com", "http://dontevenreply.com"],
     ["doublepressure.com", "https://www.doublepressure.com"],
     ["doughnutkitten.com", "https://doughnutkitten.com"],
+    ["downloadmoreram.com", "https://downloadmoreram.com"],
     ["drawing.garden", "https://drawing.garden"],
+    ["dreamforth.com", "https://www.dreamforth.com"],
     ["ducksarethebest.com", "http://ducksarethebest.com"],
     ["duckstreet.net", "https://duckstreet.net"],
     ["dvdscreensavermaker.com", "https://dvdscreensavermaker.com"],
     ["eelslap.com", "http://eelslap.com"],
     ["electricboogiewoogie.com", "http://www.electricboogiewoogie.com"],
     ["elonjump.com", "https://elonjump.com"],
+    ["enclose.horse", "http://enclose.horse"],
     ["end.city", "https://end.city"],
     ["endless.horse", "http://endless.horse"],
     ["everydayim.com", "http://www.everydayim.com"],
     ["existentialcrisis.com", "https://existentialcrisis.com"],
     ["experiments.withgoogle.com", "https://experiments.withgoogle.com"],
+    ["ferryhalim.com", "http://www.ferryhalim.com/orisinal/g3/casanova.htm"],
+    ["flatfuzzball.github.io", "https://flatfuzzball.github.io"],
     ["floatingqrcode.com", "https://floatingqrcode.com"],
+    ["fridgle.net", "https://fridgle.net"],
     ["giantbatfarts.com", "http://giantbatfarts.com"],
+    ["goldfishies.com", "https://goldfishies.com"],
     ["grandpanoclothes.com", "http://grandpanoclothes.com"],
     ["greatbignothing.com", "https://greatbignothing.com"],
     ["hackertyper.com", "http://hackertyper.com"],
@@ -1632,6 +1647,7 @@ body{background:var(--paper);margin:0}
     ["imaninja.com", "http://imaninja.com"],
     ["instantrimshot.com", "http://instantrimshot.com"],
     ["intotime.com", "http://intotime.com"],
+    ["ioccc.org", "https://www.ioccc.org"],
     ["isitchristmas.com", "https://isitchristmas.com"],
     ["ismycomputeron.com", "http://www.ismycomputeron.com"],
     ["isnickelbacktheworstbandever.tumblr.com", "http://isnickelbacktheworstbandever.tumblr.com"],
@@ -1642,11 +1658,15 @@ body{background:var(--paper);margin:0}
     ["littlealchemy.com", "https://littlealchemy.com"],
     ["longdogechallenge.com", "https://longdogechallenge.com"],
     ["loopedforinfinity.com", "https://loopedforinfinity.com"],
+    ["macek.github.io", "http://macek.github.io/google_pacman"],
     ["make-everything-ok.com", "http://make-everything-ok.com"],
     ["maninthedark.com", "https://maninthedark.com"],
     ["mapcrunch.com", "https://www.mapcrunch.com"],
+    ["masasgames.com", "http://masasgames.com/spacemuseumescape.html"],
     ["maze.toys", "https://maze.toys/mazes/mini/daily"],
     ["memory.toys", "https://memory.toys"],
+    ["meowdoku.fun", "https://meowdoku.fun"],
+    ["messybeast.com", "http://messybeast.com"],
     ["minecraftstal.com", "http://minecraftstal.com"],
     ["minesweeper.online", "https://minesweeper.online"],
     ["mondrianandme.com", "https://mondrianandme.com"],
@@ -1654,11 +1674,13 @@ body{background:var(--paper);margin:0}
     ["muchbetterthanthis.com", "http://www.muchbetterthanthis.com"],
     ["musical.toys", "https://musical.toys"],
     ["musiclab.chromeexperiments.com", "https://musiclab.chromeexperiments.com"],
+    ["ncase.itch.io", "https://ncase.itch.io/wbwwb"],
     ["neal.fun", "https://neal.fun"],
     ["nelson-haha.com", "http://www.nelson-haha.com"],
     ["ninjaflex.com", "http://ninjaflex.com"],
     ["noot.space", "http://noot.space"],
     ["notdayoftheweek.com", "http://notdayoftheweek.com"],
+    ["nothingeverhappens.com", "http://nothingeverhappens.com"],
     ["nullingthevoid.com", "http://www.nullingthevoid.com"],
     ["number.toys", "https://number.toys"],
     ["nyan.cat", "http://www.nyan.cat"],
@@ -1683,23 +1705,28 @@ body{background:var(--paper);margin:0}
     ["pixelthoughts.co", "https://pixelthoughts.co"],
     ["poetic.toys", "https://poetic.toys/poems/river-of-reverence"],
     ["pointerpointer.com", "https://pointerpointer.com"],
+    ["pointlesscalendar.com", "http://www.pointlesscalendar.com"],
     ["pongvn.com", "https://pongvn.com/trynkit"],
     ["poolside.fm", "https://poolside.fm"],
     ["potatoortomato.com", "https://potatoortomato.com"],
     ["prankmyface.lol", "https://prankmyface.lol"],
     ["procatinator.com", "https://procatinator.com"],
+    ["psyhigh.com", "https://psyhigh.com"],
     ["puginarug.com", "https://puginarug.com"],
     ["purrli.com", "https://purrli.com"],
+    ["queensgame.io", "https://queensgame.io"],
     ["quickdraw.withgoogle.com", "https://quickdraw.withgoogle.com"],
     ["r33b.net", "http://r33b.net"],
     ["radio.garden", "https://radio.garden"],
     ["rainymood.com", "https://rainymood.com"],
     ["randomcolour.com", "http://randomcolour.com"],
+    ["rave.dj", "https://rave.dj"],
     ["remoji.com", "https://remoji.com"],
     ["republiquedesmangues.fr", "http://www.republiquedesmangues.fr"],
     ["riddlydiddly.com", "http://www.riddlydiddly.com"],
     ["ringingtelephone.com", "http://www.ringingtelephone.com"],
     ["ripefordebate.com", "https://www.ripefordebate.com"],
+    ["river-runner.samlearner.com", "https://river-runner.samlearner.com"],
     ["rock-paper-scissors-game.com", "https://www.rock-paper-scissors-game.com"],
     ["rotatingsandwiches.com", "https://rotatingsandwiches.com"],
     ["rrrgggbbb.com", "http://www.rrrgggbbb.com"],
@@ -1709,6 +1736,8 @@ body{background:var(--paper);margin:0}
     ["scaleofuniverse.com", "https://scaleofuniverse.com"],
     ["scroll-o-meter.club", "http://scroll-o-meter.club"],
     ["shutupandtakemymoney.com", "http://shutupandtakemymoney.com"],
+    ["sinuousgame.com", "http://www.sinuousgame.com"],
+    ["sketbordcat.itch.io", "https://sketbordcat.itch.io/horse-magnifier"],
     ["sliding.toys", "https://sliding.toys"],
     ["smashthewalls.com", "https://smashthewalls.com"],
     ["sometimesredsometimesblue.com", "http://www.sometimesredsometimesblue.com"],
@@ -1729,10 +1758,15 @@ body{background:var(--paper);margin:0}
     ["toms.toys", "https://toms.toys"],
     ["tomsdog.com", "http://tomsdog.com"],
     ["toybox.toms.toys", "https://toybox.toms.toys"],
+    ["trim.frvr.com", "https://trim.frvr.com"],
     ["trypap.com", "http://www.trypap.com"],
     ["tunnelsnakes.com", "http://tunnelsnakes.com"],
+    ["ultre.me", "https://ultre.me"],
     ["unicodesnowmanforyou.com", "http://unicodesnowmanforyou.com"],
+    ["useless-web-machine.web.app", "https://useless-web-machine.web.app"],
+    ["uselessfacts.net", "https://www.uselessfacts.net"],
     ["weavesilk.com", "http://weavesilk.com"],
+    ["weebls-stuff.com", "http://weebls-stuff.com/toons/magical-trevor-5"],
     ["weirdorconfusing.com", "http://weirdorconfusing.com"],
     ["wigglyme.com", "https://wigglyme.com"],
     ["wikiroulette.co", "https://wikiroulette.co"],
@@ -1740,6 +1774,7 @@ body{background:var(--paper);margin:0}
     ["wowenwilsonquiz.com", "http://wowenwilsonquiz.com"],
     ["xn--gi8h42h.ws", "https://xn--gi8h42h.ws"],
     ["yeahlemons.com", "http://yeahlemons.com"],
+    ["zapatopi.net", "http://zapatopi.net/treeoctopus"],
     ["zombo.com", "http://zombo.com"],
     ["zoomquilt.org", "https://zoomquilt.org"]
   ];
