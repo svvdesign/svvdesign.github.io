@@ -1875,19 +1875,22 @@ body{background:var(--paper);margin:0}
 
   var ORGANIC_V = COMMON + [
     "uniform float uAmp,uFreq,uSeed,uTime;",
-    "varying vec3 vW;varying vec3 vN;varying float vB;",
+    "varying vec3 vW;varying vec3 vN;varying float vB;varying float vAO;",
     /* one displacement sample; called three times to recover a smooth normal */
     "float disp(vec3 q){",
     " float a=fbm3(q*uFreq+uSeed);",
     " float b=fbm3(q*(uFreq*2.9)+uSeed*1.7);",
     " return a*0.64+b*0.36;}",
     "attribute float aSeed;",
+    "attribute float aAO;",
     "void main(){",
     " mat4 mm=modelMatrix;",
     " float seed=0.0;",
+    " vAO=1.0;",
     " #ifdef USE_INSTANCING",
     "  mm=modelMatrix*instanceMatrix;",
     "  seed=aSeed;",
+    "  vAO=aAO;",
     " #endif",
     " vec3 N0=normalize(normal);",
     " vec3 up=abs(N0.y)<0.9?vec3(0.0,1.0,0.0):vec3(1.0,0.0,0.0);",
@@ -1913,7 +1916,23 @@ body{background:var(--paper);margin:0}
   var ORGANIC_F = COMMON + [
     "uniform vec3 uCam,uLight,uFill,uShadow,uMid,uHi,uInkC,uInkM,uSky,uGround;",
     "uniform float uFiber,uDotSz,uHalf,uRough,uSpec,uSSS;",
-    "varying vec3 vW;varying vec3 vN;varying float vB;",
+    "uniform vec4 uOcc[6];",
+    "varying vec3 vW;varying vec3 vN;varying float vB;varying float vAO;",
+    /* Soft shadow by ray-sphere occlusion against the six heads.
+       Six tests per pixel — cheaper than a shadow map and it needs
+       no second render pass. */
+    "float castShadow(vec3 pos,vec3 L){",
+    " float sh=1.0;",
+    " for(int i=0;i<6;i++){",
+    "  vec3 d=uOcc[i].xyz-pos;float r=uOcc[i].w;",
+    "  float dd=dot(d,d);",
+    "  if(dd<=r*r*1.04) continue;",          /* skip the head we are standing on */
+    "  float t=dot(d,L);",
+    "  if(t<=0.0) continue;",
+    "  float perp=sqrt(max(dd-t*t,0.0));",
+    "  sh*=smoothstep(r*0.45,r*1.25,perp);",
+    " }",
+    " return clamp(sh,0.0,1.0);}",
     "vec3 aces(vec3 x){return clamp((x*(2.51*x+0.03))/(x*(2.43*x+0.59)+0.14),0.0,1.0);}",
     "void main(){",
     " vec3 N=normalize(vN);",
@@ -1933,14 +1952,17 @@ body{background:var(--paper);margin:0}
     " float cav=mix(0.42,1.0,smoothstep(0.10,0.82,vB));",
     " float spec=pow(max(dot(N,H),0.0),mix(96.0,14.0,uRough))*uSpec;",
     " float fres=pow(1.0-NdotV,3.0);",
+    " float shadow=castShadow(vW+N*0.03,L);",
+    " float ao=mix(0.64,1.0,vAO);",
     " vec3 amb=mix(uGround,uSky,N.y*0.5+0.5);",
     " vec3 base=mix(uShadow,uMid,smoothstep(0.0,0.66,diff));",
     " base=mix(base,uHi,smoothstep(0.56,1.0,diff)*0.9);",
     /* the topmost buds catch a paler, yellower light */
     " base=mix(base,uHi*1.10,smoothstep(0.74,1.0,vB)*0.32);",
-    " vec3 col=base*cav*(0.58+0.42*NdotL)+base*fill*cav*0.85+amb*base*cav*0.30;",
-    " col+=uHi*sss;",
-    " col+=vec3(1.0,0.98,0.92)*spec*(0.30+0.70*cav);",
+    " float key=mix(0.46,1.0,shadow);",
+    " vec3 col=base*cav*ao*(0.58+0.42*NdotL)*key+base*fill*cav*ao*0.85+amb*base*cav*ao*0.30;",
+    " col+=uHi*sss*mix(0.45,1.0,shadow);",
+    " col+=vec3(1.0,0.98,0.92)*spec*(0.30+0.70*cav)*shadow;",
     " col+=uSky*fres*0.09;",
     " if(uFiber>0.5){float fib=vn(vec3(vW.x*26.0,vW.y*3.2,vW.z*26.0));col*=0.88+0.20*fib;}",
     " col=aces(col*1.06);",
@@ -2014,6 +2036,8 @@ body{background:var(--paper);margin:0}
   })));
 
   var LIGHT = new THREE.Vector3(0.55, 1.0, 0.42).normalize();
+  var OCC = [];
+  for (var oi = 0; oi < 6; oi++) OCC.push(new THREE.Vector4(0, -99, 0, 0.01));
   var FILL = new THREE.Vector3(-0.65, 0.35, -0.5).normalize();
   var organicMats = [];
 
@@ -2026,6 +2050,7 @@ body{background:var(--paper);margin:0}
         uHi: { value: new THREE.Color(o.hi) },
         uSky: { value: new THREE.Color(0.42, 0.52, 0.62) }, uGround: { value: new THREE.Color(0.16, 0.14, 0.10) },
         uInkC: { value: new THREE.Color(0.05, 0.56, 0.71) }, uInkM: { value: new THREE.Color(0.78, 0.19, 0.44) },
+        uOcc: { value: OCC },
         uFiber: { value: o.fiber ? 1 : 0 }, uDotSz: { value: 4.6 }, uHalf: { value: 0.22 },
         uRough: { value: o.rough === undefined ? 0.55 : o.rough },
         uSpec: { value: o.spec === undefined ? 0.35 : o.spec },
@@ -2205,8 +2230,17 @@ body{background:var(--paper);margin:0}
   budMesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
   budMesh.frustumCulled = false;
   var seeds = new Float32Array(BUD_MAX);
-  for (var q = 0; q < BUD_MAX; q++) seeds[q] = rnd() * 9.0;
+  var aos = new Float32Array(BUD_MAX);
+  for (var q = 0; q < BUD_MAX; q++) {
+    seeds[q] = rnd() * 9.0;
+    var bq = buds[q];
+    /* how far out of the head this bud sits — the outer ones catch the light */
+    var rad = Math.sqrt(bq.x * bq.x + bq.y * bq.y + bq.z * bq.z) / HEAD_R;
+    aos[q] = Math.max(0, Math.min(1, (rad - 0.28) / 0.72)) * 0.75 +
+             Math.max(0, Math.min(1, (bq.y / HEAD_R + 0.4) / 1.4)) * 0.25;
+  }
   BUD_GEO.setAttribute("aSeed", new THREE.InstancedBufferAttribute(seeds, 1));
+  BUD_GEO.setAttribute("aAO", new THREE.InstancedBufferAttribute(aos, 1));
   scene.add(budMesh);
 
   /* precompute each bud's matrix in its head's local space */
@@ -2303,6 +2337,7 @@ body{background:var(--paper);margin:0}
       }
       groundU.uPts.value[i].copy(P[tips[i]].p);
       groundU.uR.value[i] = P[tips[i]].r * 1.5;
+      if (i < 6) OCC[i].set(P[tips[i]].p.x, P[tips[i]].p.y, P[tips[i]].p.z, HEAD_R * 0.92);
     }
     budMesh.instanceMatrix.needsUpdate = true;
     groundU.uPts.value[6].copy(P[stalk[0]].p); groundU.uR.value[6] = 0.5;
