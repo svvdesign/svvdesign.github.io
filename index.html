@@ -519,6 +519,40 @@ body{background:var(--paper);margin:0}
 .pp .pp-detour-btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--m)}
 .pp-detour-note{color:var(--ink-faint);line-height:1.8}
 .pp-detour-note b{color:var(--ink);font-weight:500}
+/* ============================================================ MECHA CHAMELEON
+   Perched on the Craft title, camouflaged to the page. Hover the
+   heading and he powers up. */
+#work .pp-sec-title{position:relative}
+.pp-cham{
+  position:absolute;right:-4%;top:-52%;width:min(48%,210px);height:auto;
+  overflow:visible;pointer-events:none;color:var(--ink-faint);
+  opacity:.09;transform:rotate(-4deg);
+  transition:opacity .55s ease,color .55s ease,transform .55s ease;
+  animation:pp-cham-breathe 11s ease-in-out infinite;
+}
+.pp-cham .ch-line{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.pp-cham .ch-thin{fill:none;stroke:currentColor;stroke-width:1.2;stroke-linecap:round;opacity:.75}
+.pp-cham .ch-fill{fill:currentColor;opacity:.16}
+.pp-cham .ch-plate{fill:currentColor;opacity:.10;transition:fill .55s ease,opacity .55s ease}
+.pp-cham .ch-eye{fill:currentColor;opacity:.55;transition:fill .55s ease,opacity .55s ease}
+.pp-cham .ch-spark{fill:currentColor;opacity:0;transition:fill .55s ease,opacity .55s ease}
+
+.pp-sec-head:hover .pp-cham{
+  opacity:1;color:var(--ink-soft);transform:rotate(-4deg) translateY(-4px);animation:none;
+}
+.pp-sec-head:hover .pp-cham .ch-plate{fill:var(--c);opacity:.55}
+.pp-sec-head:hover .pp-cham .ch-eye{fill:var(--m);opacity:1}
+.pp-sec-head:hover .pp-cham .ch-spark{fill:var(--y);opacity:.9}
+.pp-sec-head:hover .pp-cham .ch-iris{animation:pp-cham-blink 3.2s steps(1,end) infinite}
+
+@keyframes pp-cham-breathe{0%,100%{opacity:.065}50%{opacity:.135}}
+@keyframes pp-cham-blink{0%,92%{transform:scaleY(1)}94%,97%{transform:scaleY(.08)}100%{transform:scaleY(1)}}
+@media (max-width:700px){.pp-cham{display:none}}
+@media (prefers-reduced-motion:reduce){
+  .pp-cham{animation:none;opacity:.11}
+  .pp-sec-head:hover .pp-cham .ch-iris{animation:none}
+}
+
 /* ============================================================ ESSAY */
 .pp-article{max-width:68ch;display:grid;gap:clamp(14px,1.8vw,20px)}
 .pp-article p{font-size:clamp(17px,1.6vw,19px);line-height:1.72}
@@ -618,7 +652,39 @@ body{background:var(--paper);margin:0}
     <div class="pp-shell">
       <div class="pp-sec-head">
         <span class="pp-mono pp-plate">Plate C — Craft</span>
-        <h2 class="pp-dis pp-sec-title">Notes on<br>the craft</h2>
+        <h2 class="pp-dis pp-sec-title">Notes on<br>the craft<svg class="pp-cham" viewBox="0 0 264 152" aria-hidden="true" focusable="false">
+          <!-- coiled tail -->
+          <path class="ch-line" d="M96 100 C 74 108 50 105 41 92 C 33 80 43 66 55 70 C 65 74 63 88 52 87"/>
+          <path class="ch-thin" d="M88 99 L 86 106 M78 103 L 77 110 M67 104 L 67 111 M57 101 L 55 108"/>
+          <!-- body shell -->
+          <path class="ch-line" d="M94 94 C 92 68 112 50 141 48 C 170 46 188 57 194 69 L 198 87 C 191 100 160 106 130 104 C 112 103 99 101 94 94 Z"/>
+          <path class="ch-plate" d="M108 62 C 124 52 152 51 176 58 L 180 74 C 154 68 128 69 110 76 Z"/>
+          <path class="ch-thin" d="M118 55 L 116 100 M140 50 L 139 104 M162 51 L 164 103 M182 57 L 186 96"/>
+          <!-- dorsal crest -->
+          <path class="ch-line" d="M104 66 L 110 55 L 118 62 L 126 50 L 134 58 L 143 47 L 151 55 L 160 46 L 168 54 L 177 48 L 186 57"/>
+          <!-- head -->
+          <path class="ch-line" d="M194 69 C 201 55 219 48 235 54 C 246 58 249 71 243 80 C 234 91 209 92 198 87 Z"/>
+          <path class="ch-plate" d="M206 60 C 216 53 230 52 240 58 L 242 70 C 230 63 216 63 206 68 Z"/>
+          <!-- casque / head crest -->
+          <path class="ch-line" d="M214 51 L 221 33 L 231 44 L 240 34 L 244 57"/>
+          <circle class="ch-spark" cx="240" cy="31" r="3.4"/>
+          <path class="ch-thin" d="M240 34 L 240 25"/>
+          <!-- turret eye -->
+          <circle class="ch-line" cx="222" cy="69" r="10.5"/>
+          <circle class="ch-thin" cx="222" cy="69" r="14"/>
+          <ellipse class="ch-eye ch-iris" cx="222" cy="69" rx="5" ry="5" style="transform-origin:222px 69px"/>
+          <!-- jaw vent -->
+          <path class="ch-thin" d="M204 82 L 232 84 M206 87 L 228 88"/>
+          <!-- gripping legs -->
+          <path class="ch-line" d="M180 98 L 187 118 L 178 130"/>
+          <path class="ch-line" d="M178 130 L 168 134 M178 130 L 184 139"/>
+          <path class="ch-line" d="M114 101 L 107 120 L 116 132"/>
+          <path class="ch-line" d="M116 132 L 106 137 M116 132 L 123 140"/>
+          <!-- servo joints -->
+          <circle class="ch-fill" cx="187" cy="118" r="4"/>
+          <circle class="ch-fill" cx="107" cy="120" r="4"/>
+          <circle class="ch-fill" cx="96" cy="96" r="3"/>
+        </svg></h2>
         <span class="pp-sec-note"><span id="ppCount">8</span> of 8 shown</span>
       </div>
 
