@@ -493,6 +493,21 @@ body{background:var(--paper);margin:0}
   font-family:var(--f-mono);font-size:10px;letter-spacing:.11em;text-transform:uppercase;
   color:var(--ink-faint);line-height:1.9;
 }
+.pp-cta-note{color:var(--ink-faint);margin-top:14px;line-height:1.85;max-width:48ch}
+.pp-cta-note b{color:var(--ink);font-weight:500;font-variant-numeric:tabular-nums}
+.pp .pp-btn-dice{box-shadow:3px 3px 0 var(--m)}
+.pp .pp-btn-dice:hover{transform:translate(-1px,-2px);box-shadow:6px 6px 0 var(--m)}
+.pp .pp-btn-dice:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--m)}
+
+/* ============================================================ VIEW COUNTER */
+.pp-views{
+  display:inline-flex;align-items:baseline;gap:12px;
+  border:1px solid var(--rule);border-left:3px solid var(--c);
+  background:var(--card);padding:11px 15px;border-radius:2px;
+}
+.pp-views span{font-family:var(--f-mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-faint)}
+.pp-views b{font-family:var(--f-display);font-weight:800;font-size:27px;line-height:1;font-variant-numeric:tabular-nums;letter-spacing:.004em}
+
 /* ============================================================ DETOUR */
 .pp-detour{display:grid;gap:clamp(18px,2.6vw,26px);justify-items:start;border-top:1px solid var(--rule);padding-top:clamp(22px,3vw,32px)}
 .pp-detour .pp-lede{max-width:42ch}
@@ -576,9 +591,11 @@ body{background:var(--paper);margin:0}
         <div>
           <p class="pp-lede">Code is a material. Most of it gets treated like plumbing — but the good stuff is made, not assembled.</p>
           <div class="pp-cta">
-            <a class="pp-btn" href="#work">See selected work</a>
-            <a class="pp-btn pp-btn-ghost" href="#contact">Start a project</a>
+            <button class="pp-btn pp-btn-dice" type="button" data-detour>Send me to a random website ↗</button>
+            <a class="pp-btn pp-btn-ghost" href="#work">Read the notes</a>
+            <a class="pp-btn pp-btn-ghost" href="#essay">The essay</a>
           </div>
+          <p class="pp-mono pp-cta-note" data-detour-note>Opens one of <b data-detour-count>188</b> genuinely useless websites, picked at random, in a new tab. Nothing is tracked.</p>
         </div>
         <div class="pp-hero-meta">
           <dl class="pp-spec">
@@ -823,12 +840,12 @@ body{background:var(--paper);margin:0}
       <div class="pp-sec-head">
         <span class="pp-mono pp-plate">Plate M — Detour</span>
         <h2 class="pp-dis pp-sec-title">Somewhere<br>useless</h2>
-        <span class="pp-sec-note"><span id="ppUCount">205</span> verified links</span>
+        <span class="pp-sec-note"><span data-detour-count>188</span> verified links</span>
       </div>
       <div class="pp-detour">
         <p class="pp-lede">The web used to be full of things built for no reason whatsoever. Press the button and it throws you at one of them.</p>
-        <button class="pp-btn pp-detour-btn" type="button" id="ppUseless">Take me somewhere useless</button>
-        <p class="pp-mono pp-detour-note" id="ppUNote">Opens in a new tab · every link verified live · nothing tracked</p>
+        <button class="pp-btn pp-detour-btn" type="button" data-detour>Send me to a random website ↗</button>
+        <p class="pp-mono pp-detour-note" data-detour-note>One of <b data-detour-count>188</b> sites, chosen at random · every link verified live · opens in a new tab · nothing tracked</p>
       </div>
     </div>
   </section>
@@ -843,7 +860,10 @@ body{background:var(--paper);margin:0}
         © 2026 Saad.<br>
         <a href="privacy.html" style="border-bottom:1px solid var(--rule)">Privacy policy</a>
       </div>
-      <div style="display:grid;gap:10px;align-content:start">
+      <div style="display:grid;gap:14px;align-content:start;justify-items:start">
+        <div class="pp-views" id="ppViewsWrap" hidden>
+          <span>Views</span><b id="ppViews">—</b>
+        </div>
         <button class="pp-btn pp-btn-ghost" type="button" id="ppSupportOpen">Support this site</button>
       </div>
       <div class="pp-keys">
@@ -1528,15 +1548,14 @@ body{background:var(--paper);margin:0}
    ------------------------------------------------------------ */
 (function () {
   "use strict";
-  var btn = document.getElementById("ppUseless");
-  if (!btn) return;
-  var note = document.getElementById("ppUNote");
-  var countEl = document.getElementById("ppUCount");
+  var btns = document.querySelectorAll("[data-detour]");
+  if (!btns.length) return;
+  var notes = document.querySelectorAll("[data-detour-note]");
+  var counts = document.querySelectorAll("[data-detour-count]");
 
   var SITES = [
     ["alwaysjudgeabookbyitscover.com", "https://alwaysjudgeabookbyitscover.com"],
     ["amialright.com", "http://www.amialright.com"],
-    ["anagraph.io", "https://anagraph.io"],
     ["ant.toys", "https://ant.toys"],
     ["apod.nasa.gov", "https://apod.nasa.gov/apod/astropix.html"],
     ["asoftmurmur.com", "https://asoftmurmur.com"],
@@ -1592,17 +1611,13 @@ body{background:var(--paper);margin:0}
     ["everydayim.com", "http://www.everydayim.com"],
     ["existentialcrisis.com", "https://existentialcrisis.com"],
     ["experiments.withgoogle.com", "https://experiments.withgoogle.com"],
-    ["findtheinvisiblecow.com", "https://findtheinvisiblecow.com"],
     ["floatingqrcode.com", "https://floatingqrcode.com"],
-    ["fuckyeahbutton.org", "https://fuckyeahbutton.org"],
-    ["geoguessr.com", "https://www.geoguessr.com"],
     ["giantbatfarts.com", "http://giantbatfarts.com"],
     ["grandpanoclothes.com", "http://grandpanoclothes.com"],
     ["greatbignothing.com", "https://greatbignothing.com"],
     ["hackertyper.com", "http://hackertyper.com"],
     ["hackertyper.net", "https://hackertyper.net"],
     ["haneke.net", "http://www.haneke.net"],
-    ["hardcoreprawnlawn.com", "http://hardcoreprawnlawn.com"],
     ["hasthelargehadroncolliderdestroyedtheworldyet.com", "http://hasthelargehadroncolliderdestroyedtheworldyet.com"],
     ["heeeeeeeey.com", "http://heeeeeeeey.com"],
     ["hexclock.io", "https://hexclock.io"],
@@ -1620,17 +1635,13 @@ body{background:var(--paper);margin:0}
     ["isitchristmas.com", "https://isitchristmas.com"],
     ["ismycomputeron.com", "http://www.ismycomputeron.com"],
     ["isnickelbacktheworstbandever.tumblr.com", "http://isnickelbacktheworstbandever.tumblr.com"],
-    ["isthatcherdeadyet.co.uk", "http://www.isthatcherdeadyet.co.uk"],
     ["jacksonpollock.org", "https://jacksonpollock.org"],
-    ["kimjongillookingatthings.tumblr.com", "https://kimjongillookingatthings.tumblr.com"],
     ["koalastothemax.com", "http://www.koalastothemax.com"],
     ["lacquerlacquer.com", "https://lacquerlacquer.com"],
-    ["leavepage.aurelitec.com", "https://leavepage.aurelitec.com"],
     ["leduchamp.com", "http://www.leduchamp.com"],
     ["littlealchemy.com", "https://littlealchemy.com"],
     ["longdogechallenge.com", "https://longdogechallenge.com"],
     ["loopedforinfinity.com", "https://loopedforinfinity.com"],
-    ["loremipsum.io", "https://loremipsum.io"],
     ["make-everything-ok.com", "http://make-everything-ok.com"],
     ["maninthedark.com", "https://maninthedark.com"],
     ["mapcrunch.com", "https://www.mapcrunch.com"],
@@ -1675,7 +1686,6 @@ body{background:var(--paper);margin:0}
     ["pongvn.com", "https://pongvn.com/trynkit"],
     ["poolside.fm", "https://poolside.fm"],
     ["potatoortomato.com", "https://potatoortomato.com"],
-    ["powerfulwebsites.online", "https://powerfulwebsites.online"],
     ["prankmyface.lol", "https://prankmyface.lol"],
     ["procatinator.com", "https://procatinator.com"],
     ["puginarug.com", "https://puginarug.com"],
@@ -1693,23 +1703,19 @@ body{background:var(--paper);margin:0}
     ["rock-paper-scissors-game.com", "https://www.rock-paper-scissors-game.com"],
     ["rotatingsandwiches.com", "https://rotatingsandwiches.com"],
     ["rrrgggbbb.com", "http://www.rrrgggbbb.com"],
-    ["sadforjapan.com", "http://www.sadforjapan.com"],
     ["salmonofcapistrano.com", "http://salmonofcapistrano.com"],
     ["sandspiel.club", "https://sandspiel.club"],
     ["sanger.dk", "http://www.sanger.dk"],
     ["scaleofuniverse.com", "https://scaleofuniverse.com"],
     ["scroll-o-meter.club", "http://scroll-o-meter.club"],
-    ["secretsfornicotine.com", "http://secretsfornicotine.com"],
     ["shutupandtakemymoney.com", "http://shutupandtakemymoney.com"],
     ["sliding.toys", "https://sliding.toys"],
     ["smashthewalls.com", "https://smashthewalls.com"],
     ["sometimesredsometimesblue.com", "http://www.sometimesredsometimesblue.com"],
     ["spaceis.cool", "http://spaceis.cool"],
     ["stars.chromeexperiments.com", "https://stars.chromeexperiments.com"],
-    ["strobe.cool", "https://strobe.cool"],
     ["taghua.com", "http://www.taghua.com"],
     ["tencents.info", "http://tencents.info"],
-    ["thatsthefinger.com", "http://thatsthefinger.com"],
     ["theendofreason.com", "http://www.theendofreason.com"],
     ["theoldnet.com", "https://theoldnet.com"],
     ["thequietplaceproject.com", "https://www.thequietplaceproject.com/thequietplace"],
@@ -1717,7 +1723,6 @@ body{background:var(--paper);margin:0}
     ["thevintageweb.com", "https://thevintageweb.com"],
     ["thezen.zone", "https://thezen.zone"],
     ["thisissand.com", "https://thisissand.com"],
-    ["thispersondoesnotexist.com", "https://thispersondoesnotexist.com"],
     ["thisworddoesnotexist.com", "https://www.thisworddoesnotexist.com"],
     ["tholman.com", "https://tholman.com/texter"],
     ["tixy.land", "https://tixy.land"],
@@ -1729,31 +1734,64 @@ body{background:var(--paper);margin:0}
     ["unicodesnowmanforyou.com", "http://unicodesnowmanforyou.com"],
     ["weavesilk.com", "http://weavesilk.com"],
     ["weirdorconfusing.com", "http://weirdorconfusing.com"],
-    ["whitetrash.nl", "http://whitetrash.nl"],
     ["wigglyme.com", "https://wigglyme.com"],
     ["wikiroulette.co", "https://wikiroulette.co"],
     ["windows93.net", "https://windows93.net"],
     ["wowenwilsonquiz.com", "http://wowenwilsonquiz.com"],
-    ["wutdafuk.com", "http://www.wutdafuk.com"],
     ["xn--gi8h42h.ws", "https://xn--gi8h42h.ws"],
     ["yeahlemons.com", "http://yeahlemons.com"],
     ["zombo.com", "http://zombo.com"],
     ["zoomquilt.org", "https://zoomquilt.org"]
   ];
 
-  if (countEl) countEl.textContent = SITES.length;
+  var k;
+  for (k = 0; k < counts.length; k++) counts[k].textContent = SITES.length;
 
   var lastIndex = -1;
-  btn.addEventListener("click", function () {
+  function go() {
     var i = Math.floor(Math.random() * SITES.length);
     if (SITES.length > 1) { while (i === lastIndex) i = Math.floor(Math.random() * SITES.length); }
     lastIndex = i;
     var site = SITES[i];
-    if (note) {
-      note.innerHTML = "Sending you to <b>" + site[0] + "</b> — if the tab did not open, your browser blocked it.";
+    for (var n = 0; n < notes.length; n++) {
+      notes[n].innerHTML = "Sending you to <b>" + site[0] +
+        "</b> in a new tab. Press again for a different one — if nothing opened, your browser blocked the popup.";
     }
     window.open(site[1], "_blank", "noopener,noreferrer");
-  });
+  }
+  for (k = 0; k < btns.length; k++) btns[k].addEventListener("click", go);
+})();
+</script>
+<script>
+/* ------------------------------------------------------------
+   VIEW COUNTER
+   A real count, via abacus.jasoncameron.dev — a free, no-signup
+   counter API. It stores a number against a key, nothing else.
+   Counted once per browser session, so refreshing does not inflate it.
+   If the request fails, the counter stays hidden rather than
+   showing an invented number.
+   ------------------------------------------------------------ */
+(function () {
+  "use strict";
+  var el = document.getElementById("ppViews");
+  var wrap = document.getElementById("ppViewsWrap");
+  if (!el || !wrap || !window.fetch) return;
+
+  var NS = "svvdesign-github-io", KEY = "visits", MARK = "pp-counted-session";
+  var already = false;
+  try { already = window.sessionStorage.getItem(MARK) === "1"; } catch (e) {}
+
+  var url = "https://abacus.jasoncameron.dev/" + (already ? "get" : "hit") + "/" + NS + "/" + KEY;
+
+  fetch(url, { cache: "no-store" })
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (d) {
+      if (!d || typeof d.value !== "number") return;
+      el.textContent = d.value.toLocaleString("en-US");
+      wrap.hidden = false;
+      try { window.sessionStorage.setItem(MARK, "1"); } catch (e) {}
+    })
+    .catch(function () { /* stays hidden — no fake numbers */ });
 })();
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
