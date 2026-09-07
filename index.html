@@ -1519,7 +1519,12 @@ body{background:var(--paper);margin:0}
     }).then(function (r) {
       if (!r.ok) throw new Error("http " + r.status);
       return r.json().catch(function () { return {}; });
-    }).then(function () {
+    }).then(function (d) {
+      /* The relay answers 200 even when it refuses, with success:"false"
+         in the body. Trusting the status code alone told people their
+         message had been sent when it had not. */
+      var good = d && (d.success === true || d.success === "true");
+      if (!good) throw new Error((d && d.message) || "not accepted");
       sent();
     }).catch(function () {
       failed();
