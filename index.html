@@ -818,6 +818,7 @@ body{background:var(--paper);margin:0}
       </div>
       <div class="pp-two">
         <form class="pp-form" id="ppForm" novalidate>
+          <input type="text" id="ppHoney" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;height:0;width:0">
           <div class="pp-row2">
             <div class="pp-field">
               <label for="ppN">Your name</label>
@@ -1441,7 +1442,12 @@ body{background:var(--paper);margin:0}
     })();
   }
 
-  /* ---------------------------------------------------- contact form */
+  /* ---------------------------------------------------- contact form
+     Static sites cannot send mail, so the form posts to FormSubmit,
+     which relays it to the inbox below. Change MAIL to change where
+     messages go — nothing else needs touching. */
+  var MAIL = "saadvvsaadv344@gmail.com";
+  var SEND_TO = "https://formsubmit.co/ajax/" + MAIL;
   var form = $("#ppForm");
   function setErr(id, msg) {
     var field = document.getElementById(id);
@@ -1460,15 +1466,64 @@ body{background:var(--paper);margin:0}
     var msg = $("#ppM").value.trim();
     ok = setErr("ppM", msg.length >= 20 ? "" : "A few more lines, please — at least 20 characters") && ok;
     if (!ok) { $('[aria-invalid="true"]').focus(); return; }
-    var panel = document.createElement("div");
-    panel.className = "pp-sent";
-    panel.setAttribute("role", "status");
-    panel.innerHTML = "<b>Message received</b>" +
-      "<p style='color:var(--ink-soft);font-size:15px'>Thanks, " + $("#ppN").value.trim().split(" ")[0].replace(/[<>&]/g, "") +
-      ". You'll get a reply within two working days.</p>" +
-      "<p class='pp-mono' style='color:var(--ink-faint);letter-spacing:.08em'>Note for the site owner: this form validates in the browser only. Connect it to Webflow Forms before launch.</p>";
-    form.replaceWith(panel);
-    panel.focus && panel.focus();
+
+    /* a bot filled the invisible field — drop it without a word */
+    var honey = $("#ppHoney");
+    if (honey && honey.value) { return; }
+
+    var who = $("#ppN").value.trim();
+    var btn = form.querySelector('button[type="submit"]');
+    var wasLabel = btn ? btn.textContent : "";
+    if (btn) { btn.disabled = true; btn.textContent = "Sending…"; }
+
+    var stale = form.querySelector(".pp-sendfail");
+    if (stale) stale.parentNode.removeChild(stale);
+
+    function sent() {
+      var panel = document.createElement("div");
+      panel.className = "pp-sent";
+      panel.setAttribute("role", "status");
+      panel.setAttribute("tabindex", "-1");
+      panel.innerHTML = "<b>Message sent</b>" +
+        "<p style='color:var(--ink-soft);font-size:15px'>Thanks, " +
+        who.split(" ")[0].replace(/[<>&\"]/g, "") +
+        ". It has landed in my inbox — you'll get a reply within two working days.</p>";
+      form.replaceWith(panel);
+      if (panel.focus) panel.focus();
+    }
+
+    function failed() {
+      if (btn) { btn.disabled = false; btn.textContent = wasLabel; }
+      var warn = document.createElement("p");
+      warn.className = "pp-err pp-sendfail";
+      warn.setAttribute("role", "alert");
+      warn.style.minHeight = "0";
+      warn.style.lineHeight = "1.7";
+      warn.innerHTML = "That did not send — the mail relay did not answer. " +
+        "Please email me directly at <a href=\"mailto:" + MAIL + "\" style=\"color:var(--m);border-bottom:1px solid var(--m)\">" + MAIL + "</a>.";
+      form.appendChild(warn);
+    }
+
+    fetch(SEND_TO, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify({
+        name: who,
+        email: $("#ppE").value.trim(),
+        topic: $("#ppT").value,
+        message: $("#ppM").value.trim(),
+        _subject: "svvdesign.github.io — message from " + who,
+        _captcha: "false",
+        _template: "table"
+      })
+    }).then(function (r) {
+      if (!r.ok) throw new Error("http " + r.status);
+      return r.json().catch(function () { return {}; });
+    }).then(function () {
+      sent();
+    }).catch(function () {
+      failed();
+    });
   });
   $$("#ppForm input, #ppForm select, #ppForm textarea").forEach(function (el) {
     el.addEventListener("input", function () {
