@@ -818,7 +818,7 @@ body{background:var(--paper);margin:0}
       </div>
       <div class="pp-two">
         <form class="pp-form" id="ppForm" novalidate>
-          <input type="text" id="ppHoney" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;height:0;width:0">
+          <input type="text" id="ppHoney" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;height:0;width:0">
           <div class="pp-row2">
             <div class="pp-field">
               <label for="ppN">Your name</label>
@@ -1443,11 +1443,11 @@ body{background:var(--paper);margin:0}
   }
 
   /* ---------------------------------------------------- contact form
-     Static sites cannot send mail, so the form posts to FormSubmit,
-     which relays it to the inbox below. Change MAIL to change where
-     messages go — nothing else needs touching. */
+     Static sites cannot send mail, so the form posts to Formspree,
+     which relays it to the inbox configured on that form. MAIL is only
+     the fallback address shown if the relay is unreachable. */
   var MAIL = "saadvvsaadv344@gmail.com";
-  var SEND_TO = "https://formsubmit.co/ajax/" + MAIL;
+  var SEND_TO = "https://formspree.io/f/mqpkygvo";
   var form = $("#ppForm");
   function setErr(id, msg) {
     var field = document.getElementById(id);
@@ -1512,19 +1512,17 @@ body{background:var(--paper);margin:0}
         email: $("#ppE").value.trim(),
         topic: $("#ppT").value,
         message: $("#ppM").value.trim(),
-        _subject: "svvdesign.github.io — message from " + who,
-        _captcha: "false",
-        _template: "table"
+        _subject: "svvdesign.github.io — message from " + who
       })
     }).then(function (r) {
       if (!r.ok) throw new Error("http " + r.status);
       return r.json().catch(function () { return {}; });
     }).then(function (d) {
-      /* The relay answers 200 even when it refuses, with success:"false"
-         in the body. Trusting the status code alone told people their
-         message had been sent when it had not. */
-      var good = d && (d.success === true || d.success === "true");
-      if (!good) throw new Error((d && d.message) || "not accepted");
+      /* Never trust the status code alone — a relay can answer 200 and
+         still refuse. Formspree reports refusals in an errors array. */
+      if (d && d.errors && d.errors.length) {
+        throw new Error(d.errors[0].message || "not accepted");
+      }
       sent();
     }).catch(function () {
       failed();
