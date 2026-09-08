@@ -527,6 +527,7 @@ body{background:var(--paper);margin:0}
 .pp-lab input[type=file]{font-family:var(--f-mono);font-size:10px;color:var(--ink-soft);max-width:100%}
 .pp-lab-val{font-family:var(--f-mono);font-size:10px;letter-spacing:.06em;color:var(--ink);font-variant-numeric:tabular-nums;min-width:44px;text-align:right}
 .pp-lab-note{font-family:var(--f-mono);font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-faint);line-height:1.7}
+.pp-game-d{font-size:13px;line-height:1.6;color:var(--ink-soft);margin:0}
 .pp-lab-btn{
   font-family:var(--f-mono);font-size:10px;letter-spacing:.11em;text-transform:uppercase;
   padding:8px 13px;border:1px solid var(--rule);background:transparent;color:var(--ink-soft);
@@ -629,6 +630,7 @@ body{background:var(--paper);margin:0}
         <a href="#contact">Contact</a>
         <a href="#play">Play</a>
         <a href="#detour">Detour</a>
+        <a href="#games">Games</a>
       </nav>
       <div class="pp-tools">
         <span class="pp-mono pp-ink">Ink <span id="ppInk">0</span>%</span>
@@ -1299,6 +1301,161 @@ body{background:var(--paper);margin:0}
     </div>
   </section>
 
+  <!-- ======================= GAMES ======================= -->
+  <section class="pp-sec" id="games" style="--plate:var(--m)">
+    <i class="pp-reg pp-reg-tl"><span></span></i><i class="pp-reg pp-reg-tr"><span></span></i>
+    <div class="pp-shell">
+      <div class="pp-sec-head">
+        <span class="pp-mono pp-plate">Plate M — Arcade</span>
+        <h2 class="pp-dis pp-sec-title">Fun game<br>activities</h2>
+        <span class="pp-sec-note">20 games</span>
+      </div>
+      <p class="pp-lab-intro">Twenty small games, no instructions longer than a sentence. Nothing here is trying to teach you anything — that is what the Lab is for. These exist because a page you can play with is a page people stay on.</p>
+      <div class="pp-labs">
+        <article class="pp-lab" style="--plate:var(--c)">
+          <span class="pp-mono pp-lab-n">Game 01</span>
+          <h3>Reaction</h3>
+          <p class="pp-game-d">Click the moment the panel turns green. Under 250 ms is respectable.</p>
+          <div class="pp-lab-stage"><canvas id="gReact" tabindex="0"></canvas></div>
+          <div class="pp-lab-ctrl"><div class="pp-lab-row"><button class="pp-lab-btn" id="gReactGo">Start</button><span class="pp-lab-val" id="gReactV" style="min-width:auto">—</span></div></div>
+        </article>
+        <article class="pp-lab" style="--plate:var(--m)">
+          <span class="pp-mono pp-lab-n">Game 02</span>
+          <h3>Aim trainer</h3>
+          <p class="pp-game-d">Hit as many targets as you can in twenty seconds.</p>
+          <div class="pp-lab-stage"><canvas id="gAim" tabindex="0"></canvas></div>
+          <div class="pp-lab-ctrl"><div class="pp-lab-row"><button class="pp-lab-btn" id="gAimGo">Start</button><span class="pp-lab-val" id="gAimV" style="min-width:auto">—</span></div></div>
+        </article>
+        <article class="pp-lab" style="--plate:var(--y)">
+          <span class="pp-mono pp-lab-n">Game 03</span>
+          <h3>Whack-a-mole</h3>
+          <p class="pp-game-d">Tap the lit square before it goes dark again.</p>
+          <div class="pp-lab-stage"><canvas id="gMole" tabindex="0"></canvas></div>
+          <div class="pp-lab-ctrl"><div class="pp-lab-row"><button class="pp-lab-btn" id="gMoleGo">Start</button><span class="pp-lab-val" id="gMoleV" style="min-width:auto">—</span></div></div>
+        </article>
+        <article class="pp-lab" style="--plate:var(--c)">
+          <span class="pp-mono pp-lab-n">Game 04</span>
+          <h3>Memory</h3>
+          <p class="pp-game-d">Watch the sequence, then repeat it. It grows by one every round.</p>
+          <div class="pp-lab-stage"><canvas id="gMemo" tabindex="0"></canvas></div>
+          <div class="pp-lab-ctrl"><div class="pp-lab-row"><button class="pp-lab-btn" id="gMemoGo">Start</button><span class="pp-lab-val" id="gMemoV" style="min-width:auto">—</span></div></div>
+        </article>
+        <article class="pp-lab" style="--plate:var(--m)">
+          <span class="pp-mono pp-lab-n">Game 05</span>
+          <h3>Snake</h3>
+          <p class="pp-game-d">Arrow keys or WASD. Try not to eat yourself.</p>
+          <div class="pp-lab-stage"><canvas id="gSnake" tabindex="0"></canvas></div>
+          <div class="pp-lab-ctrl"><div class="pp-lab-row"><button class="pp-lab-btn" id="gSnakeGo">Start</button><span class="pp-lab-val" id="gSnakeV" style="min-width:auto">—</span></div></div>
+        </article>
+        <article class="pp-lab" style="--plate:var(--y)">
+          <span class="pp-mono pp-lab-n">Game 06</span>
+          <h3>Breakout</h3>
+          <p class="pp-game-d">Steer the paddle with your pointer and clear the wall.</p>
+          <div class="pp-lab-stage"><canvas id="gBrick" tabindex="0"></canvas></div>
+          <div class="pp-lab-ctrl"><div class="pp-lab-row"><button class="pp-lab-btn" id="gBrickGo">Start</button><span class="pp-lab-val" id="gBrickV" style="min-width:auto">—</span></div></div>
+        </article>
+        <article class="pp-lab" style="--plate:var(--c)">
+          <span class="pp-mono pp-lab-n">Game 07</span>
+          <h3>Pong</h3>
+          <p class="pp-game-d">You against a machine that is deliberately not quite perfect.</p>
+          <div class="pp-lab-stage"><canvas id="gPong" tabindex="0"></canvas></div>
+          <div class="pp-lab-ctrl"><div class="pp-lab-row"><button class="pp-lab-btn" id="gPongGo">Start</button><span class="pp-lab-val" id="gPongV" style="min-width:auto">—</span></div></div>
+        </article>
+        <article class="pp-lab" style="--plate:var(--m)">
+          <span class="pp-mono pp-lab-n">Game 08</span>
+          <h3>Flap</h3>
+          <p class="pp-game-d">Click or press space to flap. Mind the gaps.</p>
+          <div class="pp-lab-stage"><canvas id="gFlap" tabindex="0"></canvas></div>
+          <div class="pp-lab-ctrl"><div class="pp-lab-row"><button class="pp-lab-btn" id="gFlapGo">Start</button><span class="pp-lab-val" id="gFlapV" style="min-width:auto">—</span></div></div>
+        </article>
+        <article class="pp-lab" style="--plate:var(--y)">
+          <span class="pp-mono pp-lab-n">Game 09</span>
+          <h3>Dodge</h3>
+          <p class="pp-game-d">Slide left and right. Nothing may touch you.</p>
+          <div class="pp-lab-stage"><canvas id="gDodge" tabindex="0"></canvas></div>
+          <div class="pp-lab-ctrl"><div class="pp-lab-row"><button class="pp-lab-btn" id="gDodgeGo">Start</button><span class="pp-lab-val" id="gDodgeV" style="min-width:auto">—</span></div></div>
+        </article>
+        <article class="pp-lab" style="--plate:var(--c)">
+          <span class="pp-mono pp-lab-n">Game 10</span>
+          <h3>Catch the ink</h3>
+          <p class="pp-game-d">Catch the falling drops. Miss three and the run ends.</p>
+          <div class="pp-lab-stage"><canvas id="gCatch" tabindex="0"></canvas></div>
+          <div class="pp-lab-ctrl"><div class="pp-lab-row"><button class="pp-lab-btn" id="gCatchGo">Start</button><span class="pp-lab-val" id="gCatchV" style="min-width:auto">—</span></div></div>
+        </article>
+        <article class="pp-lab" style="--plate:var(--m)">
+          <span class="pp-mono pp-lab-n">Game 11</span>
+          <h3>Typing speed</h3>
+          <p class="pp-game-d">Type each word and press space. Thirty seconds on the clock.</p>
+          <div class="pp-lab-stage"><canvas id="gType" tabindex="0"></canvas></div>
+          <div class="pp-lab-ctrl"><div class="pp-lab-row"><input type="text" id="gTypeIn" autocomplete="off" spellcheck="false" style="flex:1;min-width:110px;background:var(--paper-2);border:1px solid var(--rule);border-radius:2px;padding:7px 9px;font-family:var(--f-mono);font-size:11px;color:var(--ink)"><button class="pp-lab-btn" id="gTypeGo">Start</button><span class="pp-lab-val" id="gTypeV" style="min-width:auto">—</span></div></div>
+        </article>
+        <article class="pp-lab" style="--plate:var(--y)">
+          <span class="pp-mono pp-lab-n">Game 12</span>
+          <h3>Scramble</h3>
+          <p class="pp-game-d">Unscramble a word from the printing trade.</p>
+          <div class="pp-lab-stage"><canvas id="gScram" tabindex="0"></canvas></div>
+          <div class="pp-lab-ctrl"><div class="pp-lab-row"><input type="text" id="gScramIn" autocomplete="off" spellcheck="false" style="flex:1;min-width:110px;background:var(--paper-2);border:1px solid var(--rule);border-radius:2px;padding:7px 9px;font-family:var(--f-mono);font-size:11px;color:var(--ink)"><button class="pp-lab-btn" id="gScramGo">New word</button><span class="pp-lab-val" id="gScramV" style="min-width:auto">—</span></div></div>
+        </article>
+        <article class="pp-lab" style="--plate:var(--c)">
+          <span class="pp-mono pp-lab-n">Game 13</span>
+          <h3>Noughts and crosses</h3>
+          <p class="pp-game-d">You will not win. A draw is a good result.</p>
+          <div class="pp-lab-stage"><canvas id="gTic" tabindex="0"></canvas></div>
+          <div class="pp-lab-ctrl"><div class="pp-lab-row"><button class="pp-lab-btn" id="gTicGo">New game</button><span class="pp-lab-val" id="gTicV" style="min-width:auto">—</span></div></div>
+        </article>
+        <article class="pp-lab" style="--plate:var(--m)">
+          <span class="pp-mono pp-lab-n">Game 14</span>
+          <h3>Minesweeper</h3>
+          <p class="pp-game-d">Ten mines on a nine by nine grid. Right-click to flag.</p>
+          <div class="pp-lab-stage"><canvas id="gMine" tabindex="0"></canvas></div>
+          <div class="pp-lab-ctrl"><div class="pp-lab-row"><button class="pp-lab-btn" id="gMineGo">New game</button><span class="pp-lab-val" id="gMineV" style="min-width:auto">—</span></div></div>
+        </article>
+        <article class="pp-lab" style="--plate:var(--y)">
+          <span class="pp-mono pp-lab-n">Game 15</span>
+          <h3>Fifteen puzzle</h3>
+          <p class="pp-game-d">Slide the tiles back into order. Click one next to the gap.</p>
+          <div class="pp-lab-stage"><canvas id="gSlide" tabindex="0"></canvas></div>
+          <div class="pp-lab-ctrl"><div class="pp-lab-row"><button class="pp-lab-btn" id="gSlideGo">New game</button><span class="pp-lab-val" id="gSlideV" style="min-width:auto">—</span></div></div>
+        </article>
+        <article class="pp-lab" style="--plate:var(--c)">
+          <span class="pp-mono pp-lab-n">Game 16</span>
+          <h3>Lights out</h3>
+          <p class="pp-game-d">Each click flips a cross of cells. Turn them all off.</p>
+          <div class="pp-lab-stage"><canvas id="gLights" tabindex="0"></canvas></div>
+          <div class="pp-lab-ctrl"><div class="pp-lab-row"><button class="pp-lab-btn" id="gLightsGo">New game</button><span class="pp-lab-val" id="gLightsV" style="min-width:auto">—</span></div></div>
+        </article>
+        <article class="pp-lab" style="--plate:var(--m)">
+          <span class="pp-mono pp-lab-n">Game 17</span>
+          <h3>Maze escape</h3>
+          <p class="pp-game-d">Arrow keys. Get to the far corner.</p>
+          <div class="pp-lab-stage"><canvas id="gMaze" tabindex="0"></canvas></div>
+          <div class="pp-lab-ctrl"><div class="pp-lab-row"><button class="pp-lab-btn" id="gMazeGo">New game</button><span class="pp-lab-val" id="gMazeV" style="min-width:auto">—</span></div></div>
+        </article>
+        <article class="pp-lab" style="--plate:var(--y)">
+          <span class="pp-mono pp-lab-n">Game 18</span>
+          <h3>Higher or lower</h3>
+          <p class="pp-game-d">Will the next number beat the last one?</p>
+          <div class="pp-lab-stage"><canvas id="gHilo" tabindex="0"></canvas></div>
+          <div class="pp-lab-ctrl"><div class="pp-lab-row"><button class="pp-lab-btn" id="gHiloUp">Higher</button><button class="pp-lab-btn" id="gHiloDown">Lower</button><button class="pp-lab-btn" id="gHiloGo">New game</button><span class="pp-lab-val" id="gHiloV" style="min-width:auto">—</span></div></div>
+        </article>
+        <article class="pp-lab" style="--plate:var(--c)">
+          <span class="pp-mono pp-lab-n">Game 19</span>
+          <h3>Odd one out</h3>
+          <p class="pp-game-d">One swatch is mixed from a slightly different ink. Click it.</p>
+          <div class="pp-lab-stage"><canvas id="gShade" tabindex="0"></canvas></div>
+          <div class="pp-lab-ctrl"><div class="pp-lab-row"><button class="pp-lab-btn" id="gShadeGo">New game</button><span class="pp-lab-val" id="gShadeV" style="min-width:auto">—</span></div></div>
+        </article>
+        <article class="pp-lab" style="--plate:var(--m)">
+          <span class="pp-mono pp-lab-n">Game 20</span>
+          <h3>Precision stop</h3>
+          <p class="pp-game-d">Stop the sweeping bar inside the magenta zone.</p>
+          <div class="pp-lab-stage"><canvas id="gStop" tabindex="0"></canvas></div>
+          <div class="pp-lab-ctrl"><div class="pp-lab-row"><button class="pp-lab-btn" id="gStopGo">Start</button><span class="pp-lab-val" id="gStopV" style="min-width:auto">—</span></div></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
   <footer class="pp-foot">
     <div class="pp-shell pp-foot-in">
       <div class="pp-colophon">
@@ -1685,7 +1842,7 @@ body{background:var(--paper);margin:0}
 
   /* ---------------------------------------------------- scroll: progress, nav, ink */
   var prog = $("#ppProg"), ink = $("#ppInk"), navLinks = $$("#ppNav a");
-  var sections = ["lab", "work", "essay", "studio", "process", "contact", "play", "detour"].map(function (id) { return document.getElementById(id); });
+  var sections = ["lab", "work", "essay", "studio", "process", "contact", "play", "detour", "games"].map(function (id) { return document.getElementById(id); });
   var ticking = false;
   function onScroll() {
     var max = document.documentElement.scrollHeight - window.innerHeight;
@@ -4814,5 +4971,6 @@ body{background:var(--paper);margin:0}
   requestAnimationFrame(frame);
 })();
 </script>
+<script src="games.js" defer></script>
 </body>
 </html>
