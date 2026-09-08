@@ -621,13 +621,13 @@ body{background:var(--paper);margin:0}
         Saad
       </a>
       <nav class="pp-nav" id="ppNav">
+        <a href="#lab">Lab</a>
         <a href="#work">Craft</a>
         <a href="#essay">Essay</a>
         <a href="#studio">This page</a>
         <a href="#process">Principles</a>
         <a href="#contact">Contact</a>
         <a href="#play">Play</a>
-        <a href="#lab">Lab</a>
         <a href="#detour">Detour</a>
       </nav>
       <div class="pp-tools">
@@ -659,6 +659,7 @@ body{background:var(--paper);margin:0}
         <div>
           <p class="pp-lede">Code is a material. Most of it gets treated like plumbing — but the good stuff is made, not assembled.</p>
           <div class="pp-cta">
+            <a class="pp-btn" href="#lab">Try the 24 activities</a>
             <button class="pp-btn pp-btn-dice" type="button" data-detour>Send me to a random website ↗</button>
             <a class="pp-btn pp-btn-ghost" href="#work">Read the notes</a>
             <a class="pp-btn pp-btn-ghost" href="#essay">The essay</a>
@@ -679,263 +680,6 @@ body{background:var(--paper);margin:0}
   <div class="pp-tape" aria-hidden="true">
     <div class="pp-tape-track" id="ppTape"></div>
   </div>
-
-  <!-- ======================= WORK ======================= -->
-  <section class="pp-sec" id="work" style="--plate:var(--c)">
-    <i class="pp-reg pp-reg-tl"><span></span></i><i class="pp-reg pp-reg-tr"><span></span></i>
-    <div class="pp-shell">
-      <div class="pp-sec-head">
-        <span class="pp-mono pp-plate">Plate C — Craft</span>
-        <h2 class="pp-dis pp-sec-title">Notes on<br>the craft<svg class="pp-cham" viewBox="0 0 264 152" aria-hidden="true" focusable="false">
-          <!-- coiled tail -->
-          <path class="ch-line" d="M96 100 C 74 108 50 105 41 92 C 33 80 43 66 55 70 C 65 74 63 88 52 87"/>
-          <path class="ch-thin" d="M88 99 L 86 106 M78 103 L 77 110 M67 104 L 67 111 M57 101 L 55 108"/>
-          <!-- body shell -->
-          <path class="ch-line" d="M94 94 C 92 68 112 50 141 48 C 170 46 188 57 194 69 L 198 87 C 191 100 160 106 130 104 C 112 103 99 101 94 94 Z"/>
-          <path class="ch-plate" d="M108 62 C 124 52 152 51 176 58 L 180 74 C 154 68 128 69 110 76 Z"/>
-          <path class="ch-thin" d="M118 55 L 116 100 M140 50 L 139 104 M162 51 L 164 103 M182 57 L 186 96"/>
-          <!-- dorsal crest -->
-          <path class="ch-line" d="M104 66 L 110 55 L 118 62 L 126 50 L 134 58 L 143 47 L 151 55 L 160 46 L 168 54 L 177 48 L 186 57"/>
-          <!-- head -->
-          <path class="ch-line" d="M194 69 C 201 55 219 48 235 54 C 246 58 249 71 243 80 C 234 91 209 92 198 87 Z"/>
-          <path class="ch-plate" d="M206 60 C 216 53 230 52 240 58 L 242 70 C 230 63 216 63 206 68 Z"/>
-          <!-- casque / head crest -->
-          <path class="ch-line" d="M214 51 L 221 33 L 231 44 L 240 34 L 244 57"/>
-          <circle class="ch-spark" cx="240" cy="31" r="3.4"/>
-          <path class="ch-thin" d="M240 34 L 240 25"/>
-          <!-- turret eye -->
-          <circle class="ch-line" cx="222" cy="69" r="10.5"/>
-          <circle class="ch-thin" cx="222" cy="69" r="14"/>
-          <ellipse class="ch-eye ch-iris" cx="222" cy="69" rx="5" ry="5" style="transform-origin:222px 69px"/>
-          <!-- jaw vent -->
-          <path class="ch-thin" d="M204 82 L 232 84 M206 87 L 228 88"/>
-          <!-- gripping legs -->
-          <path class="ch-line" d="M180 98 L 187 118 L 178 130"/>
-          <path class="ch-line" d="M178 130 L 168 134 M178 130 L 184 139"/>
-          <path class="ch-line" d="M114 101 L 107 120 L 116 132"/>
-          <path class="ch-line" d="M116 132 L 106 137 M116 132 L 123 140"/>
-          <!-- servo joints -->
-          <circle class="ch-fill" cx="187" cy="118" r="4"/>
-          <circle class="ch-fill" cx="107" cy="120" r="4"/>
-          <circle class="ch-fill" cx="96" cy="96" r="3"/>
-        </svg></h2>
-        <span class="pp-sec-note"><span id="ppCount">8</span> of 8 shown</span>
-      </div>
-
-      <div class="pp-filters">
-        <div class="pp-chipset" id="ppChips" role="group" aria-label="Filter work by discipline">
-          <button class="pp-chip" data-f="all" aria-pressed="true">All</button>
-          <button class="pp-chip" data-f="practice" aria-pressed="false">Practice</button>
-          <button class="pp-chip" data-f="languages" aria-pressed="false">Languages</button>
-          <button class="pp-chip" data-f="graphics" aria-pressed="false">Graphics</button>
-          <button class="pp-chip" data-f="performance" aria-pressed="false">Performance</button>
-          <button class="pp-chip" data-f="play" aria-pressed="false">Play</button>
-        </div>
-        <div class="pp-search">
-          <label class="pp-mono" for="ppSearch" style="position:absolute;left:-9999px">Search work</label>
-          <input id="ppSearch" type="search" placeholder="Search notes" autocomplete="off">
-        </div>
-      </div>
-
-      <div class="pp-grid" id="ppGrid"></div>
-      <p class="pp-empty" id="ppEmpty" hidden>Nothing matches that filter. Try “All”, or search for a term — shader, solver, budget.</p>
-    </div>
-  </section>
-
-  <!-- ======================= ESSAY ======================= -->
-  <section class="pp-sec" id="essay" style="--plate:var(--ink)">
-    <i class="pp-reg pp-reg-tl"><span></span></i><i class="pp-reg pp-reg-tr"><span></span></i>
-    <div class="pp-shell">
-      <div class="pp-sec-head">
-        <span class="pp-mono pp-plate">Plate K — Essay</span>
-        <h2 class="pp-dis pp-sec-title">The people<br>who built it</h2>
-        <span class="pp-sec-note">≈ 6 min read</span>
-      </div>
-
-      <article class="pp-article">
-        <p class="pp-byline">On why programmers matter, and why the small ones are artists</p>
-
-        <p class="pp-drop">Almost nothing you did today happened without software. The alarm that woke you. The payment that bought your coffee. The lights at the junction on the way in, the scanner in the hospital wing, the routing that put a lorry full of food outside a shop before it opened. None of it announced itself. That is the strange position programmers occupy: they built the layer everybody stands on, and it is invisible by design.</p>
-
-        <p>We are fluent about the people who build visible things. Architects get their names on buildings; engineers get plaques on bridges. The person who wrote the code that keeps an intensive-care monitor accurate gets a line in a changelog. This is not a complaint about credit. It is a problem of understanding: <em>you cannot value what you cannot see</em>, and most people have no picture at all of what holds the modern world upright.</p>
-
-        <h3>The infrastructure nobody sees</h3>
-
-        <p>Good software disappears. A bridge is admired every day; a payment system is noticed only in the minute it fails. So the clearest way to measure what programmers built is to watch what happens when a small piece of it breaks.</p>
-
-        <p>In 2014 a bug called Heartbleed was found in OpenSSL, the library encrypting a very large share of the web's traffic. At the time OpenSSL was maintained by a handful of people on a budget that would not have covered a single engineer at any of the companies depending on it. In 2021 the same story repeated through Log4Shell, a flaw in Log4j — a logging library maintained by volunteers — and a good part of the internet spent Christmas patching servers.</p>
-
-        <p>Neither project was obscure. Both were load-bearing. That is the pattern worth understanding: <strong>an enormous amount of the world runs on code written and maintained by very small numbers of people</strong>, most of whom you could not name if you tried.</p>
-
-        <p class="pp-pull">The world runs on software written by people nobody can name.</p>
-
-        <h3>The one in Nebraska</h3>
-
-        <p>There is a comic every programmer recognises — xkcd 2347 — showing a precarious tower labelled “all modern digital infrastructure”, its entire weight resting on one thin block at the bottom: “a project some random person in Nebraska has been thanklessly maintaining since 2003.” It is repeated so often not because it is funny but because it is accurate.</p>
-
-        <p>Real examples are easy to find. <em>curl</em>, begun by Daniel Stenberg in 1998, now runs inside cars, televisions, printers and phones — installed billions of times over. <em>SQLite</em> is very likely the most widely deployed database engine on earth and is kept by a tiny team. Neither is a corporate product. Both are what happens when individuals keep going for decades on work nobody applauds.</p>
-
-        <p>The lesson is not that these people should be famous. It is that the choice to maintain something carefully, year after year, with no audience, is a moral and creative act — and the world is quietly built out of those acts.</p>
-
-        <h3>Small developers are artists</h3>
-
-        <p>This is the part that gets an eye-roll, so let us be precise about what is meant. The claim is not that all code is art, or that writing a loop is comparable to painting. It is narrower and more defensible: <strong>when a single person shapes a piece of software end to end, under real constraint, the result carries authorship in the way any other made object does.</strong></p>
-
-        <p>The demoscene has argued this since the 1980s, producing entire animated worlds with soundtracks inside sixty-four kilobytes — less than a single photograph — where every texture and note is generated by mathematics as it runs. In 2020 Finland became the first country to add the demoscene to its national inventory of intangible cultural heritage under the UNESCO convention. Not as engineering. As culture.</p>
-
-        <p>It did not begin there either. Vera Molnár, Frieder Nake and Georg Nees were exhibiting computer-generated drawings in the 1960s, arguing about algorithms and randomness in gallery spaces. Processing exists because Casey Reas and Ben Fry wanted artists to be able to write code without becoming software engineers first. That lineage is older than most of the industry that ignores it.</p>
-
-        <p class="pp-pull">Authorship is the difference between software that was manufactured and software that was made.</p>
-
-        <p>In a large system nobody decides how the thing feels. A hundred people each own a fragment, decisions are averaged into committee outcomes, and the result is competent and characterless — which is often exactly what a bank needs. A one-person project is the opposite. Every choice has a name on it: this easing curve, this word in this error message, this refusal to add the feature everyone asked for. That is authorship, and authorship is the precondition for art.</p>
-
-        <h3>Why the small ones matter most</h3>
-
-        <p>Independent developers are where the strange ideas survive. The odd personal site, the tool that solves one problem for eleven people, the toy built to teach its author something on a Sunday. None of it passes a business case. Nearly all of it is where technique comes from.</p>
-
-        <p>The things that later become standard practice almost always start as somebody's pointless experiment — a rendering trick from a demo, an interface idea from a hobby project, a language feature someone built because the existing ones annoyed them. Industry does not generate these. It notices them, some years later, and adopts them.</p>
-
-        <p>So the argument runs both ways. Programmers deserve to be understood as the people quietly holding up the infrastructure of ordinary life. And the small ones — the single maintainers, the weekend builders, the people making something useless with real care — deserve to be understood as what they plainly are: <strong>people practising a craft, and now and then making art with it.</strong></p>
-
-        <p class="pp-endmark">This page is a small argument for that position. It is useless on purpose, hand-written on purpose, and every decision in it has one name attached.</p>
-      </article>
-    </div>
-  </section>
-
-  <!-- ======================= STUDIO ======================= -->
-  <section class="pp-sec" id="studio" style="--plate:var(--m)">
-    <i class="pp-reg pp-reg-tl"><span></span></i><i class="pp-reg pp-reg-tr"><span></span></i>
-    <div class="pp-shell">
-      <div class="pp-sec-head">
-        <span class="pp-mono pp-plate">Plate M — This page</span>
-        <h2 class="pp-dis pp-sec-title">This<br>page</h2>
-        <span class="pp-sec-note">No frameworks</span>
-      </div>
-      <div class="pp-two">
-        <div class="pp-prose">
-          <p class="pp-drop">People argue about whether programming is art. That argument is usually settled by looking at the thing — so: this page is the argument.</p>
-          <p>There is no framework here. No build step, no bundler, no <em>node_modules</em>. One HTML file, written by hand, that you can open in a text editor and read from top to bottom. The only outside code is a 3D library loaded from a CDN, for the piece at the bottom.</p>
-          <p>That carrot is not a physics engine talking. It is fifteen point masses and thirty-eight distance constraints, integrated with Verlet and relaxed eight times a frame — about forty lines of arithmetic. Its surface is displaced by fractal noise in a vertex shader, lit with specular and subsurface terms, and shadowed by testing each pixel's path to the light against the root. All 315 of its leaflets are instances of one mesh, so the whole leafy top costs a single draw call.</p>
-          <p>None of it is useful. That is rather the point: <em>the craft shows up most clearly when nothing is at stake.</em></p>
-        </div>
-        <div class="pp-stats">
-          <div class="pp-stat"><b data-count="4">4</b><span>Custom GLSL shaders</span></div>
-          <div class="pp-stat"><b data-count="15">15</b><span>Point masses in the solver</span></div>
-          <div class="pp-stat"><b data-count="38">38</b><span>Distance constraints</span></div>
-          <div class="pp-stat"><b data-count="0">0</b><span>Frameworks used</span></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ======================= PROCESS ======================= -->
-  <section class="pp-sec" id="process" style="--plate:var(--y)">
-    <i class="pp-reg pp-reg-tl"><span></span></i><i class="pp-reg pp-reg-tr"><span></span></i>
-    <div class="pp-shell">
-      <div class="pp-sec-head">
-        <span class="pp-mono pp-plate">Plate Y — Principles</span>
-        <h2 class="pp-dis pp-sec-title">How it<br>gets made</h2>
-        <span class="pp-sec-note">Run in order</span>
-      </div>
-      <div class="pp-steps" id="ppSteps"></div>
-    </div>
-  </section>
-
-  <!-- ======================= CONTACT ======================= -->
-  <section class="pp-sec" id="contact" style="--plate:var(--ink)">
-    <i class="pp-reg pp-reg-tl"><span></span></i><i class="pp-reg pp-reg-tr"><span></span></i>
-    <div class="pp-shell">
-      <div class="pp-sec-head">
-        <span class="pp-mono pp-plate">Plate K — Contact</span>
-        <h2 class="pp-dis pp-sec-title">Say<br>hello</h2>
-        <span class="pp-sec-note">No brief required</span>
-      </div>
-      <div class="pp-two">
-        <form class="pp-form" id="ppForm" novalidate>
-          <input type="text" id="ppHoney" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;height:0;width:0">
-          <div class="pp-row2">
-            <div class="pp-field">
-              <label for="ppN">Your name</label>
-              <input id="ppN" name="name" type="text" autocomplete="name">
-              <span class="pp-err" data-for="ppN"></span>
-            </div>
-            <div class="pp-field">
-              <label for="ppE">Email</label>
-              <input id="ppE" name="email" type="email" autocomplete="email">
-              <span class="pp-err" data-for="ppE"></span>
-            </div>
-          </div>
-          <div class="pp-field">
-            <label for="ppT">What is this about</label>
-            <select id="ppT" name="type">
-              <option value="">Choose one</option>
-              <option>How something here works</option>
-              <option>A bug you found</option>
-              <option>Working on something together</option>
-              <option>Just saying hello</option>
-            </select>
-            <span class="pp-err" data-for="ppT"></span>
-          </div>
-          <div class="pp-field">
-            <label for="ppM">The brief</label>
-            <textarea id="ppM" name="message" placeholder="Say as much or as little as you like."></textarea>
-            <span class="pp-err" data-for="ppM"></span>
-          </div>
-          <div>
-            <button class="pp-btn" type="submit">Send message</button>
-          </div>
-        </form>
-
-        <div class="pp-contact-side">
-          <p style="color:var(--ink-soft);font-size:15px">Questions about how something here works, corrections, or an argument about whether any of this counts as art — all welcome.</p>
-          <div class="pp-link-list">
-            <button type="button" id="ppCopy"><span>studio@saad.design</span><em id="ppCopyLabel">Copy</em></button>
-            <a href="https://github.com/svvdesign" target="_blank" rel="noopener noreferrer"><span>GitHub</span><em>svvdesign ↗</em></a>
-            <a href="https://github.com/svvdesign/svvdesign.github.io" target="_blank" rel="noopener noreferrer"><span>Source of this page</span><em>Read it ↗</em></a>
-          </div>
-          <dl class="pp-spec">
-            <dt>Where</dt><dd>Remote · GMT+1</dd>
-            <dt>Source</dt><dd>Every line of this page is public on GitHub</dd>
-            <dt>Built with</dt><dd>A text editor and Three.js. That is the whole stack.</dd>
-          </dl>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ======================= PLAY ======================= -->
-  <section class="pp-sec" id="play" style="--plate:var(--y)">
-    <i class="pp-reg pp-reg-tl"><span></span></i><i class="pp-reg pp-reg-tr"><span></span></i>
-    <div class="pp-shell">
-      <div class="pp-sec-head">
-        <span class="pp-mono pp-plate">Plate CMY — Play</span>
-        <h2 class="pp-dis pp-sec-title">Ragdoll<br>carrot</h2>
-        <span class="pp-sec-note">Grab it. Fling it. No purpose.</span>
-      </div>
-      <p style="color:var(--ink-soft);max-width:60ch;margin-bottom:4px">
-        A carrot with a spine. Fifteen point masses, thirty-eight distance constraints, and a Verlet
-        solver running at 8 iterations a frame — the root is stiff, the leaf stems are not. The skin is
-        one continuous mesh swept along the physics chain, displaced by fractal noise in the vertex
-        shader, then shaded like a comic panel: light quantised into four hard bands, violet shadows,
-        Ben-Day dots screened into the shade, and a chromatic ink rim on the silhouette.
-      </p>
-    </div>
-    <div class="pp-stage-wrap">
-      <div class="pp-stage" id="ppStage">
-        <canvas id="ppGame"></canvas>
-        <div class="pp-hint" id="ppHint">Click and drag the carrot — then throw it</div>
-        <div class="pp-hud">
-          <button class="pp-tool" id="ppPlay" aria-pressed="true">Pause</button>
-          <button class="pp-tool" id="ppReset">Reset</button>
-          <button class="pp-tool" id="ppGrav" aria-pressed="true">Gravity</button>
-          <button class="pp-tool" id="ppGust">Gust</button>
-          <button class="pp-tool" id="ppSwap" aria-pressed="false">Chameleon</button>
-          <button class="pp-tool" id="ppFull">Fullscreen</button>
-          <span class="pp-hud-read" id="ppRead">60 fps</span>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <!-- ======================= LAB ======================= -->
   <section class="pp-sec" id="lab" style="--plate:var(--c)">
@@ -1277,6 +1021,263 @@ body{background:var(--paper);margin:0}
           </div>
         </article>
 
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= WORK ======================= -->
+  <section class="pp-sec" id="work" style="--plate:var(--c)">
+    <i class="pp-reg pp-reg-tl"><span></span></i><i class="pp-reg pp-reg-tr"><span></span></i>
+    <div class="pp-shell">
+      <div class="pp-sec-head">
+        <span class="pp-mono pp-plate">Plate C — Craft</span>
+        <h2 class="pp-dis pp-sec-title">Notes on<br>the craft<svg class="pp-cham" viewBox="0 0 264 152" aria-hidden="true" focusable="false">
+          <!-- coiled tail -->
+          <path class="ch-line" d="M96 100 C 74 108 50 105 41 92 C 33 80 43 66 55 70 C 65 74 63 88 52 87"/>
+          <path class="ch-thin" d="M88 99 L 86 106 M78 103 L 77 110 M67 104 L 67 111 M57 101 L 55 108"/>
+          <!-- body shell -->
+          <path class="ch-line" d="M94 94 C 92 68 112 50 141 48 C 170 46 188 57 194 69 L 198 87 C 191 100 160 106 130 104 C 112 103 99 101 94 94 Z"/>
+          <path class="ch-plate" d="M108 62 C 124 52 152 51 176 58 L 180 74 C 154 68 128 69 110 76 Z"/>
+          <path class="ch-thin" d="M118 55 L 116 100 M140 50 L 139 104 M162 51 L 164 103 M182 57 L 186 96"/>
+          <!-- dorsal crest -->
+          <path class="ch-line" d="M104 66 L 110 55 L 118 62 L 126 50 L 134 58 L 143 47 L 151 55 L 160 46 L 168 54 L 177 48 L 186 57"/>
+          <!-- head -->
+          <path class="ch-line" d="M194 69 C 201 55 219 48 235 54 C 246 58 249 71 243 80 C 234 91 209 92 198 87 Z"/>
+          <path class="ch-plate" d="M206 60 C 216 53 230 52 240 58 L 242 70 C 230 63 216 63 206 68 Z"/>
+          <!-- casque / head crest -->
+          <path class="ch-line" d="M214 51 L 221 33 L 231 44 L 240 34 L 244 57"/>
+          <circle class="ch-spark" cx="240" cy="31" r="3.4"/>
+          <path class="ch-thin" d="M240 34 L 240 25"/>
+          <!-- turret eye -->
+          <circle class="ch-line" cx="222" cy="69" r="10.5"/>
+          <circle class="ch-thin" cx="222" cy="69" r="14"/>
+          <ellipse class="ch-eye ch-iris" cx="222" cy="69" rx="5" ry="5" style="transform-origin:222px 69px"/>
+          <!-- jaw vent -->
+          <path class="ch-thin" d="M204 82 L 232 84 M206 87 L 228 88"/>
+          <!-- gripping legs -->
+          <path class="ch-line" d="M180 98 L 187 118 L 178 130"/>
+          <path class="ch-line" d="M178 130 L 168 134 M178 130 L 184 139"/>
+          <path class="ch-line" d="M114 101 L 107 120 L 116 132"/>
+          <path class="ch-line" d="M116 132 L 106 137 M116 132 L 123 140"/>
+          <!-- servo joints -->
+          <circle class="ch-fill" cx="187" cy="118" r="4"/>
+          <circle class="ch-fill" cx="107" cy="120" r="4"/>
+          <circle class="ch-fill" cx="96" cy="96" r="3"/>
+        </svg></h2>
+        <span class="pp-sec-note"><span id="ppCount">8</span> of 8 shown</span>
+      </div>
+
+      <div class="pp-filters">
+        <div class="pp-chipset" id="ppChips" role="group" aria-label="Filter work by discipline">
+          <button class="pp-chip" data-f="all" aria-pressed="true">All</button>
+          <button class="pp-chip" data-f="practice" aria-pressed="false">Practice</button>
+          <button class="pp-chip" data-f="languages" aria-pressed="false">Languages</button>
+          <button class="pp-chip" data-f="graphics" aria-pressed="false">Graphics</button>
+          <button class="pp-chip" data-f="performance" aria-pressed="false">Performance</button>
+          <button class="pp-chip" data-f="play" aria-pressed="false">Play</button>
+        </div>
+        <div class="pp-search">
+          <label class="pp-mono" for="ppSearch" style="position:absolute;left:-9999px">Search work</label>
+          <input id="ppSearch" type="search" placeholder="Search notes" autocomplete="off">
+        </div>
+      </div>
+
+      <div class="pp-grid" id="ppGrid"></div>
+      <p class="pp-empty" id="ppEmpty" hidden>Nothing matches that filter. Try “All”, or search for a term — shader, solver, budget.</p>
+    </div>
+  </section>
+
+  <!-- ======================= ESSAY ======================= -->
+  <section class="pp-sec" id="essay" style="--plate:var(--ink)">
+    <i class="pp-reg pp-reg-tl"><span></span></i><i class="pp-reg pp-reg-tr"><span></span></i>
+    <div class="pp-shell">
+      <div class="pp-sec-head">
+        <span class="pp-mono pp-plate">Plate K — Essay</span>
+        <h2 class="pp-dis pp-sec-title">The people<br>who built it</h2>
+        <span class="pp-sec-note">≈ 6 min read</span>
+      </div>
+
+      <article class="pp-article">
+        <p class="pp-byline">On why programmers matter, and why the small ones are artists</p>
+
+        <p class="pp-drop">Almost nothing you did today happened without software. The alarm that woke you. The payment that bought your coffee. The lights at the junction on the way in, the scanner in the hospital wing, the routing that put a lorry full of food outside a shop before it opened. None of it announced itself. That is the strange position programmers occupy: they built the layer everybody stands on, and it is invisible by design.</p>
+
+        <p>We are fluent about the people who build visible things. Architects get their names on buildings; engineers get plaques on bridges. The person who wrote the code that keeps an intensive-care monitor accurate gets a line in a changelog. This is not a complaint about credit. It is a problem of understanding: <em>you cannot value what you cannot see</em>, and most people have no picture at all of what holds the modern world upright.</p>
+
+        <h3>The infrastructure nobody sees</h3>
+
+        <p>Good software disappears. A bridge is admired every day; a payment system is noticed only in the minute it fails. So the clearest way to measure what programmers built is to watch what happens when a small piece of it breaks.</p>
+
+        <p>In 2014 a bug called Heartbleed was found in OpenSSL, the library encrypting a very large share of the web's traffic. At the time OpenSSL was maintained by a handful of people on a budget that would not have covered a single engineer at any of the companies depending on it. In 2021 the same story repeated through Log4Shell, a flaw in Log4j — a logging library maintained by volunteers — and a good part of the internet spent Christmas patching servers.</p>
+
+        <p>Neither project was obscure. Both were load-bearing. That is the pattern worth understanding: <strong>an enormous amount of the world runs on code written and maintained by very small numbers of people</strong>, most of whom you could not name if you tried.</p>
+
+        <p class="pp-pull">The world runs on software written by people nobody can name.</p>
+
+        <h3>The one in Nebraska</h3>
+
+        <p>There is a comic every programmer recognises — xkcd 2347 — showing a precarious tower labelled “all modern digital infrastructure”, its entire weight resting on one thin block at the bottom: “a project some random person in Nebraska has been thanklessly maintaining since 2003.” It is repeated so often not because it is funny but because it is accurate.</p>
+
+        <p>Real examples are easy to find. <em>curl</em>, begun by Daniel Stenberg in 1998, now runs inside cars, televisions, printers and phones — installed billions of times over. <em>SQLite</em> is very likely the most widely deployed database engine on earth and is kept by a tiny team. Neither is a corporate product. Both are what happens when individuals keep going for decades on work nobody applauds.</p>
+
+        <p>The lesson is not that these people should be famous. It is that the choice to maintain something carefully, year after year, with no audience, is a moral and creative act — and the world is quietly built out of those acts.</p>
+
+        <h3>Small developers are artists</h3>
+
+        <p>This is the part that gets an eye-roll, so let us be precise about what is meant. The claim is not that all code is art, or that writing a loop is comparable to painting. It is narrower and more defensible: <strong>when a single person shapes a piece of software end to end, under real constraint, the result carries authorship in the way any other made object does.</strong></p>
+
+        <p>The demoscene has argued this since the 1980s, producing entire animated worlds with soundtracks inside sixty-four kilobytes — less than a single photograph — where every texture and note is generated by mathematics as it runs. In 2020 Finland became the first country to add the demoscene to its national inventory of intangible cultural heritage under the UNESCO convention. Not as engineering. As culture.</p>
+
+        <p>It did not begin there either. Vera Molnár, Frieder Nake and Georg Nees were exhibiting computer-generated drawings in the 1960s, arguing about algorithms and randomness in gallery spaces. Processing exists because Casey Reas and Ben Fry wanted artists to be able to write code without becoming software engineers first. That lineage is older than most of the industry that ignores it.</p>
+
+        <p class="pp-pull">Authorship is the difference between software that was manufactured and software that was made.</p>
+
+        <p>In a large system nobody decides how the thing feels. A hundred people each own a fragment, decisions are averaged into committee outcomes, and the result is competent and characterless — which is often exactly what a bank needs. A one-person project is the opposite. Every choice has a name on it: this easing curve, this word in this error message, this refusal to add the feature everyone asked for. That is authorship, and authorship is the precondition for art.</p>
+
+        <h3>Why the small ones matter most</h3>
+
+        <p>Independent developers are where the strange ideas survive. The odd personal site, the tool that solves one problem for eleven people, the toy built to teach its author something on a Sunday. None of it passes a business case. Nearly all of it is where technique comes from.</p>
+
+        <p>The things that later become standard practice almost always start as somebody's pointless experiment — a rendering trick from a demo, an interface idea from a hobby project, a language feature someone built because the existing ones annoyed them. Industry does not generate these. It notices them, some years later, and adopts them.</p>
+
+        <p>So the argument runs both ways. Programmers deserve to be understood as the people quietly holding up the infrastructure of ordinary life. And the small ones — the single maintainers, the weekend builders, the people making something useless with real care — deserve to be understood as what they plainly are: <strong>people practising a craft, and now and then making art with it.</strong></p>
+
+        <p class="pp-endmark">This page is a small argument for that position. It is useless on purpose, hand-written on purpose, and every decision in it has one name attached.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ======================= STUDIO ======================= -->
+  <section class="pp-sec" id="studio" style="--plate:var(--m)">
+    <i class="pp-reg pp-reg-tl"><span></span></i><i class="pp-reg pp-reg-tr"><span></span></i>
+    <div class="pp-shell">
+      <div class="pp-sec-head">
+        <span class="pp-mono pp-plate">Plate M — This page</span>
+        <h2 class="pp-dis pp-sec-title">This<br>page</h2>
+        <span class="pp-sec-note">No frameworks</span>
+      </div>
+      <div class="pp-two">
+        <div class="pp-prose">
+          <p class="pp-drop">People argue about whether programming is art. That argument is usually settled by looking at the thing — so: this page is the argument.</p>
+          <p>There is no framework here. No build step, no bundler, no <em>node_modules</em>. One HTML file, written by hand, that you can open in a text editor and read from top to bottom. The only outside code is a 3D library loaded from a CDN, for the piece at the bottom.</p>
+          <p>That carrot is not a physics engine talking. It is fifteen point masses and thirty-eight distance constraints, integrated with Verlet and relaxed eight times a frame — about forty lines of arithmetic. Its surface is displaced by fractal noise in a vertex shader, lit with specular and subsurface terms, and shadowed by testing each pixel's path to the light against the root. All 315 of its leaflets are instances of one mesh, so the whole leafy top costs a single draw call.</p>
+          <p>None of it is useful. That is rather the point: <em>the craft shows up most clearly when nothing is at stake.</em></p>
+        </div>
+        <div class="pp-stats">
+          <div class="pp-stat"><b data-count="4">4</b><span>Custom GLSL shaders</span></div>
+          <div class="pp-stat"><b data-count="15">15</b><span>Point masses in the solver</span></div>
+          <div class="pp-stat"><b data-count="38">38</b><span>Distance constraints</span></div>
+          <div class="pp-stat"><b data-count="0">0</b><span>Frameworks used</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= PROCESS ======================= -->
+  <section class="pp-sec" id="process" style="--plate:var(--y)">
+    <i class="pp-reg pp-reg-tl"><span></span></i><i class="pp-reg pp-reg-tr"><span></span></i>
+    <div class="pp-shell">
+      <div class="pp-sec-head">
+        <span class="pp-mono pp-plate">Plate Y — Principles</span>
+        <h2 class="pp-dis pp-sec-title">How it<br>gets made</h2>
+        <span class="pp-sec-note">Run in order</span>
+      </div>
+      <div class="pp-steps" id="ppSteps"></div>
+    </div>
+  </section>
+
+  <!-- ======================= CONTACT ======================= -->
+  <section class="pp-sec" id="contact" style="--plate:var(--ink)">
+    <i class="pp-reg pp-reg-tl"><span></span></i><i class="pp-reg pp-reg-tr"><span></span></i>
+    <div class="pp-shell">
+      <div class="pp-sec-head">
+        <span class="pp-mono pp-plate">Plate K — Contact</span>
+        <h2 class="pp-dis pp-sec-title">Say<br>hello</h2>
+        <span class="pp-sec-note">No brief required</span>
+      </div>
+      <div class="pp-two">
+        <form class="pp-form" id="ppForm" novalidate>
+          <input type="text" id="ppHoney" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;height:0;width:0">
+          <div class="pp-row2">
+            <div class="pp-field">
+              <label for="ppN">Your name</label>
+              <input id="ppN" name="name" type="text" autocomplete="name">
+              <span class="pp-err" data-for="ppN"></span>
+            </div>
+            <div class="pp-field">
+              <label for="ppE">Email</label>
+              <input id="ppE" name="email" type="email" autocomplete="email">
+              <span class="pp-err" data-for="ppE"></span>
+            </div>
+          </div>
+          <div class="pp-field">
+            <label for="ppT">What is this about</label>
+            <select id="ppT" name="type">
+              <option value="">Choose one</option>
+              <option>How something here works</option>
+              <option>A bug you found</option>
+              <option>Working on something together</option>
+              <option>Just saying hello</option>
+            </select>
+            <span class="pp-err" data-for="ppT"></span>
+          </div>
+          <div class="pp-field">
+            <label for="ppM">The brief</label>
+            <textarea id="ppM" name="message" placeholder="Say as much or as little as you like."></textarea>
+            <span class="pp-err" data-for="ppM"></span>
+          </div>
+          <div>
+            <button class="pp-btn" type="submit">Send message</button>
+          </div>
+        </form>
+
+        <div class="pp-contact-side">
+          <p style="color:var(--ink-soft);font-size:15px">Questions about how something here works, corrections, or an argument about whether any of this counts as art — all welcome.</p>
+          <div class="pp-link-list">
+            <button type="button" id="ppCopy"><span>studio@saad.design</span><em id="ppCopyLabel">Copy</em></button>
+            <a href="https://github.com/svvdesign" target="_blank" rel="noopener noreferrer"><span>GitHub</span><em>svvdesign ↗</em></a>
+            <a href="https://github.com/svvdesign/svvdesign.github.io" target="_blank" rel="noopener noreferrer"><span>Source of this page</span><em>Read it ↗</em></a>
+          </div>
+          <dl class="pp-spec">
+            <dt>Where</dt><dd>Remote · GMT+1</dd>
+            <dt>Source</dt><dd>Every line of this page is public on GitHub</dd>
+            <dt>Built with</dt><dd>A text editor and Three.js. That is the whole stack.</dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= PLAY ======================= -->
+  <section class="pp-sec" id="play" style="--plate:var(--y)">
+    <i class="pp-reg pp-reg-tl"><span></span></i><i class="pp-reg pp-reg-tr"><span></span></i>
+    <div class="pp-shell">
+      <div class="pp-sec-head">
+        <span class="pp-mono pp-plate">Plate CMY — Play</span>
+        <h2 class="pp-dis pp-sec-title">Ragdoll<br>carrot</h2>
+        <span class="pp-sec-note">Grab it. Fling it. No purpose.</span>
+      </div>
+      <p style="color:var(--ink-soft);max-width:60ch;margin-bottom:4px">
+        A carrot with a spine. Fifteen point masses, thirty-eight distance constraints, and a Verlet
+        solver running at 8 iterations a frame — the root is stiff, the leaf stems are not. The skin is
+        one continuous mesh swept along the physics chain, displaced by fractal noise in the vertex
+        shader, then shaded like a comic panel: light quantised into four hard bands, violet shadows,
+        Ben-Day dots screened into the shade, and a chromatic ink rim on the silhouette.
+      </p>
+    </div>
+    <div class="pp-stage-wrap">
+      <div class="pp-stage" id="ppStage">
+        <canvas id="ppGame"></canvas>
+        <div class="pp-hint" id="ppHint">Click and drag the carrot — then throw it</div>
+        <div class="pp-hud">
+          <button class="pp-tool" id="ppPlay" aria-pressed="true">Pause</button>
+          <button class="pp-tool" id="ppReset">Reset</button>
+          <button class="pp-tool" id="ppGrav" aria-pressed="true">Gravity</button>
+          <button class="pp-tool" id="ppGust">Gust</button>
+          <button class="pp-tool" id="ppSwap" aria-pressed="false">Chameleon</button>
+          <button class="pp-tool" id="ppFull">Fullscreen</button>
+          <span class="pp-hud-read" id="ppRead">60 fps</span>
+        </div>
       </div>
     </div>
   </section>
@@ -1684,7 +1685,7 @@ body{background:var(--paper);margin:0}
 
   /* ---------------------------------------------------- scroll: progress, nav, ink */
   var prog = $("#ppProg"), ink = $("#ppInk"), navLinks = $$("#ppNav a");
-  var sections = ["work", "essay", "studio", "process", "contact", "play", "lab", "detour"].map(function (id) { return document.getElementById(id); });
+  var sections = ["lab", "work", "essay", "studio", "process", "contact", "play", "detour"].map(function (id) { return document.getElementById(id); });
   var ticking = false;
   function onScroll() {
     var max = document.documentElement.scrollHeight - window.innerHeight;
