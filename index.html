@@ -508,6 +508,39 @@ body{background:var(--paper);margin:0}
 .pp-views span{font-family:var(--f-mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-faint)}
 .pp-views b{font-family:var(--f-display);font-weight:800;font-size:27px;line-height:1;font-variant-numeric:tabular-nums;letter-spacing:.004em}
 
+/* ============================================================ LAB */
+.pp-lab-intro{color:var(--ink-soft);max-width:62ch;margin-bottom:clamp(22px,3vw,32px)}
+.pp-labs{display:grid;gap:1px;background:var(--rule);border:1px solid var(--rule);grid-template-columns:repeat(auto-fill,minmax(330px,1fr))}
+.pp-lab{background:var(--card);padding:clamp(18px,2.2vw,26px);display:grid;gap:12px;align-content:start}
+.pp-lab-n{color:var(--ink-faint);display:flex;gap:9px;align-items:center}
+.pp-lab-n::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--plate,var(--c));flex:none}
+.pp-lab h3{font-family:var(--f-display);font-weight:700;text-transform:uppercase;font-size:clamp(21px,2.5vw,29px);line-height:1}
+.pp-lab-goal{font-size:14.5px;line-height:1.62;color:var(--ink-soft);border-left:2px solid var(--rule);padding-left:12px}
+.pp-lab-goal b{color:var(--ink);font-weight:500;font-family:var(--f-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;display:block;margin-bottom:3px}
+.pp-lab-stage{position:relative;border:1px solid var(--rule-soft);background:var(--paper-2);border-radius:2px;overflow:hidden}
+.pp-lab-stage canvas{display:block;width:100%;height:190px;touch-action:none}
+.pp-lab-ctrl{display:grid;gap:9px}
+.pp-lab-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.pp-lab-row label{font-family:var(--f-mono);font-size:10px;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-faint);min-width:78px}
+.pp-lab input[type=range]{flex:1;min-width:110px;accent-color:var(--m);height:18px}
+.pp-lab input[type=color]{width:42px;height:28px;padding:0;border:1px solid var(--rule);border-radius:2px;background:none;cursor:pointer}
+.pp-lab input[type=file]{font-family:var(--f-mono);font-size:10px;color:var(--ink-soft);max-width:100%}
+.pp-lab-val{font-family:var(--f-mono);font-size:10px;letter-spacing:.06em;color:var(--ink);font-variant-numeric:tabular-nums;min-width:44px;text-align:right}
+.pp-lab-note{font-family:var(--f-mono);font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-faint);line-height:1.7}
+.pp-lab-btn{
+  font-family:var(--f-mono);font-size:10px;letter-spacing:.11em;text-transform:uppercase;
+  padding:8px 13px;border:1px solid var(--rule);background:transparent;color:var(--ink-soft);
+  border-radius:2px;cursor:pointer;transition:all .18s;
+}
+.pp-lab-btn:hover{color:var(--ink);border-color:var(--ink-soft)}
+.pp-lab-btn[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.pp-ratio{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.pp-ratio b{font-family:var(--f-display);font-weight:800;font-size:34px;line-height:1;font-variant-numeric:tabular-nums}
+.pp-badge{font-family:var(--f-mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;padding:3px 7px;border-radius:2px;border:1px solid currentColor}
+.pp-badge.ok{color:#3f9d5a}
+.pp-badge.no{color:var(--m)}
+.pp-swatch{height:64px;display:grid;place-items:center;border:1px solid var(--rule-soft);border-radius:2px;font-family:var(--f-body);font-size:16px}
+
 /* ============================================================ DETOUR */
 .pp-detour{display:grid;gap:clamp(18px,2.6vw,26px);justify-items:start;border-top:1px solid var(--rule);padding-top:clamp(22px,3vw,32px)}
 .pp-detour .pp-lede{max-width:42ch}
@@ -594,6 +627,7 @@ body{background:var(--paper);margin:0}
         <a href="#process">Principles</a>
         <a href="#contact">Contact</a>
         <a href="#play">Play</a>
+        <a href="#lab">Lab</a>
         <a href="#detour">Detour</a>
       </nav>
       <div class="pp-tools">
@@ -899,6 +933,350 @@ body{background:var(--paper);margin:0}
           <button class="pp-tool" id="ppFull">Fullscreen</button>
           <span class="pp-hud-read" id="ppRead">60 fps</span>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= LAB ======================= -->
+  <section class="pp-sec" id="lab" style="--plate:var(--c)">
+    <i class="pp-reg pp-reg-tl"><span></span></i><i class="pp-reg pp-reg-tr"><span></span></i>
+    <div class="pp-shell">
+      <div class="pp-sec-head">
+        <span class="pp-mono pp-plate">Plate C — Lab</span>
+        <h2 class="pp-dis pp-sec-title">Things to<br>fiddle with</h2>
+        <span class="pp-sec-note">24 activities</span>
+      </div>
+
+      <p class="pp-lab-intro">Twenty-four small machines. Each one exists to make a single idea physical — the kind of idea that is easy to nod along to in prose and only really lands once you have dragged a slider and watched it break. Every one is hand-written and runs entirely in your browser.</p>
+
+      <div class="pp-labs">
+
+        <article class="pp-lab" style="--plate:var(--c)">
+          <span class="pp-mono pp-lab-n">Activity 01</span>
+          <h3>Halftone press</h3>
+          <p class="pp-lab-goal"><b>The goal</b>Understand how a photograph becomes ink. A press cannot print "40% grey" — it can only print a dot or no dot. Feed it a picture and watch continuous tone get sampled onto three rotated screens.</p>
+          <div class="pp-lab-stage"><canvas id="labHalf"></canvas></div>
+          <div class="pp-lab-ctrl">
+            <div class="pp-lab-row"><label for="labHalfSize">Dot pitch</label><input type="range" id="labHalfSize" min="3" max="16" value="7"><span class="pp-lab-val" id="labHalfSizeV">7px</span></div>
+            <div class="pp-lab-row"><label for="labHalfFile">Your image</label><input type="file" id="labHalfFile" accept="image/*"></div>
+            <p class="pp-lab-note">Your picture never leaves this page — it is read straight into a canvas and never uploaded.</p>
+          </div>
+        </article>
+
+        <article class="pp-lab" style="--plate:var(--m)">
+          <span class="pp-mono pp-lab-n">Activity 02</span>
+          <h3>Relaxation rope</h3>
+          <p class="pp-lab-goal"><b>The goal</b>See why the carrot holds together. Nothing here solves any equations — it just moves each point a little closer to where it should be, over and over. Drop the iterations to 1 and the rope turns to rubber.</p>
+          <div class="pp-lab-stage"><canvas id="labRope"></canvas></div>
+          <div class="pp-lab-ctrl">
+            <div class="pp-lab-row"><label for="labRopeIt">Iterations</label><input type="range" id="labRopeIt" min="1" max="20" value="12"><span class="pp-lab-val" id="labRopeItV">12</span></div>
+            <div class="pp-lab-row"><label for="labRopeG">Gravity</label><input type="range" id="labRopeG" min="0" max="40" value="18"><span class="pp-lab-val" id="labRopeGV">18</span></div>
+            <p class="pp-lab-note">Drag the rope. Ends are pinned.</p>
+          </div>
+        </article>
+
+        <article class="pp-lab" style="--plate:var(--y)">
+          <span class="pp-mono pp-lab-n">Activity 03</span>
+          <h3>Noise kitchen</h3>
+          <p class="pp-lab-goal"><b>The goal</b>Watch texture get built out of nothing. One layer of noise is a blur; stack a few at doubling frequency and half amplitude and you get rock, cloud, or vegetable skin. This is exactly what shapes the carrot.</p>
+          <div class="pp-lab-stage"><canvas id="labNoise"></canvas></div>
+          <div class="pp-lab-ctrl">
+            <div class="pp-lab-row"><label for="labNoiseO">Octaves</label><input type="range" id="labNoiseO" min="1" max="7" value="4"><span class="pp-lab-val" id="labNoiseOV">4</span></div>
+            <div class="pp-lab-row"><label for="labNoiseF">Frequency</label><input type="range" id="labNoiseF" min="1" max="20" value="6"><span class="pp-lab-val" id="labNoiseFV">6</span></div>
+            <div class="pp-lab-row"><label for="labNoiseC">Contrast</label><input type="range" id="labNoiseC" min="1" max="30" value="12"><span class="pp-lab-val" id="labNoiseCV">1.2</span></div>
+          </div>
+        </article>
+
+        <article class="pp-lab" style="--plate:var(--c)">
+          <span class="pp-mono pp-lab-n">Activity 04</span>
+          <h3>Easing bench</h3>
+          <p class="pp-lab-goal"><b>The goal</b>Feel that motion has a personality. Every square below travels the same distance in the same time — only the curve differs. One reads as mechanical, one as alive, one as impatient.</p>
+          <div class="pp-lab-stage"><canvas id="labEase"></canvas></div>
+          <div class="pp-lab-ctrl">
+            <div class="pp-lab-row" id="labEaseBtns">
+              <button class="pp-lab-btn" data-ease="linear" aria-pressed="false">Linear</button>
+              <button class="pp-lab-btn" data-ease="in" aria-pressed="false">Ease in</button>
+              <button class="pp-lab-btn" data-ease="out" aria-pressed="true">Ease out</button>
+              <button class="pp-lab-btn" data-ease="inout" aria-pressed="false">In–out</button>
+              <button class="pp-lab-btn" data-ease="spring" aria-pressed="false">Spring</button>
+            </div>
+            <p class="pp-lab-note">The curve is the graph; the square is the result.</p>
+          </div>
+        </article>
+
+        <article class="pp-lab" style="--plate:var(--m)">
+          <span class="pp-mono pp-lab-n">Activity 05</span>
+          <h3>Contrast meter</h3>
+          <p class="pp-lab-goal"><b>The goal</b>Replace taste with a number. Whether text is readable is not a matter of opinion — it is a ratio you can measure. Body text needs 4.5:1. Drag the colours until it passes.</p>
+          <div class="pp-lab-stage" style="border:0;background:none">
+            <div class="pp-swatch" id="labSwatch">Handling type at small sizes</div>
+          </div>
+          <div class="pp-lab-ctrl">
+            <div class="pp-lab-row">
+              <label for="labCa">Text</label><input type="color" id="labCa" value="#8e96a5">
+              <label for="labCb" style="min-width:auto">On</label><input type="color" id="labCb" value="#0f1218">
+            </div>
+            <div class="pp-ratio"><b id="labRatio">—</b><span class="pp-badge" id="labAA">AA</span><span class="pp-badge" id="labAAA">AAA</span></div>
+          </div>
+        </article>
+
+        <article class="pp-lab" style="--plate:var(--y)">
+          <span class="pp-mono pp-lab-n">Activity 06</span>
+          <h3>Frame budget</h3>
+          <p class="pp-lab-goal"><b>The goal</b>Make 16.7 milliseconds tangible. Sixty frames a second is not a target, it is a ceiling — and it is far lower than it sounds. Add shapes until the bar turns red and you have found the edge of it.</p>
+          <div class="pp-lab-stage"><canvas id="labBudget"></canvas></div>
+          <div class="pp-lab-ctrl">
+            <div class="pp-lab-row">
+              <button class="pp-lab-btn" id="labAdd">+250 shapes</button>
+              <button class="pp-lab-btn" id="labClear">Reset</button>
+              <span class="pp-lab-val" id="labBudgetV" style="min-width:auto">—</span>
+            </div>
+            <p class="pp-lab-note">Everything is drawn on the CPU, deliberately — it breaks sooner and the point lands faster.</p>
+          </div>
+        </article>
+
+        <article class="pp-lab" style="--plate:var(--c)">
+          <span class="pp-mono pp-lab-n">Activity 07</span>
+          <h3>Bézier pen</h3>
+          <p class="pp-lab-goal"><b>The goal</b>See inside a curve. Every letterform, every icon, every easing graph on this page is this: four points and a rule for sliding between them. Drag the handles and watch the construction lines that produce the shape.</p>
+          <div class="pp-lab-stage"><canvas id="labBez"></canvas></div>
+          <div class="pp-lab-ctrl">
+            <div class="pp-lab-row"><label for="labBezT">Show build</label><input type="range" id="labBezT" min="0" max="100" value="45"><span class="pp-lab-val" id="labBezTV">0.45</span></div>
+            <p class="pp-lab-note">Drag the four dots. The thin lines are the interpolation the curve is made of.</p>
+          </div>
+        </article>
+
+        <article class="pp-lab" style="--plate:var(--m)">
+          <span class="pp-mono pp-lab-n">Activity 08</span>
+          <h3>Dither bench</h3>
+          <p class="pp-lab-goal"><b>The goal</b>Fake grey with no grey available. Given only black and white pixels, three strategies produce wildly different results — one is unusable, one buzzes with pattern, one looks almost photographic. The cost is the same.</p>
+          <div class="pp-lab-stage"><canvas id="labDither"></canvas></div>
+          <div class="pp-lab-ctrl">
+            <div class="pp-lab-row" id="labDitherBtns">
+              <button class="pp-lab-btn" data-d="none" aria-pressed="false">Threshold</button>
+              <button class="pp-lab-btn" data-d="bayer" aria-pressed="true">Ordered</button>
+              <button class="pp-lab-btn" data-d="fs" aria-pressed="false">Diffusion</button>
+            </div>
+            <p class="pp-lab-note">Same image, same two colours, three algorithms.</p>
+          </div>
+        </article>
+
+        <article class="pp-lab" style="--plate:var(--y)">
+          <span class="pp-mono pp-lab-n">Activity 09</span>
+          <h3>Light vs ink</h3>
+          <p class="pp-lab-goal"><b>The goal</b>Understand why a screen and a press never agree. Light adds up to white; ink subtracts down to black. Same three primaries, opposite arithmetic — this is the whole reason this site is built around CMY plates.</p>
+          <div class="pp-lab-stage"><canvas id="labMix"></canvas></div>
+          <div class="pp-lab-ctrl">
+            <div class="pp-lab-row"><label for="labMixS">Overlap</label><input type="range" id="labMixS" min="0" max="100" value="62"><span class="pp-lab-val" id="labMixSV">62%</span></div>
+            <p class="pp-lab-note">Left: red, green, blue light. Right: cyan, magenta, yellow ink.</p>
+          </div>
+        </article>
+
+        <article class="pp-lab" style="--plate:var(--c)">
+          <span class="pp-mono pp-lab-n">Activity 10</span>
+          <h3>Flock</h3>
+          <p class="pp-lab-goal"><b>The goal</b>Watch complicated behaviour come from almost nothing. No bird here knows about the flock. Each one obeys three local rules about its nearest neighbours, and the shape you see is a side effect nobody programmed.</p>
+          <div class="pp-lab-stage"><canvas id="labBoids"></canvas></div>
+          <div class="pp-lab-ctrl">
+            <div class="pp-lab-row"><label for="labSep">Separation</label><input type="range" id="labSep" min="0" max="100" value="55"><span class="pp-lab-val" id="labSepV">55</span></div>
+            <div class="pp-lab-row"><label for="labAli">Alignment</label><input type="range" id="labAli" min="0" max="100" value="50"><span class="pp-lab-val" id="labAliV">50</span></div>
+            <div class="pp-lab-row"><label for="labCoh">Cohesion</label><input type="range" id="labCoh" min="0" max="100" value="40"><span class="pp-lab-val" id="labCohV">40</span></div>
+          </div>
+        </article>
+
+        <article class="pp-lab" style="--plate:var(--m)">
+          <span class="pp-mono pp-lab-n">Activity 11</span>
+          <h3>Sorting race</h3>
+          <p class="pp-lab-goal"><b>The goal</b>Turn a complexity class into something you can watch. Everyone can recite that bubble sort is O(n²) and quicksort is O(n log n). Far fewer have sat and watched the difference happen in real time.</p>
+          <div class="pp-lab-stage"><canvas id="labSort"></canvas></div>
+          <div class="pp-lab-ctrl">
+            <div class="pp-lab-row" id="labSortBtns">
+              <button class="pp-lab-btn" data-s="bubble">Bubble</button>
+              <button class="pp-lab-btn" data-s="insertion">Insertion</button>
+              <button class="pp-lab-btn" data-s="quick">Quick</button>
+              <button class="pp-lab-btn" id="labSortShuffle">Shuffle</button>
+            </div>
+            <span class="pp-lab-val" id="labSortV" style="min-width:auto">idle</span>
+          </div>
+        </article>
+
+        <article class="pp-lab" style="--plate:var(--y)">
+          <span class="pp-mono pp-lab-n">Activity 12</span>
+          <h3>Spot the kern</h3>
+          <p class="pp-lab-goal"><b>The goal</b>Train the eye that typographers are paid for. One gap in the word below has been sabotaged. Finding it is a skill, not a talent — and it gets noticeably easier after a dozen rounds.</p>
+          <div class="pp-lab-stage"><canvas id="labKern"></canvas></div>
+          <div class="pp-lab-ctrl">
+            <div class="pp-lab-row">
+              <span class="pp-lab-val" id="labKernV" style="min-width:auto">Click the gap that is wrong</span>
+              <button class="pp-lab-btn" id="labKernNext">New word</button>
+            </div>
+            <p class="pp-lab-note">Click between two letters.</p>
+          </div>
+        </article>
+
+        <article class="pp-lab" style="--plate:var(--c)">
+          <span class="pp-mono pp-lab-n">Activity 13</span>
+          <h3>Game of Life</h3>
+          <p class="pp-lab-goal"><b>The goal</b>Meet the four rules that people have been finding new structures inside since 1970. A cell lives or dies by counting its neighbours — that is the entire program. Everything else is emergent.</p>
+          <div class="pp-lab-stage"><canvas id="labLife"></canvas></div>
+          <div class="pp-lab-ctrl">
+            <div class="pp-lab-row">
+              <button class="pp-lab-btn" id="labLifeRun" aria-pressed="true">Pause</button>
+              <button class="pp-lab-btn" id="labLifeRand">Randomise</button>
+              <button class="pp-lab-btn" id="labLifeClear">Clear</button>
+              <span class="pp-lab-val" id="labLifeV" style="min-width:auto">gen 0</span>
+            </div>
+            <p class="pp-lab-note">Draw on it with the mouse. Live cells with 2–3 neighbours survive; dead cells with exactly 3 are born.</p>
+          </div>
+        </article>
+
+        <article class="pp-lab" style="--plate:var(--m)">
+          <span class="pp-mono pp-lab-n">Activity 14</span>
+          <h3>Two pendulums</h3>
+          <p class="pp-lab-goal"><b>The goal</b>Separate "deterministic" from "predictable". Both pendulums obey identical equations and start one thousandth of a degree apart. Watch how long that difference stays invisible — then how completely it stops mattering.</p>
+          <div class="pp-lab-stage"><canvas id="labChaos"></canvas></div>
+          <div class="pp-lab-ctrl">
+            <div class="pp-lab-row">
+              <button class="pp-lab-btn" id="labChaosReset">Restart</button>
+              <span class="pp-lab-val" id="labChaosV" style="min-width:auto">divergence 0.000</span>
+            </div>
+            <p class="pp-lab-note">No randomness anywhere in this simulation.</p>
+          </div>
+        </article>
+
+        <article class="pp-lab" style="--plate:var(--y)">
+          <span class="pp-mono pp-lab-n">Activity 15</span>
+          <h3>Harmonic stack</h3>
+          <p class="pp-lab-goal"><b>The goal</b>See that any shape is a pile of sine waves. Add odd harmonics one at a time and a square wave assembles itself out of curves — the same idea underneath JPEG, MP3 and every audio equaliser you have touched.</p>
+          <div class="pp-lab-stage"><canvas id="labWave"></canvas></div>
+          <div class="pp-lab-ctrl">
+            <div class="pp-lab-row"><label for="labWaveN">Harmonics</label><input type="range" id="labWaveN" min="1" max="30" value="5"><span class="pp-lab-val" id="labWaveNV">5</span></div>
+            <p class="pp-lab-note">Faint line: the target. Solid line: what the sum actually makes.</p>
+          </div>
+        </article>
+
+        <article class="pp-lab" style="--plate:var(--c)">
+          <span class="pp-mono pp-lab-n">Activity 16</span>
+          <h3>Pathfinder</h3>
+          <p class="pp-lab-goal"><b>The goal</b>Watch a good guess earn its keep. Both searches find the same shortest route. One wanders outward in every direction; the other leans toward the target and looks at a fraction as many squares.</p>
+          <div class="pp-lab-stage"><canvas id="labPath"></canvas></div>
+          <div class="pp-lab-ctrl">
+            <div class="pp-lab-row" id="labPathBtns">
+              <button class="pp-lab-btn" data-p="dijkstra">No heuristic</button>
+              <button class="pp-lab-btn" data-p="astar" aria-pressed="true">A*</button>
+              <button class="pp-lab-btn" id="labPathMaze">New walls</button>
+            </div>
+            <span class="pp-lab-val" id="labPathV" style="min-width:auto">—</span>
+          </div>
+        </article>
+
+        <article class="pp-lab" style="--plate:var(--m)">
+          <span class="pp-mono pp-lab-n">Activity 17</span>
+          <h3>Flow field</h3>
+          <p class="pp-lab-goal"><b>The goal</b>Use noise as a direction rather than a texture. The same function that roughens the carrot's skin, read as an angle instead of a height, turns a thousand dumb particles into something that looks like weather.</p>
+          <div class="pp-lab-stage"><canvas id="labFlow"></canvas></div>
+          <div class="pp-lab-ctrl">
+            <div class="pp-lab-row"><label for="labFlowS">Scale</label><input type="range" id="labFlowS" min="1" max="30" value="9"><span class="pp-lab-val" id="labFlowSV">9</span></div>
+            <div class="pp-lab-row"><label for="labFlowT">Turbulence</label><input type="range" id="labFlowT" min="0" max="100" value="35"><span class="pp-lab-val" id="labFlowTV">35</span></div>
+          </div>
+        </article>
+
+        <article class="pp-lab" style="--plate:var(--y)">
+          <span class="pp-mono pp-lab-n">Activity 18</span>
+          <h3>Modular scale</h3>
+          <p class="pp-lab-goal"><b>The goal</b>Stop picking type sizes at random. Choose one ratio and every size on the page descends from it, the way musical intervals do. The difference between a considered page and a messy one is often just this.</p>
+          <div class="pp-lab-stage" style="border:0;background:none;overflow:visible">
+            <div id="labScale" style="display:grid;gap:2px;align-content:center;min-height:190px"></div>
+          </div>
+          <div class="pp-lab-ctrl">
+            <div class="pp-lab-row"><label for="labScaleR">Ratio</label><input type="range" id="labScaleR" min="1050" max="1618" value="1250"><span class="pp-lab-val" id="labScaleRV">1.250</span></div>
+            <p class="pp-lab-note" id="labScaleName">Major third — a common, comfortable choice.</p>
+          </div>
+        </article>
+
+        <article class="pp-lab" style="--plate:var(--c)">
+          <span class="pp-mono pp-lab-n">Activity 19</span>
+          <h3>Gradient descent</h3>
+          <p class="pp-lab-goal"><b>The goal</b>Understand the one dial that decides whether a model learns or explodes. Too small and it crawls; too large and it overshoots forever. Every neural network ever trained sits somewhere on this slider.</p>
+          <div class="pp-lab-stage"><canvas id="labDesc"></canvas></div>
+          <div class="pp-lab-ctrl">
+            <div class="pp-lab-row"><label for="labDescL">Step size</label><input type="range" id="labDescL" min="1" max="120" value="24"><span class="pp-lab-val" id="labDescLV">0.24</span></div>
+            <div class="pp-lab-row"><button class="pp-lab-btn" id="labDescGo">Drop the ball</button><span class="pp-lab-val" id="labDescV" style="min-width:auto">—</span></div>
+          </div>
+        </article>
+
+        <article class="pp-lab" style="--plate:var(--m)">
+          <span class="pp-mono pp-lab-n">Activity 20</span>
+          <h3>Raycast light</h3>
+          <p class="pp-lab-goal"><b>The goal</b>See how a computer works out what is lit. There is no light here — only rays fired at every wall corner and the polygon they enclose. Shadows are simply the parts no ray reached.</p>
+          <div class="pp-lab-stage"><canvas id="labRay"></canvas></div>
+          <div class="pp-lab-ctrl">
+            <p class="pp-lab-note">Move your pointer across the panel to carry the lamp.</p>
+          </div>
+        </article>
+
+        <article class="pp-lab" style="--plate:var(--y)">
+          <span class="pp-mono pp-lab-n">Activity 21</span>
+          <h3>Colour vision</h3>
+          <p class="pp-lab-goal"><b>The goal</b>Check a palette against eyes unlike your own. Roughly one man in twelve sees these swatches differently from the way they were designed. Contrast alone will not catch it — colour that carries meaning has to survive this test.</p>
+          <div class="pp-lab-stage"><canvas id="labCvd"></canvas></div>
+          <div class="pp-lab-ctrl">
+            <div class="pp-lab-row" id="labCvdBtns">
+              <button class="pp-lab-btn" data-v="normal" aria-pressed="true">Normal</button>
+              <button class="pp-lab-btn" data-v="prot">Protanopia</button>
+              <button class="pp-lab-btn" data-v="deut">Deuteranopia</button>
+              <button class="pp-lab-btn" data-v="trit">Tritanopia</button>
+            </div>
+            <p class="pp-lab-note">These are this site's own plate colours.</p>
+          </div>
+        </article>
+
+        <article class="pp-lab" style="--plate:var(--c)">
+          <span class="pp-mono pp-lab-n">Activity 22</span>
+          <h3>Voronoi</h3>
+          <p class="pp-lab-goal"><b>The goal</b>Answer "which one is nearest?" for every point at once. Drop seeds and each pixel joins the closest. The same partition decides mobile phone cells, shop catchment areas and a good deal of procedural texture.</p>
+          <div class="pp-lab-stage"><canvas id="labVor"></canvas></div>
+          <div class="pp-lab-ctrl">
+            <div class="pp-lab-row">
+              <button class="pp-lab-btn" id="labVorClear">Clear</button>
+              <span class="pp-lab-val" id="labVorV" style="min-width:auto">click to add seeds</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="pp-lab" style="--plate:var(--m)">
+          <span class="pp-mono pp-lab-n">Activity 23</span>
+          <h3>Avalanche</h3>
+          <p class="pp-lab-goal"><b>The goal</b>See what a hash function is supposed to do. Change one character — even the case of one letter — and about half of the output bits should flip. Anything less and the function is leaking the shape of your input.</p>
+          <div class="pp-lab-stage" style="border:0;background:none">
+            <canvas id="labHash"></canvas>
+          </div>
+          <div class="pp-lab-ctrl">
+            <div class="pp-lab-row">
+              <label for="labHashIn">Input</label>
+              <input type="text" id="labHashIn" value="press proof" maxlength="40"
+                style="flex:1;min-width:120px;background:var(--paper-2);border:1px solid var(--rule);border-radius:2px;padding:7px 9px;font-family:var(--f-mono);font-size:11px;color:var(--ink)">
+            </div>
+            <span class="pp-lab-val" id="labHashV" style="min-width:auto">—</span>
+          </div>
+        </article>
+
+        <article class="pp-lab" style="--plate:var(--y)">
+          <span class="pp-mono pp-lab-n">Activity 24</span>
+          <h3>Compression</h3>
+          <p class="pp-lab-goal"><b>The goal</b>Learn what a compressor is actually rewarded for. Draw stripes and the file shrinks to nothing. Fill it with noise and it grows larger than the original. Compression does not remove data — it removes repetition.</p>
+          <div class="pp-lab-stage"><canvas id="labRle"></canvas></div>
+          <div class="pp-lab-ctrl">
+            <div class="pp-lab-row">
+              <button class="pp-lab-btn" id="labRleStripes">Stripes</button>
+              <button class="pp-lab-btn" id="labRleNoise">Noise</button>
+              <button class="pp-lab-btn" id="labRleClear">Clear</button>
+            </div>
+            <span class="pp-lab-val" id="labRleV" style="min-width:auto">—</span>
+            <p class="pp-lab-note">Draw on it. Run-length encoding, counted honestly.</p>
+          </div>
+        </article>
+
       </div>
     </div>
   </section>
@@ -1306,7 +1684,7 @@ body{background:var(--paper);margin:0}
 
   /* ---------------------------------------------------- scroll: progress, nav, ink */
   var prog = $("#ppProg"), ink = $("#ppInk"), navLinks = $$("#ppNav a");
-  var sections = ["work", "essay", "studio", "process", "contact", "play", "detour"].map(function (id) { return document.getElementById(id); });
+  var sections = ["work", "essay", "studio", "process", "contact", "play", "lab", "detour"].map(function (id) { return document.getElementById(id); });
   var ticking = false;
   function onScroll() {
     var max = document.documentElement.scrollHeight - window.innerHeight;
@@ -1966,6 +2344,1379 @@ body{background:var(--paper);margin:0}
       try { window.sessionStorage.setItem(MARK, "1"); } catch (e) {}
     })
     .catch(function () { /* stays hidden — no fake numbers */ });
+})();
+</script>
+<script>
+/* ------------------------------------------------------------
+   THE LAB
+   Six small activities. Each one is self-contained, hand-written,
+   and animates only while it is actually on screen.
+   ------------------------------------------------------------ */
+(function () {
+  "use strict";
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function tok(n, fb) {
+    var v = getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+    return v || fb;
+  }
+  function fit(cv) {
+    var r = cv.getBoundingClientRect();
+    var d = Math.min(window.devicePixelRatio || 1, 2);
+    cv.width = Math.max(1, Math.round(r.width * d));
+    cv.height = Math.max(1, Math.round(r.height * d));
+    var x = cv.getContext("2d");
+    x.setTransform(d, 0, 0, d, 0, 0);
+    return x;
+  }
+  /* run a loop only while the element is in view */
+  function whileVisible(el, step) {
+    var on = false, raf = 0, inView = false;
+    function tick(t) { if (!on) return; step(t); raf = requestAnimationFrame(tick); }
+    function start() { if (on) return; on = true; raf = requestAnimationFrame(tick); }
+    function stop() { on = false; cancelAnimationFrame(raf); }
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (e) {
+        inView = e[0].isIntersecting;
+        if (inView && !document.hidden) start(); else stop();
+      }, { rootMargin: "120px" }).observe(el);
+    } else { inView = true; start(); }
+    /* Coming back to the tab has to restart it. The observer will not
+       fire again on its own — the element never stopped intersecting. */
+    document.addEventListener("visibilitychange", function () {
+      if (document.hidden) stop();
+      else if (inView) start();
+    });
+    return { start: start, stop: stop };
+  }
+
+  /* ---------------------------------------------- 01 halftone press */
+  (function () {
+    var cv = document.getElementById("labHalf");
+    if (!cv) return;
+    var sizeEl = document.getElementById("labHalfSize");
+    var sizeV = document.getElementById("labHalfSizeV");
+    var fileEl = document.getElementById("labHalfFile");
+    var src = document.createElement("canvas"), img = null;
+
+    function buildDefault(w, h) {
+      src.width = w; src.height = h;
+      var s = src.getContext("2d");
+      var g = s.createLinearGradient(0, 0, w, h);
+      g.addColorStop(0, "#f6e7c8"); g.addColorStop(0.5, "#c8623a"); g.addColorStop(1, "#243447");
+      s.fillStyle = g; s.fillRect(0, 0, w, h);
+      var rg = s.createRadialGradient(w * 0.32, h * 0.38, 4, w * 0.32, h * 0.38, h * 0.55);
+      rg.addColorStop(0, "rgba(255,255,255,.95)"); rg.addColorStop(1, "rgba(255,255,255,0)");
+      s.fillStyle = rg; s.beginPath(); s.arc(w * 0.32, h * 0.38, h * 0.55, 0, 7); s.fill();
+      s.fillStyle = "rgba(20,30,50,.55)";
+      s.beginPath(); s.ellipse(w * 0.72, h * 0.68, w * 0.2, h * 0.22, 0.4, 0, 7); s.fill();
+    }
+
+    function render() {
+      var x = fit(cv);
+      var w = cv.clientWidth, h = cv.clientHeight;
+      if (!w || !h) return;
+      var pitch = +sizeEl.value;
+      sizeV.textContent = pitch + "px";
+
+      if (img) {
+        var sc = Math.max(w / img.width, h / img.height);
+        src.width = w; src.height = h;
+        var s2 = src.getContext("2d");
+        s2.fillStyle = "#fff"; s2.fillRect(0, 0, w, h);
+        s2.drawImage(img, (w - img.width * sc) / 2, (h - img.height * sc) / 2, img.width * sc, img.height * sc);
+      } else buildDefault(w, h);
+
+      var d = src.getContext("2d").getImageData(0, 0, src.width, src.height).data;
+      var sw = src.width, sh = src.height;
+      x.fillStyle = "#fbfbf9"; x.fillRect(0, 0, w, h);
+      x.globalCompositeOperation = "multiply";
+
+      var inks = [
+        { a: 0.26, col: "#00a6d6", ch: 0 },   /* cyan   reads the red channel  */
+        { a: 1.31, col: "#e53c86", ch: 1 },   /* magenta reads green           */
+        { a: 0.0,  col: "#f2c318", ch: 2 }    /* yellow reads blue             */
+      ];
+      var diag = Math.sqrt(w * w + h * h);
+      for (var k = 0; k < inks.length; k++) {
+        var ink = inks[k], ca = Math.cos(ink.a), sa = Math.sin(ink.a);
+        x.fillStyle = ink.col;
+        for (var u = -diag; u < diag; u += pitch) {
+          for (var v = -diag; v < diag; v += pitch) {
+            var px = u * ca - v * sa + w / 2, py = u * sa + v * ca + h / 2;
+            if (px < -pitch || py < -pitch || px > w + pitch || py > h + pitch) continue;
+            var sx = Math.max(0, Math.min(sw - 1, px | 0)), sy = Math.max(0, Math.min(sh - 1, py | 0));
+            var amt = 1 - d[(sy * sw + sx) * 4 + ink.ch] / 255;
+            var r = pitch * 0.62 * Math.sqrt(amt);
+            if (r < 0.25) continue;
+            x.beginPath(); x.arc(px, py, r, 0, 7); x.fill();
+          }
+        }
+      }
+      x.globalCompositeOperation = "source-over";
+    }
+
+    sizeEl.addEventListener("input", render);
+    fileEl.addEventListener("change", function () {
+      var f = fileEl.files && fileEl.files[0];
+      if (!f) return;
+      var url = URL.createObjectURL(f);
+      var im = new Image();
+      im.onload = function () { img = im; URL.revokeObjectURL(url); render(); };
+      im.onerror = function () { URL.revokeObjectURL(url); };
+      im.src = url;
+    });
+    window.addEventListener("resize", function () { clearTimeout(cv._t); cv._t = setTimeout(render, 200); });
+    render();
+  })();
+
+  /* ---------------------------------------------- 02 relaxation rope */
+  (function () {
+    var cv = document.getElementById("labRope");
+    if (!cv) return;
+    var itEl = document.getElementById("labRopeIt"), itV = document.getElementById("labRopeItV");
+    var gEl = document.getElementById("labRopeG"), gV = document.getElementById("labRopeGV");
+    var x = fit(cv), N = 26, P = [], rest = 0, held = null;
+
+    function build() {
+      var w = cv.clientWidth, h = cv.clientHeight;
+      P = [];
+      for (var i = 0; i < N; i++) {
+        var px = 24 + (i / (N - 1)) * (w - 48);
+        P.push({ x: px, y: h * 0.3, ox: px, oy: h * 0.3, pin: i === 0 || i === N - 1 });
+      }
+      rest = (w - 48) / (N - 1);
+    }
+    build();
+
+    function step() {
+      var w = cv.clientWidth, h = cv.clientHeight;
+      var g = (+gEl.value) / 60;
+      gV.textContent = gEl.value;
+      var it = +itEl.value; itV.textContent = it;
+      var i, p;
+      for (i = 0; i < P.length; i++) {
+        p = P[i];
+        if (p.pin || p === held) continue;
+        var vx = (p.x - p.ox) * 0.99, vy = (p.y - p.oy) * 0.99;
+        p.ox = p.x; p.oy = p.y;
+        p.x += vx; p.y += vy + g;
+      }
+      for (var k = 0; k < it; k++) {
+        for (i = 0; i < P.length - 1; i++) {
+          var a = P[i], b = P[i + 1];
+          var dx = b.x - a.x, dy = b.y - a.y;
+          var dist = Math.sqrt(dx * dx + dy * dy) || 1e-4;
+          var diff = (dist - rest) / dist * 0.5;
+          var wa = (a.pin || a === held) ? 0 : 1, wb = (b.pin || b === held) ? 0 : 1;
+          var tot = wa + wb; if (!tot) continue;
+          a.x += dx * diff * (wa / tot) * 2 * (wa ? 1 : 0);
+          a.y += dy * diff * (wa / tot) * 2 * (wa ? 1 : 0);
+          b.x -= dx * diff * (wb / tot) * 2 * (wb ? 1 : 0);
+          b.y -= dy * diff * (wb / tot) * 2 * (wb ? 1 : 0);
+        }
+        for (i = 0; i < P.length; i++) { p = P[i]; if (p.y > h - 6) { p.y = h - 6; p.oy = p.y; } }
+      }
+      x.clearRect(0, 0, w, h);
+      x.strokeStyle = tok("--ink-soft", "#8e96a5");
+      x.lineWidth = 2; x.lineJoin = "round"; x.lineCap = "round";
+      x.beginPath(); x.moveTo(P[0].x, P[0].y);
+      for (i = 1; i < P.length; i++) x.lineTo(P[i].x, P[i].y);
+      x.stroke();
+      x.fillStyle = tok("--m", "#c6316f");
+      for (i = 0; i < P.length; i++) {
+        if (!P[i].pin && P[i] !== held) continue;
+        x.beginPath(); x.arc(P[i].x, P[i].y, 4, 0, 7); x.fill();
+      }
+    }
+    whileVisible(cv, step);
+
+    function at(e) {
+      var r = cv.getBoundingClientRect();
+      return { x: e.clientX - r.left, y: e.clientY - r.top };
+    }
+    cv.addEventListener("pointerdown", function (e) {
+      var m = at(e), best = null, bd = 24;
+      for (var i = 0; i < P.length; i++) {
+        var d = Math.hypot(P[i].x - m.x, P[i].y - m.y);
+        if (d < bd) { bd = d; best = P[i]; }
+      }
+      if (best) { held = best; cv.setPointerCapture && cv.setPointerCapture(e.pointerId); e.preventDefault(); }
+    });
+    window.addEventListener("pointermove", function (e) {
+      if (!held) return;
+      var m = at(e); held.x = m.x; held.y = m.y; held.ox = m.x; held.oy = m.y;
+    });
+    window.addEventListener("pointerup", function () { held = null; });
+    window.addEventListener("resize", function () { clearTimeout(cv._t); cv._t = setTimeout(function () { x = fit(cv); build(); }, 200); });
+  })();
+
+  /* ---------------------------------------------- 03 noise kitchen */
+  (function () {
+    var cv = document.getElementById("labNoise");
+    if (!cv) return;
+    var oEl = document.getElementById("labNoiseO"), oV = document.getElementById("labNoiseOV");
+    var fEl = document.getElementById("labNoiseF"), fV = document.getElementById("labNoiseFV");
+    var cEl = document.getElementById("labNoiseC"), cV = document.getElementById("labNoiseCV");
+    var off = document.createElement("canvas"), OW = 190, OH = 110;
+    off.width = OW; off.height = OH;
+
+    function h2(ix, iy) {
+      var n = Math.sin(ix * 127.1 + iy * 311.7) * 43758.5453;
+      return n - Math.floor(n);
+    }
+    function vnoise(px, py) {
+      var ix = Math.floor(px), iy = Math.floor(py);
+      var fx = px - ix, fy = py - iy;
+      fx = fx * fx * (3 - 2 * fx); fy = fy * fy * (3 - 2 * fy);
+      var a = h2(ix, iy), b = h2(ix + 1, iy), c = h2(ix, iy + 1), d = h2(ix + 1, iy + 1);
+      return (a * (1 - fx) + b * fx) * (1 - fy) + (c * (1 - fx) + d * fx) * fy;
+    }
+    function render() {
+      var oc = +oEl.value, fr = +fEl.value, ct = (+cEl.value) / 10;
+      oV.textContent = oc; fV.textContent = fr; cV.textContent = ct.toFixed(1);
+      var g = off.getContext("2d"), im = g.createImageData(OW, OH), dd = im.data;
+      for (var y = 0; y < OH; y++) {
+        for (var xx = 0; xx < OW; xx++) {
+          var amp = 0.5, f = fr / 40, sum = 0, norm = 0;
+          for (var o = 0; o < oc; o++) {
+            sum += amp * vnoise(xx * f, y * f);
+            norm += amp; amp *= 0.5; f *= 2.03;
+          }
+          var v = sum / (norm || 1);
+          v = Math.max(0, Math.min(1, (v - 0.5) * ct + 0.5));
+          var i = (y * OW + xx) * 4;
+          dd[i] = dd[i + 1] = dd[i + 2] = (v * 255) | 0; dd[i + 3] = 255;
+        }
+      }
+      g.putImageData(im, 0, 0);
+      var x = fit(cv);
+      x.imageSmoothingEnabled = true;
+      x.drawImage(off, 0, 0, cv.clientWidth, cv.clientHeight);
+    }
+    [oEl, fEl, cEl].forEach(function (el) { el.addEventListener("input", render); });
+    window.addEventListener("resize", function () { clearTimeout(cv._t); cv._t = setTimeout(render, 200); });
+    render();
+  })();
+
+  /* ---------------------------------------------- 04 easing bench */
+  (function () {
+    var cv = document.getElementById("labEase");
+    if (!cv) return;
+    var wrap = document.getElementById("labEaseBtns");
+    var x = fit(cv), mode = "out", t0 = 0;
+    var E = {
+      linear: function (t) { return t; },
+      "in": function (t) { return t * t * t; },
+      out: function (t) { return 1 - Math.pow(1 - t, 3); },
+      inout: function (t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; },
+      spring: function (t) {
+        if (t >= 1) return 1;
+        return 1 - Math.pow(2, -9 * t) * Math.cos(t * 13);
+      }
+    };
+    wrap.addEventListener("click", function (e) {
+      var b = e.target.closest("button[data-ease]");
+      if (!b) return;
+      mode = b.getAttribute("data-ease");
+      [].forEach.call(wrap.querySelectorAll("button"), function (o) {
+        o.setAttribute("aria-pressed", String(o === b));
+      });
+      t0 = performance.now();
+    });
+    function step(now) {
+      if (!t0) t0 = now;
+      var w = cv.clientWidth, h = cv.clientHeight;
+      var dur = 1500, t = ((now - t0) % (dur + 700)) / dur;
+      if (t > 1) t = 1;
+      var e = E[mode](t);
+      x.clearRect(0, 0, w, h);
+      var pad = 22, gw = w - pad * 2, gh = h - pad * 2;
+      /* the curve */
+      x.strokeStyle = tok("--rule", "#2a3039"); x.lineWidth = 1;
+      x.strokeRect(pad, pad, gw, gh);
+      x.strokeStyle = tok("--c", "#3dbbdd"); x.lineWidth = 2;
+      x.beginPath();
+      for (var i = 0; i <= 60; i++) {
+        var tt = i / 60, ee = E[mode](tt);
+        var px = pad + tt * gw, py = pad + gh - ee * gh;
+        i ? x.lineTo(px, py) : x.moveTo(px, py);
+      }
+      x.stroke();
+      /* the moving square */
+      var sx = pad + e * (gw - 18), sy = pad + gh - e * gh - 9;
+      x.fillStyle = tok("--m", "#e7679f");
+      x.fillRect(sx, sy, 16, 16);
+      x.fillStyle = tok("--ink-faint", "#616978");
+      x.fillRect(pad, h - pad + 6, e * gw, 3);
+    }
+    if (reduce) { step(performance.now()); } else whileVisible(cv, step);
+    window.addEventListener("resize", function () { clearTimeout(cv._t); cv._t = setTimeout(function () { x = fit(cv); }, 200); });
+  })();
+
+  /* ---------------------------------------------- 05 contrast meter */
+  (function () {
+    var a = document.getElementById("labCa"), b = document.getElementById("labCb");
+    if (!a || !b) return;
+    var sw = document.getElementById("labSwatch"), out = document.getElementById("labRatio");
+    var aa = document.getElementById("labAA"), aaa = document.getElementById("labAAA");
+    function lum(hex) {
+      var n = parseInt(hex.slice(1), 16);
+      var c = [(n >> 16) & 255, (n >> 8) & 255, n & 255].map(function (v) {
+        v /= 255;
+        return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+      });
+      return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
+    }
+    function render() {
+      var l1 = lum(a.value), l2 = lum(b.value);
+      var hi = Math.max(l1, l2), lo = Math.min(l1, l2);
+      var ratio = (hi + 0.05) / (lo + 0.05);
+      sw.style.color = a.value; sw.style.background = b.value;
+      out.textContent = ratio.toFixed(2) + ":1";
+      aa.className = "pp-badge " + (ratio >= 4.5 ? "ok" : "no");
+      aa.textContent = (ratio >= 4.5 ? "AA pass" : "AA fail");
+      aaa.className = "pp-badge " + (ratio >= 7 ? "ok" : "no");
+      aaa.textContent = (ratio >= 7 ? "AAA pass" : "AAA fail");
+    }
+    a.addEventListener("input", render); b.addEventListener("input", render);
+    render();
+  })();
+
+  /* ---------------------------------------------- 06 frame budget */
+  (function () {
+    var cv = document.getElementById("labBudget");
+    if (!cv) return;
+    var addB = document.getElementById("labAdd"), clrB = document.getElementById("labClear");
+    var val = document.getElementById("labBudgetV");
+    var x = fit(cv), shapes = [], ms = 16, last = 0;
+
+    function spawn(n) {
+      var w = cv.clientWidth, h = cv.clientHeight;
+      for (var i = 0; i < n; i++) {
+        shapes.push({
+          x: Math.random() * w, y: Math.random() * h,
+          r: 3 + Math.random() * 7, a: Math.random() * 7,
+          s: 0.4 + Math.random() * 1.2
+        });
+      }
+    }
+    addB.addEventListener("click", function () { spawn(250); });
+    clrB.addEventListener("click", function () { shapes.length = 0; });
+
+    function step(now) {
+      var dt = last ? now - last : 16; last = now;
+      ms += (dt - ms) * 0.1;
+      var w = cv.clientWidth, h = cv.clientHeight;
+      x.clearRect(0, 0, w, h);
+      var col = tok("--c", "#3dbbdd"), col2 = tok("--m", "#e7679f");
+      for (var i = 0; i < shapes.length; i++) {
+        var s = shapes[i];
+        s.a += 0.02 * s.s;
+        s.y += Math.sin(s.a) * 0.4;
+        x.save();
+        x.translate(s.x, s.y); x.rotate(s.a);
+        x.fillStyle = i % 3 ? col : col2;
+        x.globalAlpha = 0.55;
+        x.fillRect(-s.r / 2, -s.r / 2, s.r, s.r);
+        x.restore();
+      }
+      x.globalAlpha = 1;
+      /* the budget bar: 16.7ms is the whole width */
+      var frac = Math.min(ms / 16.7, 1.6);
+      var bw = Math.min(frac, 1) * (w - 24);
+      x.fillStyle = tok("--rule", "#2a3039");
+      x.fillRect(12, h - 16, w - 24, 6);
+      x.fillStyle = ms <= 17.5 ? "#3f9d5a" : tok("--m", "#e7679f");
+      x.fillRect(12, h - 16, bw, 6);
+      if (frac > 1) { x.fillStyle = tok("--m", "#e7679f"); x.fillRect(w - 12, h - 20, 3, 14); }
+      val.textContent = shapes.length + " shapes · " + ms.toFixed(1) + " ms";
+    }
+    whileVisible(cv, step);
+    spawn(250);
+    window.addEventListener("resize", function () { clearTimeout(cv._t); cv._t = setTimeout(function () { x = fit(cv); }, 200); });
+  })();
+
+  /* ---------------------------------------------- 07 bezier pen */
+  (function () {
+    var cv = document.getElementById("labBez");
+    if (!cv) return;
+    var tEl = document.getElementById("labBezT"), tV = document.getElementById("labBezTV");
+    var x = fit(cv), pts = null, held = null;
+    function build() {
+      var w = cv.clientWidth, h = cv.clientHeight;
+      pts = [{ x: w * 0.10, y: h * 0.78 }, { x: w * 0.28, y: h * 0.14 },
+             { x: w * 0.70, y: h * 0.90 }, { x: w * 0.92, y: h * 0.24 }];
+    }
+    build();
+    function lerp(a, b, t) { return { x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t }; }
+    function draw() {
+      var w = cv.clientWidth, h = cv.clientHeight, t = (+tEl.value) / 100;
+      tV.textContent = t.toFixed(2);
+      x.clearRect(0, 0, w, h);
+      /* hull */
+      x.strokeStyle = tok("--rule", "#2a3039"); x.lineWidth = 1;
+      x.beginPath(); x.moveTo(pts[0].x, pts[0].y);
+      for (var i = 1; i < 4; i++) x.lineTo(pts[i].x, pts[i].y);
+      x.stroke();
+      /* the curve */
+      x.strokeStyle = tok("--ink-soft", "#8e96a5"); x.lineWidth = 2;
+      x.beginPath();
+      for (var s = 0; s <= 64; s++) {
+        var u = s / 64;
+        var a = lerp(pts[0], pts[1], u), b = lerp(pts[1], pts[2], u), c = lerp(pts[2], pts[3], u);
+        var d = lerp(a, b, u), e = lerp(b, c, u), p = lerp(d, e, u);
+        s ? x.lineTo(p.x, p.y) : x.moveTo(p.x, p.y);
+      }
+      x.stroke();
+      /* de Casteljau construction at t */
+      var a1 = lerp(pts[0], pts[1], t), b1 = lerp(pts[1], pts[2], t), c1 = lerp(pts[2], pts[3], t);
+      var d1 = lerp(a1, b1, t), e1 = lerp(b1, c1, t), p1 = lerp(d1, e1, t);
+      x.strokeStyle = tok("--c", "#3dbbdd"); x.lineWidth = 1;
+      x.beginPath(); x.moveTo(a1.x, a1.y); x.lineTo(b1.x, b1.y); x.lineTo(c1.x, c1.y); x.stroke();
+      x.strokeStyle = tok("--y", "#e8c25b");
+      x.beginPath(); x.moveTo(d1.x, d1.y); x.lineTo(e1.x, e1.y); x.stroke();
+      x.fillStyle = tok("--m", "#e7679f");
+      x.beginPath(); x.arc(p1.x, p1.y, 5, 0, 7); x.fill();
+      /* handles */
+      for (i = 0; i < 4; i++) {
+        x.fillStyle = (i === 0 || i === 3) ? tok("--ink", "#e8eaef") : tok("--ink-faint", "#616978");
+        x.beginPath(); x.arc(pts[i].x, pts[i].y, 5, 0, 7); x.fill();
+      }
+    }
+    function at(e) { var r = cv.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; }
+    cv.addEventListener("pointerdown", function (e) {
+      var m = at(e);
+      for (var i = 0; i < 4; i++) if (Math.hypot(pts[i].x - m.x, pts[i].y - m.y) < 16) { held = pts[i]; e.preventDefault(); break; }
+    });
+    window.addEventListener("pointermove", function (e) { if (!held) return; var m = at(e); held.x = m.x; held.y = m.y; draw(); });
+    window.addEventListener("pointerup", function () { held = null; });
+    tEl.addEventListener("input", draw);
+    window.addEventListener("resize", function () { clearTimeout(cv._t); cv._t = setTimeout(function () { x = fit(cv); build(); draw(); }, 200); });
+    draw();
+  })();
+
+  /* ---------------------------------------------- 08 dither bench */
+  (function () {
+    var cv = document.getElementById("labDither");
+    if (!cv) return;
+    var btns = document.getElementById("labDitherBtns"), mode = "bayer";
+    var BAYER = [[0,8,2,10],[12,4,14,6],[3,11,1,9],[15,7,13,5]];
+    function draw() {
+      var x = fit(cv), w = cv.clientWidth, h = cv.clientHeight;
+      if (!w || !h) return;
+      var W = Math.min(220, w | 0), H = Math.round(W * h / w);
+      var off = document.createElement("canvas"); off.width = W; off.height = H;
+      var g = off.getContext("2d");
+      var grad = g.createLinearGradient(0, 0, W, 0);
+      grad.addColorStop(0, "#000"); grad.addColorStop(1, "#fff");
+      g.fillStyle = grad; g.fillRect(0, 0, W, H);
+      g.fillStyle = "rgba(255,255,255,.85)";
+      g.beginPath(); g.arc(W * 0.30, H * 0.40, H * 0.26, 0, 7); g.fill();
+      g.fillStyle = "rgba(0,0,0,.75)";
+      g.beginPath(); g.arc(W * 0.68, H * 0.62, H * 0.24, 0, 7); g.fill();
+
+      var im = g.getImageData(0, 0, W, H), d = im.data;
+      var lum = new Float32Array(W * H);
+      for (var i = 0; i < W * H; i++) {
+        lum[i] = (0.2126 * d[i * 4] + 0.7152 * d[i * 4 + 1] + 0.0722 * d[i * 4 + 2]) / 255;
+      }
+      for (var y = 0; y < H; y++) {
+        for (var xx = 0; xx < W; xx++) {
+          var idx = y * W + xx, v = lum[idx], out;
+          if (mode === "none") out = v > 0.5 ? 1 : 0;
+          else if (mode === "bayer") out = v > (BAYER[y & 3][xx & 3] + 0.5) / 16 ? 1 : 0;
+          else {
+            out = v > 0.5 ? 1 : 0;
+            var err = v - out;
+            if (xx + 1 < W) lum[idx + 1] += err * 7 / 16;
+            if (y + 1 < H) {
+              if (xx > 0) lum[idx + W - 1] += err * 3 / 16;
+              lum[idx + W] += err * 5 / 16;
+              if (xx + 1 < W) lum[idx + W + 1] += err * 1 / 16;
+            }
+          }
+          var c = out ? 245 : 22, o = idx * 4;
+          d[o] = c; d[o + 1] = c; d[o + 2] = c; d[o + 3] = 255;
+        }
+      }
+      g.putImageData(im, 0, 0);
+      x.imageSmoothingEnabled = false;
+      x.drawImage(off, 0, 0, w, h);
+    }
+    btns.addEventListener("click", function (e) {
+      var b = e.target.closest("button[data-d]"); if (!b) return;
+      mode = b.getAttribute("data-d");
+      [].forEach.call(btns.querySelectorAll("button"), function (o) { o.setAttribute("aria-pressed", String(o === b)); });
+      draw();
+    });
+    window.addEventListener("resize", function () { clearTimeout(cv._t); cv._t = setTimeout(draw, 200); });
+    draw();
+  })();
+
+  /* ---------------------------------------------- 09 light vs ink */
+  (function () {
+    var cv = document.getElementById("labMix");
+    if (!cv) return;
+    var sEl = document.getElementById("labMixS"), sV = document.getElementById("labMixSV");
+    function draw() {
+      var x = fit(cv), w = cv.clientWidth, h = cv.clientHeight;
+      var k = (+sEl.value) / 100; sV.textContent = sEl.value + "%";
+      var r = Math.min(w / 4, h) * 0.34, off = r * (1.5 - k);
+      x.clearRect(0, 0, w, h);
+      function trio(cx, cy, cols, blend, bg) {
+        x.save();
+        x.beginPath(); x.rect(cx - w / 4, 0, w / 2, h); x.clip();
+        x.fillStyle = bg; x.fillRect(cx - w / 4, 0, w / 2, h);
+        x.globalCompositeOperation = blend;
+        for (var i = 0; i < 3; i++) {
+          var a = -Math.PI / 2 + i * (Math.PI * 2 / 3);
+          x.fillStyle = cols[i];
+          x.beginPath();
+          x.arc(cx + Math.cos(a) * off, cy + Math.sin(a) * off, r, 0, 7);
+          x.fill();
+        }
+        x.restore();
+      }
+      trio(w * 0.25, h * 0.5, ["#ff2d2d", "#2dff62", "#2d6bff"], "lighter", "#07080b");
+      trio(w * 0.75, h * 0.5, ["#00b7e6", "#ec3d90", "#ffe020"], "multiply", "#ffffff");
+      x.globalCompositeOperation = "source-over";
+      x.font = "500 10px 'IBM Plex Mono', monospace";
+      x.fillStyle = "#f2f4f8"; x.fillText("LIGHT  ADDS", 12, h - 12);
+      x.fillStyle = "#14161c"; x.fillText("INK  SUBTRACTS", w * 0.5 + 12, h - 12);
+    }
+    sEl.addEventListener("input", draw);
+    window.addEventListener("resize", function () { clearTimeout(cv._t); cv._t = setTimeout(draw, 200); });
+    draw();
+  })();
+
+  /* ---------------------------------------------- 10 flock */
+  (function () {
+    var cv = document.getElementById("labBoids");
+    if (!cv) return;
+    var sepE = document.getElementById("labSep"), aliE = document.getElementById("labAli"), cohE = document.getElementById("labCoh");
+    var sepV = document.getElementById("labSepV"), aliV = document.getElementById("labAliV"), cohV = document.getElementById("labCohV");
+    var x = fit(cv), B = [];
+    function build() {
+      var w = cv.clientWidth, h = cv.clientHeight;
+      B = [];
+      for (var i = 0; i < 70; i++) {
+        B.push({ x: Math.random() * w, y: Math.random() * h,
+                 vx: (Math.random() - 0.5) * 2, vy: (Math.random() - 0.5) * 2 });
+      }
+    }
+    build();
+    function step() {
+      var w = cv.clientWidth, h = cv.clientHeight;
+      var S = (+sepE.value) / 100, A = (+aliE.value) / 100, C = (+cohE.value) / 100;
+      sepV.textContent = sepE.value; aliV.textContent = aliE.value; cohV.textContent = cohE.value;
+      for (var i = 0; i < B.length; i++) {
+        var b = B[i], sx = 0, sy = 0, ax = 0, ay = 0, cx = 0, cy = 0, n = 0, m = 0;
+        for (var j = 0; j < B.length; j++) {
+          if (i === j) continue;
+          var o = B[j], dx = o.x - b.x, dy = o.y - b.y, d2 = dx * dx + dy * dy;
+          if (d2 < 900) { m++; if (d2 > 0.01) { sx -= dx / d2 * 12; sy -= dy / d2 * 12; } }
+          if (d2 < 4900) { n++; ax += o.vx; ay += o.vy; cx += o.x; cy += o.y; }
+        }
+        if (n) { b.vx += ((ax / n) - b.vx) * 0.05 * A; b.vy += ((ay / n) - b.vy) * 0.05 * A;
+                 b.vx += ((cx / n) - b.x) * 0.0012 * C; b.vy += ((cy / n) - b.y) * 0.0012 * C; }
+        if (m) { b.vx += sx * 0.02 * S; b.vy += sy * 0.02 * S; }
+        var sp = Math.hypot(b.vx, b.vy) || 1e-4;
+        var lim = 2.2; if (sp > lim) { b.vx = b.vx / sp * lim; b.vy = b.vy / sp * lim; }
+        b.x += b.vx; b.y += b.vy;
+        if (b.x < 0) b.x += w; if (b.x > w) b.x -= w;
+        if (b.y < 0) b.y += h; if (b.y > h) b.y -= h;
+      }
+      x.clearRect(0, 0, w, h);
+      x.fillStyle = tok("--ink-soft", "#8e96a5");
+      for (i = 0; i < B.length; i++) {
+        var p = B[i], a = Math.atan2(p.vy, p.vx);
+        x.save(); x.translate(p.x, p.y); x.rotate(a);
+        x.beginPath(); x.moveTo(6, 0); x.lineTo(-4, 3); x.lineTo(-4, -3); x.closePath(); x.fill();
+        x.restore();
+      }
+    }
+    whileVisible(cv, step);
+    window.addEventListener("resize", function () { clearTimeout(cv._t); cv._t = setTimeout(function () { x = fit(cv); build(); }, 200); });
+  })();
+
+  /* ---------------------------------------------- 11 sorting race */
+  (function () {
+    var cv = document.getElementById("labSort");
+    if (!cv) return;
+    var btns = document.getElementById("labSortBtns"), out = document.getElementById("labSortV");
+    var x = fit(cv), N = 46, arr = [], ops = [], op = 0, playing = false, name = "";
+
+    function shuffle() {
+      arr = [];
+      for (var i = 0; i < N; i++) arr.push((i + 1) / N);
+      for (i = N - 1; i > 0; i--) { var j = (Math.random() * (i + 1)) | 0, t = arr[i]; arr[i] = arr[j]; arr[j] = t; }
+      ops = []; op = 0; playing = false; name = ""; out.textContent = "idle";
+      paint(-1, -1);
+    }
+    function record(kind) {
+      var a = arr.slice(), o = [];
+      function sw(i, j) { var t = a[i]; a[i] = a[j]; a[j] = t; o.push([i, j]); }
+      var i, j;
+      if (kind === "bubble") {
+        for (i = 0; i < a.length; i++) for (j = 0; j < a.length - 1 - i; j++) if (a[j] > a[j + 1]) sw(j, j + 1);
+      } else if (kind === "insertion") {
+        for (i = 1; i < a.length; i++) for (j = i; j > 0 && a[j - 1] > a[j]; j--) sw(j, j - 1);
+      } else {
+        (function qs(lo, hi) {
+          if (lo >= hi) return;
+          var p = a[hi], s = lo;
+          for (var k = lo; k < hi; k++) if (a[k] < p) { if (k !== s) sw(k, s); s++; }
+          if (s !== hi) sw(s, hi);
+          qs(lo, s - 1); qs(s + 1, hi);
+        })(0, a.length - 1);
+      }
+      return o;
+    }
+    function paint(hi, hj) {
+      var w = cv.clientWidth, h = cv.clientHeight;
+      x.clearRect(0, 0, w, h);
+      var bw = w / arr.length;
+      for (var i = 0; i < arr.length; i++) {
+        x.fillStyle = (i === hi || i === hj) ? tok("--m", "#e7679f") : tok("--ink-faint", "#616978");
+        var bh = arr[i] * (h - 14);
+        x.fillRect(i * bw + 0.5, h - bh, bw - 1, bh);
+      }
+    }
+    function step() {
+      if (!playing) return;
+      var per = Math.max(1, Math.round(ops.length / 220));
+      for (var k = 0; k < per && op < ops.length; k++, op++) {
+        var o = ops[op], t = arr[o[0]]; arr[o[0]] = arr[o[1]]; arr[o[1]] = t;
+      }
+      var last = ops[Math.min(op, ops.length - 1)] || [-1, -1];
+      paint(last[0], last[1]);
+      out.textContent = name + " · " + op + "/" + ops.length + " swaps";
+      if (op >= ops.length) { playing = false; out.textContent = name + " · done in " + ops.length + " swaps"; }
+    }
+    btns.addEventListener("click", function (e) {
+      var b = e.target.closest("button"); if (!b) return;
+      if (b.id === "labSortShuffle") { shuffle(); return; }
+      var kind = b.getAttribute("data-s"); if (!kind) return;
+      name = b.textContent;
+      ops = record(kind); op = 0; playing = true;
+      out.textContent = name + " · running";
+    });
+    whileVisible(cv, step);
+    window.addEventListener("resize", function () { clearTimeout(cv._t); cv._t = setTimeout(function () { x = fit(cv); paint(-1, -1); }, 200); });
+    shuffle();
+  })();
+
+  /* ---------------------------------------------- 12 spot the kern */
+  (function () {
+    var cv = document.getElementById("labKern");
+    if (!cv) return;
+    var out = document.getElementById("labKernV"), next = document.getElementById("labKernNext");
+    var WORDS = ["PRESSWORK", "TYPESET", "HALFTONE", "REGISTER", "OVERPRINT", "LETTERFORM", "PLATEMAKER", "COMPOSITOR"];
+    var word = "", pos = [], bad = 0, done = false, score = 0, rounds = 0;
+
+    function build() {
+      var x = fit(cv), w = cv.clientWidth, h = cv.clientHeight;
+      word = WORDS[(Math.random() * WORDS.length) | 0];
+      var size = Math.min(46, Math.max(20, w / (word.length * 0.72)));
+      x.font = "800 " + size + "px 'Big Shoulders Display', Impact, sans-serif";
+      bad = 1 + ((Math.random() * (word.length - 2)) | 0);
+      var widths = [], total = 0, i;
+      for (i = 0; i < word.length; i++) { widths.push(x.measureText(word[i]).width); total += widths[i]; }
+      var gap = size * 0.06, gaps = [];
+      for (i = 0; i < word.length - 1; i++) gaps.push(gap);
+      var kick = size * (0.30 + Math.random() * 0.22) * (Math.random() < 0.5 ? -1 : 1);
+      gaps[bad - 1] += kick;
+      var sum = total; for (i = 0; i < gaps.length; i++) sum += gaps[i];
+      var cx = (w - sum) / 2;
+      pos = [];
+      for (i = 0; i < word.length; i++) {
+        pos.push({ ch: word[i], x: cx, w: widths[i], size: size });
+        cx += widths[i] + (gaps[i] || 0);
+      }
+      done = false;
+      paint(-1);
+      out.textContent = "Click the gap that is wrong";
+    }
+    function paint(picked) {
+      var x = fit(cv), w = cv.clientWidth, h = cv.clientHeight;
+      x.clearRect(0, 0, w, h);
+      x.textBaseline = "middle";
+      for (var i = 0; i < pos.length; i++) {
+        var p = pos[i];
+        x.font = "800 " + p.size + "px 'Big Shoulders Display', Impact, sans-serif";
+        x.fillStyle = tok("--ink", "#e8eaef");
+        x.fillText(p.ch, p.x, h / 2);
+      }
+      if (done) {
+        var g = gapMid(bad);
+        x.strokeStyle = tok("--m", "#e7679f"); x.lineWidth = 2;
+        x.beginPath(); x.moveTo(g, h * 0.16); x.lineTo(g, h * 0.84); x.stroke();
+        if (picked > 0 && picked !== bad) {
+          var g2 = gapMid(picked);
+          x.strokeStyle = tok("--ink-faint", "#616978"); x.lineWidth = 1;
+          x.beginPath(); x.moveTo(g2, h * 0.22); x.lineTo(g2, h * 0.78); x.stroke();
+        }
+      }
+    }
+    function gapMid(i) { return (pos[i - 1].x + pos[i - 1].w + pos[i].x) / 2; }
+    cv.addEventListener("click", function (e) {
+      if (done || !pos.length) return;
+      var r = cv.getBoundingClientRect(), mx = e.clientX - r.left;
+      var best = 1, bd = 1e9;
+      for (var i = 1; i < pos.length; i++) {
+        var d = Math.abs(gapMid(i) - mx);
+        if (d < bd) { bd = d; best = i; }
+      }
+      done = true; rounds++;
+      if (best === bad) { score++; out.textContent = "Correct — " + score + "/" + rounds; }
+      else out.textContent = "Not quite. The pink line is the bad gap — " + score + "/" + rounds;
+      paint(best);
+    });
+    next.addEventListener("click", build);
+    window.addEventListener("resize", function () { clearTimeout(cv._t); cv._t = setTimeout(build, 250); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(build); else build();
+  })();
+
+  /* ---------------------------------------------- 13 game of life */
+  (function () {
+    var cv = document.getElementById("labLife");
+    if (!cv) return;
+    var runB = document.getElementById("labLifeRun"), randB = document.getElementById("labLifeRand");
+    var clrB = document.getElementById("labLifeClear"), val = document.getElementById("labLifeV");
+    var x = fit(cv), CW = 5, cols = 0, rows = 0, cell = null, gen = 0, running = true, acc = 0, drawing = 0;
+
+    function build() {
+      cols = Math.max(10, Math.floor(cv.clientWidth / CW));
+      rows = Math.max(8, Math.floor(cv.clientHeight / CW));
+      cell = new Uint8Array(cols * rows);
+      randomise();
+    }
+    function randomise() {
+      for (var i = 0; i < cell.length; i++) cell[i] = Math.random() < 0.28 ? 1 : 0;
+      gen = 0;
+    }
+    function tickLife() {
+      var next = new Uint8Array(cols * rows);
+      for (var y = 0; y < rows; y++) {
+        for (var xx = 0; xx < cols; xx++) {
+          var n = 0;
+          for (var dy = -1; dy <= 1; dy++) for (var dx = -1; dx <= 1; dx++) {
+            if (!dx && !dy) continue;
+            var ny = (y + dy + rows) % rows, nx = (xx + dx + cols) % cols;
+            n += cell[ny * cols + nx];
+          }
+          var i = y * cols + xx;
+          next[i] = cell[i] ? (n === 2 || n === 3 ? 1 : 0) : (n === 3 ? 1 : 0);
+        }
+      }
+      cell = next; gen++;
+    }
+    function step(now) {
+      acc++;
+      if (running && acc % 6 === 0) tickLife();
+      var w = cv.clientWidth, h = cv.clientHeight;
+      x.clearRect(0, 0, w, h);
+      x.fillStyle = tok("--ink-soft", "#8e96a5");
+      for (var y = 0; y < rows; y++) for (var xx = 0; xx < cols; xx++) {
+        if (!cell[y * cols + xx]) continue;
+        x.fillRect(xx * CW, y * CW, CW - 1, CW - 1);
+      }
+      val.textContent = "gen " + gen;
+    }
+    function paintAt(e) {
+      var r = cv.getBoundingClientRect();
+      var cx = Math.floor((e.clientX - r.left) / CW), cy = Math.floor((e.clientY - r.top) / CW);
+      if (cx < 0 || cy < 0 || cx >= cols || cy >= rows) return;
+      cell[cy * cols + cx] = 1;
+    }
+    cv.addEventListener("pointerdown", function (e) { drawing = 1; paintAt(e); e.preventDefault(); });
+    window.addEventListener("pointermove", function (e) { if (drawing) paintAt(e); });
+    window.addEventListener("pointerup", function () { drawing = 0; });
+    runB.addEventListener("click", function () {
+      running = !running;
+      runB.textContent = running ? "Pause" : "Run";
+      runB.setAttribute("aria-pressed", String(running));
+    });
+    randB.addEventListener("click", randomise);
+    clrB.addEventListener("click", function () { cell = new Uint8Array(cols * rows); gen = 0; });
+    build();
+    whileVisible(cv, step);
+    window.addEventListener("resize", function () { clearTimeout(cv._t); cv._t = setTimeout(function () { x = fit(cv); build(); }, 250); });
+  })();
+
+  /* ---------------------------------------------- 14 two pendulums */
+  (function () {
+    var cv = document.getElementById("labChaos");
+    if (!cv) return;
+    var reset = document.getElementById("labChaosReset"), val = document.getElementById("labChaosV");
+    var x = fit(cv), A = null, B = null, trailA = [], trailB = [];
+    function mk(a1) { return { a1: a1, a2: 2.2, v1: 0, v2: 0 }; }
+    function start() {
+      A = mk(2.0); B = mk(2.0 + 0.00002);
+      trailA = []; trailB = [];
+    }
+    start();
+    function integrate(p, dt) {
+      var m1 = 1, m2 = 1, L1 = 1, L2 = 1, g = 9.81;
+      var s = Math.sin(p.a1 - p.a2), c = Math.cos(p.a1 - p.a2);
+      var den = 2 * m1 + m2 - m2 * Math.cos(2 * p.a1 - 2 * p.a2);
+      var a1a = (-g * (2 * m1 + m2) * Math.sin(p.a1) - m2 * g * Math.sin(p.a1 - 2 * p.a2)
+                 - 2 * s * m2 * (p.v2 * p.v2 * L2 + p.v1 * p.v1 * L1 * c)) / (L1 * den);
+      var a2a = (2 * s * (p.v1 * p.v1 * L1 * (m1 + m2) + g * (m1 + m2) * Math.cos(p.a1)
+                 + p.v2 * p.v2 * L2 * m2 * c)) / (L2 * den);
+      p.v1 += a1a * dt; p.v2 += a2a * dt;
+      p.a1 += p.v1 * dt; p.a2 += p.v2 * dt;
+    }
+    function tipOf(p, cx, cy, L) {
+      var x1 = cx + Math.sin(p.a1) * L, y1 = cy + Math.cos(p.a1) * L;
+      return { x1: x1, y1: y1, x2: x1 + Math.sin(p.a2) * L, y2: y1 + Math.cos(p.a2) * L };
+    }
+    function step() {
+      var w = cv.clientWidth, h = cv.clientHeight;
+      for (var k = 0; k < 6; k++) { integrate(A, 0.006); integrate(B, 0.006); }
+      var cx = w / 2, cy = h * 0.34, L = Math.min(w, h) * 0.21;
+      var pa = tipOf(A, cx, cy, L), pb = tipOf(B, cx, cy, L);
+      trailA.push([pa.x2, pa.y2]); trailB.push([pb.x2, pb.y2]);
+      if (trailA.length > 260) { trailA.shift(); trailB.shift(); }
+      x.clearRect(0, 0, w, h);
+      function trail(t, col) {
+        x.strokeStyle = col; x.lineWidth = 1; x.beginPath();
+        for (var i = 0; i < t.length; i++) i ? x.lineTo(t[i][0], t[i][1]) : x.moveTo(t[i][0], t[i][1]);
+        x.stroke();
+      }
+      x.globalAlpha = 0.5; trail(trailA, tok("--c", "#3dbbdd")); trail(trailB, tok("--m", "#e7679f")); x.globalAlpha = 1;
+      function arm(p, col) {
+        x.strokeStyle = col; x.lineWidth = 2; x.lineCap = "round";
+        x.beginPath(); x.moveTo(cx, cy); x.lineTo(p.x1, p.y1); x.lineTo(p.x2, p.y2); x.stroke();
+        x.fillStyle = col;
+        x.beginPath(); x.arc(p.x2, p.y2, 4, 0, 7); x.fill();
+      }
+      arm(pa, tok("--c", "#3dbbdd")); arm(pb, tok("--m", "#e7679f"));
+      var d = Math.hypot(pa.x2 - pb.x2, pa.y2 - pb.y2) / L;
+      val.textContent = "divergence " + d.toFixed(3);
+    }
+    reset.addEventListener("click", start);
+    whileVisible(cv, step);
+    window.addEventListener("resize", function () { clearTimeout(cv._t); cv._t = setTimeout(function () { x = fit(cv); start(); }, 250); });
+  })();
+
+  /* ---------------------------------------------- 15 harmonic stack */
+  (function () {
+    var cv = document.getElementById("labWave");
+    if (!cv) return;
+    var nEl = document.getElementById("labWaveN"), nV = document.getElementById("labWaveNV");
+    function draw() {
+      var x = fit(cv), w = cv.clientWidth, h = cv.clientHeight, N = +nEl.value;
+      nV.textContent = N;
+      x.clearRect(0, 0, w, h);
+      var mid = h / 2, amp = h * 0.32;
+      /* target square */
+      x.strokeStyle = tok("--rule", "#2a3039"); x.lineWidth = 1;
+      x.beginPath();
+      for (var i = 0; i <= w; i++) {
+        var t = i / w * 2 * Math.PI;
+        var v = Math.sin(t) >= 0 ? 1 : -1;
+        i ? x.lineTo(i, mid - v * amp) : x.moveTo(i, mid - v * amp);
+      }
+      x.stroke();
+      /* partial sum of odd harmonics */
+      x.strokeStyle = tok("--c", "#3dbbdd"); x.lineWidth = 2;
+      x.beginPath();
+      for (i = 0; i <= w; i++) {
+        var tt = i / w * 2 * Math.PI, s = 0;
+        for (var k = 1; k <= N; k++) { var m = 2 * k - 1; s += Math.sin(m * tt) / m; }
+        s *= 4 / Math.PI;
+        i ? x.lineTo(i, mid - s * amp) : x.moveTo(i, mid - s * amp);
+      }
+      x.stroke();
+    }
+    nEl.addEventListener("input", draw);
+    window.addEventListener("resize", function () { clearTimeout(cv._t); cv._t = setTimeout(draw, 200); });
+    draw();
+  })();
+
+  /* ---------------------------------------------- 16 pathfinder */
+  (function () {
+    var cv = document.getElementById("labPath");
+    if (!cv) return;
+    var btns = document.getElementById("labPathBtns"), val = document.getElementById("labPathV");
+    var x = fit(cv), CW = 9, cols = 0, rows = 0, wall = null, mode = "astar";
+    var open = [], came = null, gsc = null, seen = null, done = false, path = [], startI = 0, goalI = 0, explored = 0;
+
+    function build() {
+      cols = Math.max(12, Math.floor(cv.clientWidth / CW));
+      rows = Math.max(8, Math.floor(cv.clientHeight / CW));
+      wall = new Uint8Array(cols * rows);
+      for (var i = 0; i < wall.length; i++) wall[i] = Math.random() < 0.28 ? 1 : 0;
+      startI = 1 * cols + 1; goalI = (rows - 2) * cols + (cols - 2);
+      wall[startI] = 0; wall[goalI] = 0;
+      reset();
+    }
+    function h(i) {
+      var ax = i % cols, ay = (i / cols) | 0, bx = goalI % cols, by = (goalI / cols) | 0;
+      return Math.abs(ax - bx) + Math.abs(ay - by);
+    }
+    function reset() {
+      came = new Int32Array(cols * rows).fill(-1);
+      gsc = new Float64Array(cols * rows).fill(Infinity);
+      seen = new Uint8Array(cols * rows);
+      gsc[startI] = 0;
+      open = [{ i: startI, f: mode === "astar" ? h(startI) : 0 }];
+      done = false; path = []; explored = 0;
+    }
+    function stepSearch() {
+      for (var n = 0; n < 14 && open.length && !done; n++) {
+        open.sort(function (a, b) { return a.f - b.f; });
+        var cur = open.shift().i;
+        if (seen[cur]) { n--; continue; }
+        seen[cur] = 1; explored++;
+        if (cur === goalI) {
+          done = true;
+          var c = cur; path = [];
+          while (c !== -1) { path.push(c); c = came[c]; }
+          break;
+        }
+        var cx = cur % cols, cy = (cur / cols) | 0;
+        var dirs = [[1,0],[-1,0],[0,1],[0,-1]];
+        for (var d = 0; d < 4; d++) {
+          var nx = cx + dirs[d][0], ny = cy + dirs[d][1];
+          if (nx < 0 || ny < 0 || nx >= cols || ny >= rows) continue;
+          var ni = ny * cols + nx;
+          if (wall[ni] || seen[ni]) continue;
+          var ng = gsc[cur] + 1;
+          if (ng < gsc[ni]) {
+            gsc[ni] = ng; came[ni] = cur;
+            open.push({ i: ni, f: mode === "astar" ? ng + h(ni) : ng });
+          }
+        }
+      }
+    }
+    function step() {
+      if (!done) stepSearch();
+      var w = cv.clientWidth, hh = cv.clientHeight;
+      x.clearRect(0, 0, w, hh);
+      for (var i = 0; i < cols * rows; i++) {
+        var px = (i % cols) * CW, py = ((i / cols) | 0) * CW;
+        if (wall[i]) { x.fillStyle = tok("--rule", "#2a3039"); x.fillRect(px, py, CW - 1, CW - 1); }
+        else if (seen[i]) { x.fillStyle = tok("--c", "#3dbbdd"); x.globalAlpha = 0.30; x.fillRect(px, py, CW - 1, CW - 1); x.globalAlpha = 1; }
+      }
+      x.fillStyle = tok("--m", "#e7679f");
+      for (i = 0; i < path.length; i++) {
+        x.fillRect((path[i] % cols) * CW, ((path[i] / cols) | 0) * CW, CW - 1, CW - 1);
+      }
+      val.textContent = explored + " squares looked at" + (done ? (path.length ? " · route found" : "") : "");
+      if (done && !path.length) val.textContent = explored + " squares · no route";
+    }
+    btns.addEventListener("click", function (e) {
+      var b = e.target.closest("button"); if (!b) return;
+      if (b.id === "labPathMaze") { build(); return; }
+      var m = b.getAttribute("data-p"); if (!m) return;
+      mode = m;
+      [].forEach.call(btns.querySelectorAll("button[data-p]"), function (o) { o.setAttribute("aria-pressed", String(o === b)); });
+      reset();
+    });
+    build();
+    whileVisible(cv, step);
+    window.addEventListener("resize", function () { clearTimeout(cv._t); cv._t = setTimeout(function () { x = fit(cv); build(); }, 250); });
+  })();
+
+  /* ---------------------------------------------- 17 flow field */
+  (function () {
+    var cv = document.getElementById("labFlow");
+    if (!cv) return;
+    var sEl = document.getElementById("labFlowS"), sV = document.getElementById("labFlowSV");
+    var tEl = document.getElementById("labFlowT"), tV = document.getElementById("labFlowTV");
+    var x = fit(cv), P = [], t = 0;
+    function hash(a, b) { var n = Math.sin(a * 127.1 + b * 311.7) * 43758.5453; return n - Math.floor(n); }
+    function vn(px, py) {
+      var ix = Math.floor(px), iy = Math.floor(py), fx = px - ix, fy = py - iy;
+      fx = fx * fx * (3 - 2 * fx); fy = fy * fy * (3 - 2 * fy);
+      var a = hash(ix, iy), b = hash(ix + 1, iy), c = hash(ix, iy + 1), d = hash(ix + 1, iy + 1);
+      return (a * (1 - fx) + b * fx) * (1 - fy) + (c * (1 - fx) + d * fx) * fy;
+    }
+    function build() {
+      var w = cv.clientWidth, h = cv.clientHeight;
+      P = [];
+      for (var i = 0; i < 700; i++) P.push({ x: Math.random() * w, y: Math.random() * h });
+      x.fillStyle = tok("--paper-2", "#161a22"); x.fillRect(0, 0, w, h);
+    }
+    build();
+    function step() {
+      var w = cv.clientWidth, h = cv.clientHeight;
+      var sc = (+sEl.value) / 1400, turb = (+tEl.value) / 100;
+      sV.textContent = sEl.value; tV.textContent = tEl.value;
+      t += 0.0016;
+      x.fillStyle = tok("--paper-2", "#161a22");
+      x.globalAlpha = 0.09; x.fillRect(0, 0, w, h); x.globalAlpha = 1;
+      x.strokeStyle = tok("--c", "#3dbbdd"); x.lineWidth = 1;
+      x.beginPath();
+      for (var i = 0; i < P.length; i++) {
+        var p = P[i];
+        var a = vn(p.x * sc, p.y * sc + t * 40) * Math.PI * 2 * (1 + turb * 2);
+        var nx = p.x + Math.cos(a) * 1.5, ny = p.y + Math.sin(a) * 1.5;
+        x.moveTo(p.x, p.y); x.lineTo(nx, ny);
+        p.x = nx; p.y = ny;
+        if (p.x < 0 || p.x > w || p.y < 0 || p.y > h) { p.x = Math.random() * w; p.y = Math.random() * h; }
+      }
+      x.stroke();
+    }
+    [sEl, tEl].forEach(function (el) { el.addEventListener("input", function () { build(); }); });
+    whileVisible(cv, step);
+    window.addEventListener("resize", function () { clearTimeout(cv._t); cv._t = setTimeout(function () { x = fit(cv); build(); }, 250); });
+  })();
+
+  /* ---------------------------------------------- 18 modular scale */
+  (function () {
+    var host = document.getElementById("labScale");
+    if (!host) return;
+    var rEl = document.getElementById("labScaleR"), rV = document.getElementById("labScaleRV");
+    var nameEl = document.getElementById("labScaleName");
+    var NAMES = [
+      [1.067, "Minor second — very tight, almost no contrast."],
+      [1.125, "Major second — quiet and close."],
+      [1.200, "Minor third — gentle steps."],
+      [1.250, "Major third — a common, comfortable choice."],
+      [1.333, "Perfect fourth — clear separation."],
+      [1.414, "Augmented fourth — dramatic."],
+      [1.500, "Perfect fifth — bold jumps."],
+      [1.618, "Golden ratio — very large contrast."]
+    ];
+    function render() {
+      var r = (+rEl.value) / 1000;
+      rV.textContent = r.toFixed(3);
+      var best = NAMES[0];
+      for (var i = 0; i < NAMES.length; i++) if (Math.abs(NAMES[i][0] - r) < Math.abs(best[0] - r)) best = NAMES[i];
+      nameEl.textContent = best[1];
+      var base = 12, steps = 5, out = "";
+      for (var s = steps - 1; s >= 0; s--) {
+        var size = base * Math.pow(r, s);
+        out += '<div style="display:flex;align-items:baseline;gap:10px;overflow:hidden">' +
+               '<span style="font-family:var(--f-mono);font-size:9px;letter-spacing:.1em;color:var(--ink-faint);min-width:46px">' +
+               size.toFixed(1) + 'px</span>' +
+               '<span style="font-family:var(--f-display);font-weight:800;text-transform:uppercase;line-height:1;' +
+               'font-size:' + Math.min(size, 44).toFixed(1) + 'px;white-space:nowrap">Press proof</span></div>';
+      }
+      host.innerHTML = out;
+    }
+    rEl.addEventListener("input", render);
+    render();
+  })();
+
+  /* ---------------------------------------------- 19 gradient descent */
+  (function () {
+    var cv = document.getElementById("labDesc");
+    if (!cv) return;
+    var lEl = document.getElementById("labDescL"), lV = document.getElementById("labDescLV");
+    var go = document.getElementById("labDescGo"), val = document.getElementById("labDescV");
+    var x = fit(cv), px = -2.4, steps = 0, trail = [], diverged = false;
+    function f(v) { return 0.32 * v * v + Math.sin(v * 2.1) * 0.85; }
+    function df(v) { return 0.64 * v + Math.cos(v * 2.1) * 2.1 * 0.85; }
+    function reset() { px = -2.4; steps = 0; trail = []; diverged = false; }
+    function step() {
+      var w = cv.clientWidth, h = cv.clientHeight;
+      var lr = (+lEl.value) / 100; lV.textContent = lr.toFixed(2);
+      if (!diverged && steps < 400) {
+        var g = df(px);
+        px -= lr * g;
+        steps++;
+        if (!isFinite(px) || Math.abs(px) > 6) { diverged = true; }
+        else trail.push(px);
+        if (trail.length > 90) trail.shift();
+      }
+      var X0 = -3.2, X1 = 3.2, pad = 16;
+      function sx(v) { return pad + (v - X0) / (X1 - X0) * (w - pad * 2); }
+      function sy(v) { return h - pad - (v + 1.2) / 5.4 * (h - pad * 2); }
+      x.clearRect(0, 0, w, h);
+      x.strokeStyle = tok("--ink-faint", "#616978"); x.lineWidth = 2;
+      x.beginPath();
+      for (var i = 0; i <= 120; i++) {
+        var v = X0 + (X1 - X0) * i / 120;
+        i ? x.lineTo(sx(v), sy(f(v))) : x.moveTo(sx(v), sy(f(v)));
+      }
+      x.stroke();
+      x.strokeStyle = tok("--c", "#3dbbdd"); x.lineWidth = 1;
+      x.beginPath();
+      for (i = 0; i < trail.length; i++) {
+        var t = trail[i];
+        i ? x.lineTo(sx(t), sy(f(t))) : x.moveTo(sx(t), sy(f(t)));
+      }
+      x.stroke();
+      if (!diverged) {
+        x.fillStyle = tok("--m", "#e7679f");
+        x.beginPath(); x.arc(sx(px), sy(f(px)), 6, 0, 7); x.fill();
+        val.textContent = "step " + steps + " · loss " + f(px).toFixed(3);
+      } else {
+        x.fillStyle = tok("--m", "#e7679f");
+        x.font = "500 11px 'IBM Plex Mono', monospace";
+        x.fillText("diverged — step size too large", pad, 22);
+        val.textContent = "diverged after " + steps + " steps";
+      }
+    }
+    go.addEventListener("click", reset);
+    lEl.addEventListener("input", reset);
+    whileVisible(cv, step);
+    window.addEventListener("resize", function () { clearTimeout(cv._t); cv._t = setTimeout(function () { x = fit(cv); }, 250); });
+  })();
+
+  /* ---------------------------------------------- 20 raycast light */
+  (function () {
+    var cv = document.getElementById("labRay");
+    if (!cv) return;
+    var x = fit(cv), segs = [], lamp = { x: 0, y: 0 }, manual = false, t = 0;
+    function build() {
+      var w = cv.clientWidth, h = cv.clientHeight;
+      segs = [];
+      function box(bx, by, bw, bh) {
+        segs.push([bx, by, bx + bw, by], [bx + bw, by, bx + bw, by + bh],
+                  [bx + bw, by + bh, bx, by + bh], [bx, by + bh, bx, by]);
+      }
+      box(0.5, 0.5, w - 1, h - 1);
+      box(w * 0.16, h * 0.20, w * 0.14, h * 0.20);
+      box(w * 0.44, h * 0.52, w * 0.20, h * 0.16);
+      box(w * 0.70, h * 0.16, w * 0.12, h * 0.34);
+      box(w * 0.24, h * 0.66, w * 0.12, h * 0.14);
+      lamp.x = w * 0.5; lamp.y = h * 0.30;
+    }
+    build();
+    function hit(ox, oy, dx, dy) {
+      var best = Infinity;
+      for (var i = 0; i < segs.length; i++) {
+        var s = segs[i], x1 = s[0], y1 = s[1], x2 = s[2], y2 = s[3];
+        var r = (x2 - x1), q = (y2 - y1);
+        var den = dx * q - dy * r;
+        if (Math.abs(den) < 1e-9) continue;
+        var tt = ((x1 - ox) * q - (y1 - oy) * r) / den;
+        var uu = ((x1 - ox) * dy - (y1 - oy) * dx) / den;
+        if (tt > 0.001 && uu >= 0 && uu <= 1 && tt < best) best = tt;
+      }
+      return best;
+    }
+    function step() {
+      var w = cv.clientWidth, h = cv.clientHeight;
+      if (!manual) { t += 0.006; lamp.x = w * (0.5 + Math.cos(t) * 0.26); lamp.y = h * (0.45 + Math.sin(t * 1.3) * 0.22); }
+      var angs = [];
+      for (var i = 0; i < segs.length; i++) {
+        var s = segs[i];
+        angs.push(Math.atan2(s[1] - lamp.y, s[0] - lamp.x), Math.atan2(s[3] - lamp.y, s[2] - lamp.x));
+      }
+      var pts = [];
+      for (i = 0; i < angs.length; i++) {
+        for (var d = -0.0006; d <= 0.0006; d += 0.0006) {
+          var a = angs[i] + d, dx = Math.cos(a), dy = Math.sin(a);
+          var dist = hit(lamp.x, lamp.y, dx, dy);
+          if (isFinite(dist)) pts.push([a, lamp.x + dx * dist, lamp.y + dy * dist]);
+        }
+      }
+      pts.sort(function (p, q) { return p[0] - q[0]; });
+      x.fillStyle = tok("--paper-2", "#161a22"); x.fillRect(0, 0, w, h);
+      if (pts.length) {
+        var g = x.createRadialGradient(lamp.x, lamp.y, 2, lamp.x, lamp.y, Math.max(w, h) * 0.7);
+        g.addColorStop(0, "rgba(255,232,170,.85)"); g.addColorStop(1, "rgba(255,232,170,0)");
+        x.fillStyle = g;
+        x.beginPath(); x.moveTo(pts[0][1], pts[0][2]);
+        for (i = 1; i < pts.length; i++) x.lineTo(pts[i][1], pts[i][2]);
+        x.closePath(); x.fill();
+      }
+      x.strokeStyle = tok("--ink-soft", "#8e96a5"); x.lineWidth = 1.5;
+      for (i = 0; i < segs.length; i++) {
+        x.beginPath(); x.moveTo(segs[i][0], segs[i][1]); x.lineTo(segs[i][2], segs[i][3]); x.stroke();
+      }
+      x.fillStyle = "#ffe8aa";
+      x.beginPath(); x.arc(lamp.x, lamp.y, 4, 0, 7); x.fill();
+    }
+    cv.addEventListener("pointermove", function (e) {
+      var r = cv.getBoundingClientRect();
+      manual = true; lamp.x = e.clientX - r.left; lamp.y = e.clientY - r.top;
+    });
+    cv.addEventListener("pointerleave", function () { manual = false; });
+    whileVisible(cv, step);
+    window.addEventListener("resize", function () { clearTimeout(cv._t); cv._t = setTimeout(function () { x = fit(cv); build(); }, 250); });
+  })();
+
+  /* ---------------------------------------------- 21 colour vision */
+  (function () {
+    var cv = document.getElementById("labCvd");
+    if (!cv) return;
+    var btns = document.getElementById("labCvdBtns"), mode = "normal";
+    var M = {
+      normal: [1,0,0, 0,1,0, 0,0,1],
+      prot:   [0.567,0.433,0, 0.558,0.442,0, 0,0.242,0.758],
+      deut:   [0.625,0.375,0, 0.700,0.300,0, 0,0.300,0.700],
+      trit:   [0.950,0.050,0, 0,0.433,0.567, 0,0.475,0.525]
+    };
+    function conv(hex, m) {
+      var n = parseInt(hex.slice(1), 16);
+      var r = (n >> 16) & 255, g = (n >> 8) & 255, b = n & 255;
+      var R = Math.min(255, Math.max(0, m[0]*r + m[1]*g + m[2]*b));
+      var G = Math.min(255, Math.max(0, m[3]*r + m[4]*g + m[5]*b));
+      var B = Math.min(255, Math.max(0, m[6]*r + m[7]*g + m[8]*b));
+      return "rgb(" + (R|0) + "," + (G|0) + "," + (B|0) + ")";
+    }
+    function draw() {
+      var x = fit(cv), w = cv.clientWidth, h = cv.clientHeight;
+      var cols = [
+        [tok("--c", "#0e8fb6"), "CYAN"], [tok("--m", "#c6316f"), "MAGENTA"],
+        [tok("--y", "#d9a222"), "YELLOW"], ["#3f9d5a", "PASS"], ["#c0392b", "FAIL"]
+      ];
+      var m = M[mode];
+      x.clearRect(0, 0, w, h);
+      var bw = w / cols.length;
+      for (var i = 0; i < cols.length; i++) {
+        var hex = cols[i][0];
+        if (hex.charAt(0) !== "#") hex = "#888888";
+        x.fillStyle = conv(hex, m);
+        x.fillRect(i * bw, 0, bw - 1, h * 0.68);
+        x.fillStyle = tok("--ink-soft", "#8e96a5");
+        x.font = "500 9px 'IBM Plex Mono', monospace";
+        x.fillText(cols[i][1], i * bw + 6, h * 0.68 + 18);
+      }
+      x.fillStyle = tok("--ink-faint", "#616978");
+      x.font = "500 9px 'IBM Plex Mono', monospace";
+      x.fillText(mode === "normal" ? "AS DESIGNED" : "SIMULATED", 6, h - 8);
+    }
+    btns.addEventListener("click", function (e) {
+      var b = e.target.closest("button[data-v]"); if (!b) return;
+      mode = b.getAttribute("data-v");
+      [].forEach.call(btns.querySelectorAll("button"), function (o) { o.setAttribute("aria-pressed", String(o === b)); });
+      draw();
+    });
+    window.addEventListener("resize", function () { clearTimeout(cv._t); cv._t = setTimeout(draw, 200); });
+    draw();
+  })();
+
+  /* ---------------------------------------------- 22 voronoi */
+  (function () {
+    var cv = document.getElementById("labVor");
+    if (!cv) return;
+    var clr = document.getElementById("labVorClear"), val = document.getElementById("labVorV");
+    var seeds = [];
+    function draw() {
+      var x = fit(cv), w = cv.clientWidth, h = cv.clientHeight;
+      x.fillStyle = tok("--paper-2", "#161a22"); x.fillRect(0, 0, w, h);
+      val.textContent = seeds.length ? seeds.length + " seeds" : "click to add seeds";
+      if (!seeds.length) return;
+      var W = Math.min(150, w | 0), H = Math.max(1, Math.round(W * h / w));
+      var off = document.createElement("canvas"); off.width = W; off.height = H;
+      var g = off.getContext("2d"), im = g.createImageData(W, H), d = im.data;
+      for (var y = 0; y < H; y++) {
+        for (var xx = 0; xx < W; xx++) {
+          var px = xx / W * w, py = y / H * h, best = 1e9, bi = 0;
+          for (var s = 0; s < seeds.length; s++) {
+            var dx = seeds[s].x - px, dy = seeds[s].y - py, dd = dx * dx + dy * dy;
+            if (dd < best) { best = dd; bi = s; }
+          }
+          var c = seeds[bi].c, o = (y * W + xx) * 4;
+          d[o] = c[0]; d[o + 1] = c[1]; d[o + 2] = c[2]; d[o + 3] = 255;
+        }
+      }
+      g.putImageData(im, 0, 0);
+      x.imageSmoothingEnabled = true;
+      x.drawImage(off, 0, 0, w, h);
+      x.fillStyle = tok("--ink", "#e8eaef");
+      for (var i = 0; i < seeds.length; i++) {
+        x.beginPath(); x.arc(seeds[i].x, seeds[i].y, 2.5, 0, 7); x.fill();
+      }
+    }
+    cv.addEventListener("click", function (e) {
+      var r = cv.getBoundingClientRect();
+      seeds.push({
+        x: e.clientX - r.left, y: e.clientY - r.top,
+        c: [40 + Math.random() * 90 | 0, 70 + Math.random() * 110 | 0, 90 + Math.random() * 130 | 0]
+      });
+      draw();
+    });
+    clr.addEventListener("click", function () { seeds = []; draw(); });
+    window.addEventListener("resize", function () { clearTimeout(cv._t); cv._t = setTimeout(draw, 200); });
+    draw();
+  })();
+
+  /* ---------------------------------------------- 23 avalanche */
+  (function () {
+    var cv = document.getElementById("labHash");
+    if (!cv) return;
+    var inp = document.getElementById("labHashIn"), val = document.getElementById("labHashV");
+    var prev = null;
+    function fnv(str) {
+      var h = 0x811c9dc5;
+      for (var i = 0; i < str.length; i++) {
+        h ^= str.charCodeAt(i);
+        h = (h + ((h << 1) + (h << 4) + (h << 7) + (h << 8) + (h << 24))) >>> 0;
+      }
+      return h >>> 0;
+    }
+    function draw() {
+      var x = fit(cv), w = cv.clientWidth, h = cv.clientHeight;
+      var hash = fnv(inp.value);
+      var bits = [];
+      for (var i = 31; i >= 0; i--) bits.push((hash >>> i) & 1);
+      var flips = 0;
+      if (prev !== null) for (i = 0; i < 32; i++) if (bits[i] !== prev[i]) flips++;
+      x.clearRect(0, 0, w, h);
+      var cols = 8, rows = 4;
+      var s = Math.min((w - 12) / cols, (h - 26) / rows);
+      var ox = (w - s * cols) / 2, oy = 4;
+      for (i = 0; i < 32; i++) {
+        var cx = ox + (i % cols) * s, cy = oy + ((i / cols) | 0) * s;
+        var changed = prev !== null && bits[i] !== prev[i];
+        x.fillStyle = bits[i] ? (changed ? tok("--m", "#e7679f") : tok("--ink-soft", "#8e96a5"))
+                              : (changed ? tok("--c", "#3dbbdd") : tok("--rule", "#2a3039"));
+        x.fillRect(cx + 1, cy + 1, s - 3, s - 3);
+      }
+      x.fillStyle = tok("--ink-faint", "#616978");
+      x.font = "500 9px 'IBM Plex Mono', monospace";
+      x.fillText("0x" + hash.toString(16).padStart(8, "0"), ox, oy + rows * s + 13);
+      val.textContent = prev === null ? "type to see bits flip"
+        : flips + " of 32 bits flipped";
+      prev = bits;
+    }
+    inp.addEventListener("input", draw);
+    window.addEventListener("resize", function () { clearTimeout(cv._t); cv._t = setTimeout(function () { prev = null; draw(); }, 200); });
+    draw();
+  })();
+
+  /* ---------------------------------------------- 24 compression */
+  (function () {
+    var cv = document.getElementById("labRle");
+    if (!cv) return;
+    var val = document.getElementById("labRleV");
+    var stripesB = document.getElementById("labRleStripes"), noiseB = document.getElementById("labRleNoise"), clrB = document.getElementById("labRleClear");
+    var CW = 7, cols = 0, rows = 0, cell = null, drawing = 0;
+    function build() {
+      cols = Math.max(12, Math.floor(cv.clientWidth / CW));
+      rows = Math.max(6, Math.floor(cv.clientHeight / CW));
+      cell = new Uint8Array(cols * rows);
+      stripes();
+    }
+    function stripes() { for (var i = 0; i < cell.length; i++) cell[i] = (((i / cols) | 0) >> 2) & 1; draw(); }
+    function noise() { for (var i = 0; i < cell.length; i++) cell[i] = Math.random() < 0.5 ? 1 : 0; draw(); }
+    function draw() {
+      var x = fit(cv), w = cv.clientWidth, h = cv.clientHeight;
+      x.clearRect(0, 0, w, h);
+      x.fillStyle = tok("--ink-soft", "#8e96a5");
+      for (var y = 0; y < rows; y++) for (var xx = 0; xx < cols; xx++) {
+        if (cell[y * cols + xx]) x.fillRect(xx * CW, y * CW, CW - 1, CW - 1);
+      }
+      var runs = 1;
+      for (var i = 1; i < cell.length; i++) if (cell[i] !== cell[i - 1]) runs++;
+      var raw = Math.ceil(cell.length / 8), rle = runs * 2;
+      var pct = Math.round(rle / raw * 100);
+      val.textContent = raw + " B raw → " + rle + " B encoded (" + pct + "%)" + (rle > raw ? " — bigger!" : "");
+    }
+    function paintAt(e, v) {
+      var r = cv.getBoundingClientRect();
+      var cx = Math.floor((e.clientX - r.left) / CW), cy = Math.floor((e.clientY - r.top) / CW);
+      if (cx < 0 || cy < 0 || cx >= cols || cy >= rows) return;
+      cell[cy * cols + cx] = v; draw();
+    }
+    cv.addEventListener("pointerdown", function (e) { drawing = 1; paintAt(e, 1); e.preventDefault(); });
+    window.addEventListener("pointermove", function (e) { if (drawing) paintAt(e, 1); });
+    window.addEventListener("pointerup", function () { drawing = 0; });
+    stripesB.addEventListener("click", stripes);
+    noiseB.addEventListener("click", noise);
+    clrB.addEventListener("click", function () { cell = new Uint8Array(cols * rows); draw(); });
+    build();
+    window.addEventListener("resize", function () { clearTimeout(cv._t); cv._t = setTimeout(build, 250); });
+  })();
 })();
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
