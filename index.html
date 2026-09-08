@@ -528,6 +528,17 @@ body{background:var(--paper);margin:0}
 .pp-lab-val{font-family:var(--f-mono);font-size:10px;letter-spacing:.06em;color:var(--ink);font-variant-numeric:tabular-nums;min-width:44px;text-align:right}
 .pp-lab-note{font-family:var(--f-mono);font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-faint);line-height:1.7}
 .pp-game-d{font-size:13px;line-height:1.6;color:var(--ink-soft);margin:0}
+.pp-lab-full{margin-left:auto}
+.pp-lab.is-max{
+  position:fixed;inset:0;z-index:140;margin:0;max-width:none;border-radius:0;
+  background:var(--card);overflow:auto;
+  display:flex;flex-direction:column;gap:12px;
+  padding:clamp(14px,2.4vw,30px) clamp(14px,3vw,44px) clamp(14px,2.4vw,26px)
+}
+.pp-lab.is-max .pp-lab-stage{flex:1 1 auto;min-height:0}
+.pp-lab.is-max .pp-lab-stage canvas{height:100%}
+.pp-lab.is-max .pp-game-d{max-width:72ch}
+.pp-lab.is-max .pp-lab-ctrl{flex:none}
 .pp-lab-btn{
   font-family:var(--f-mono);font-size:10px;letter-spacing:.11em;text-transform:uppercase;
   padding:8px 13px;border:1px solid var(--rule);background:transparent;color:var(--ink-soft);
@@ -1310,7 +1321,7 @@ body{background:var(--paper);margin:0}
         <h2 class="pp-dis pp-sec-title">Fun game<br>activities</h2>
         <span class="pp-sec-note">20 games</span>
       </div>
-      <p class="pp-lab-intro">Twenty small games, no instructions longer than a sentence. Nothing here is trying to teach you anything — that is what the Lab is for. These exist because a page you can play with is a page people stay on.</p>
+      <p class="pp-lab-intro">Twenty small games, no instructions longer than a sentence. Any of them opens full screen. Nothing here is trying to teach you anything — that is what the Lab is for. These exist because a page you can play with is a page people stay on.</p>
       <div class="pp-labs">
         <article class="pp-lab" style="--plate:var(--c)">
           <span class="pp-mono pp-lab-n">Game 01</span>
@@ -5981,6 +5992,77 @@ body{background:var(--paper);margin:0}
     go.addEventListener("click", function () { pos = 0; spd = 0.016; live = true; frozen = 0; out.textContent = "go"; });
     loop(cv, step);
     window.addEventListener("resize", function () { clearTimeout(cv._t); cv._t = setTimeout(function () { x = fit(cv); }, 250); });
+  })();
+
+  /* ---------------------------------------------------------------
+     FULL SCREEN
+     Every game card gets a button. Real fullscreen where the browser
+     allows it; a fixed overlay everywhere else (iOS refuses fullscreen
+     on anything but a video), so the button always does something.
+     --------------------------------------------------------------- */
+  (function () {
+    var sec = document.getElementById("games"); if (!sec) return;
+    var open = null, prevOverflow = "";
+
+    function reflow() {
+      /* the games resize their canvases off the window resize event */
+      setTimeout(function () { window.dispatchEvent(new Event("resize")); }, 60);
+      setTimeout(function () { window.dispatchEvent(new Event("resize")); }, 420);
+    }
+    function fsElement() { return document.fullscreenElement || document.webkitFullscreenElement || null; }
+    function request(elm) {
+      var f = elm.requestFullscreen || elm.webkitRequestFullscreen;
+      if (!f) return;
+      try { var p = f.call(elm); if (p && p.catch) p.catch(function () {}); } catch (e) {}
+    }
+    function release() {
+      var f = document.exitFullscreen || document.webkitExitFullscreen;
+      if (!f || !fsElement()) return;
+      try { var p = f.call(document); if (p && p.catch) p.catch(function () {}); } catch (e) {}
+    }
+    function enter(card, btn) {
+      if (open) exit();
+      open = card;
+      prevOverflow = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+      card.classList.add("is-max");
+      btn.textContent = "Exit full screen";
+      request(card);
+      var cv = card.querySelector("canvas");
+      if (cv) { try { cv.focus({ preventScroll: true }); } catch (e) { cv.focus(); } }
+      reflow();
+    }
+    function exit() {
+      if (!open) return;
+      var card = open; open = null;
+      card.classList.remove("is-max");
+      document.body.style.overflow = prevOverflow;
+      var b = card.querySelector("[data-full]");
+      if (b) b.textContent = "Full screen";
+      release();
+      reflow();
+    }
+
+    [].forEach.call(sec.querySelectorAll(".pp-lab"), function (card) {
+      var row = card.querySelector(".pp-lab-row"); if (!row) return;
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "pp-lab-btn pp-lab-full";
+      b.setAttribute("data-full", "");
+      b.setAttribute("title", "Play this one full screen");
+      b.textContent = "Full screen";
+      var start = row.querySelector("button");
+      if (start && start.nextSibling) row.insertBefore(b, start.nextSibling);
+      else row.appendChild(b);
+      b.addEventListener("click", function () {
+        if (open === card) exit(); else enter(card, b);
+      });
+    });
+
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") exit(); });
+    function changed() { if (!fsElement() && open) exit(); else reflow(); }
+    document.addEventListener("fullscreenchange", changed);
+    document.addEventListener("webkitfullscreenchange", changed);
   })();
 
   /* the canvases bake theme tokens in at paint time, so a theme switch has to
