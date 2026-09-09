@@ -539,6 +539,34 @@ body{background:var(--paper);margin:0}
 .pp-lab.is-max .pp-lab-stage canvas{height:100%}
 .pp-lab.is-max .pp-game-d{max-width:72ch}
 .pp-lab.is-max .pp-lab-ctrl{flex:none}
+.pp-sh-wrap{grid-template-columns:1fr}
+.pp-mk-wrap{grid-template-columns:repeat(auto-fill,minmax(360px,1fr))}
+.pp-mk-stage canvas{height:clamp(230px,30vh,300px);cursor:crosshair}
+.pp-mk-tag{font-family:var(--f-mono);font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-faint)}
+.pp-lab-btn.is-on{border-color:var(--plate,var(--c));color:var(--ink)}
+.pp-lab.is-max .pp-mk-stage{flex:1 1 auto;min-height:0}
+.pp-lab.is-max .pp-mk-stage canvas{height:100%}
+.pp-sh-presets{display:flex;flex-wrap:wrap;gap:7px;align-items:center}
+.pp-sh-split{display:grid;gap:12px;grid-template-columns:1fr;min-width:0}
+@media (min-width:940px){.pp-sh-split{grid-template-columns:minmax(0,1.05fr) minmax(0,1fr)}}
+.pp-sh-code{
+  display:block;width:100%;box-sizing:border-box;min-height:clamp(240px,34vh,340px);
+  font-family:var(--f-mono);font-size:11.5px;line-height:1.7;tab-size:2;
+  color:var(--ink);background:var(--paper-2);border:1px solid var(--rule);border-radius:2px;
+  padding:12px 13px;resize:vertical;white-space:pre;overflow:auto
+}
+.pp-sh-code:focus{outline:none;border-color:var(--c)}
+.pp-sh-stage canvas{height:clamp(240px,34vh,340px)}
+.pp-sh-log{
+  font-family:var(--f-mono);font-size:10.5px;line-height:1.75;margin:0;
+  color:var(--ink-faint);white-space:pre-wrap;max-height:96px;overflow:auto
+}
+.pp-sh-log.is-bad{color:var(--m)}
+.pp-sh-hint{font-family:var(--f-mono);font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-faint)}
+.pp-lab.is-max .pp-sh-split{flex:1 1 auto;min-height:0;grid-template-rows:minmax(0,1fr)}
+.pp-lab.is-max .pp-sh-split>*{min-height:0}
+.pp-lab.is-max .pp-sh-code{height:100%;min-height:0}
+.pp-lab.is-max .pp-sh-stage canvas{height:100%}
 .pp-lab-btn{
   font-family:var(--f-mono);font-size:10px;letter-spacing:.11em;text-transform:uppercase;
   padding:8px 13px;border:1px solid var(--rule);background:transparent;color:var(--ink-soft);
@@ -640,6 +668,8 @@ body{background:var(--paper);margin:0}
         <a href="#process">Principles</a>
         <a href="#contact">Contact</a>
         <a href="#play">Play</a>
+        <a href="#shader">Shader</a>
+        <a href="#make">Make</a>
         <a href="#detour">Detour</a>
         <a href="#games">Games</a>
       </nav>
@@ -1295,6 +1325,110 @@ body{background:var(--paper);margin:0}
     </div>
   </section>
 
+  <!-- ======================= SHADER PLAYGROUND ======================= -->
+  <section class="pp-sec" id="shader" style="--plate:var(--c)">
+    <i class="pp-reg pp-reg-tl"><span></span></i><i class="pp-reg pp-reg-tr"><span></span></i>
+    <div class="pp-shell">
+      <div class="pp-sec-head">
+        <span class="pp-mono pp-plate">Plate C &mdash; Live code</span>
+        <h2 class="pp-dis pp-sec-title">Shader<br>playground</h2>
+        <span class="pp-sec-note">Runs on your GPU</span>
+      </div>
+      <p class="pp-lab-intro">The carrot above is drawn by a program that runs once for every pixel on your screen, sixty times a second. This is that same machinery, handed over to you. Change a number, and the picture changes before you finish typing. Nothing is sent anywhere &mdash; it compiles on your own graphics card. Break it as much as you like; the last working version keeps drawing while you fix it.</p>
+      <div class="pp-labs pp-sh-wrap">
+        <article class="pp-lab pp-sh" style="--plate:var(--c)">
+          <span class="pp-mono pp-lab-n">Fragment shader</span>
+          <h3>Write it yourself</h3>
+          <p class="pp-game-d">Five starting points. <b>u_time</b> counts seconds, <b>u_res</b> is the canvas size in pixels, <b>u_mouse</b> follows your pointer.</p>
+          <div class="pp-sh-presets" id="shPresets"></div>
+          <div class="pp-sh-split">
+            <textarea class="pp-sh-code" id="shCode" spellcheck="false" autocomplete="off" autocapitalize="off" autocorrect="off" aria-label="Fragment shader source"></textarea>
+            <div class="pp-lab-stage pp-sh-stage"><canvas id="shView"></canvas></div>
+          </div>
+          <pre class="pp-sh-log" id="shLog">Ready.</pre>
+          <div class="pp-lab-ctrl">
+            <div class="pp-lab-row">
+              <button class="pp-lab-btn" id="shRun">Run</button>
+              <button class="pp-lab-btn" id="shReset">Reset</button>
+              <button class="pp-lab-btn" id="shFull">Full screen</button>
+              <span class="pp-lab-val" id="shFps" style="min-width:auto">&mdash;</span>
+            </div>
+            <p class="pp-sh-hint">Cmd / Ctrl + Enter to run &middot; it also runs on its own when you stop typing &middot; your code is kept in this browser</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= MAKE ======================= -->
+  <section class="pp-sec" id="make" style="--plate:var(--y)">
+    <i class="pp-reg pp-reg-tl"><span></span></i><i class="pp-reg pp-reg-tr"><span></span></i>
+    <div class="pp-shell">
+      <div class="pp-sec-head">
+        <span class="pp-mono pp-plate">Plate Y &mdash; No code needed</span>
+        <h2 class="pp-dis pp-sec-title">Make<br>something</h2>
+        <span class="pp-sec-note">5 toys</span>
+      </div>
+      <p class="pp-lab-intro">The playground above asks you to write code. This asks nothing at all. Five things you can make with a finger and a slider &mdash; a drawing, a pile of sand, a drum loop, a poster with your own name on it, and a curve that would take a long time to draw by hand. Three of them you can keep as a picture. None of them can be done wrong.</p>
+      <div class="pp-labs pp-mk-wrap">
+        <article class="pp-lab" style="--plate:var(--c)">
+          <span class="pp-mono pp-lab-n">Toy 01</span>
+          <h3>Kaleidoscope</h3>
+          <p class="pp-game-d">Drag on the panel. Whatever you draw is mirrored twelve ways at once, so a scribble comes out looking deliberate.</p>
+          <div class="pp-lab-stage pp-mk-stage"><canvas id="mKal"></canvas></div>
+          <div class="pp-lab-ctrl">
+            <div class="pp-lab-row"><label for="mKalSeg">Mirrors</label><input type="range" id="mKalSeg" min="3" max="20" step="1" value="12"><span class="pp-lab-val" id="mKalSegV">12</span></div>
+            <div class="pp-lab-row"><button class="pp-lab-btn" id="mKalClear">Clear</button><button class="pp-lab-btn" id="mKalSave">Save picture</button><span class="pp-mk-tag">Drag slowly for thick lines</span></div>
+          </div>
+        </article>
+        <article class="pp-lab" style="--plate:var(--m)">
+          <span class="pp-mono pp-lab-n">Toy 02</span>
+          <h3>Falling sand</h3>
+          <p class="pp-game-d">Pour sand, water and stone with your finger and watch them argue about gravity. Sand piles up, water finds its level, stone stays put.</p>
+          <div class="pp-lab-stage pp-mk-stage"><canvas id="mSand"></canvas></div>
+          <div class="pp-lab-ctrl">
+            <div class="pp-lab-row">
+              <button class="pp-lab-btn is-on" id="mSandSand">Sand</button>
+              <button class="pp-lab-btn" id="mSandWater">Water</button>
+              <button class="pp-lab-btn" id="mSandStone">Stone</button>
+              <button class="pp-lab-btn" id="mSandClear">Empty it</button>
+            </div>
+          </div>
+        </article>
+        <article class="pp-lab" style="--plate:var(--y)">
+          <span class="pp-mono pp-lab-n">Toy 03</span>
+          <h3>Beat maker</h3>
+          <p class="pp-game-d">Click the squares to switch drums on and off, then press play. Five sounds, sixteen steps, and no way to make it sound bad.</p>
+          <div class="pp-lab-stage pp-mk-stage"><canvas id="mBeat"></canvas></div>
+          <div class="pp-lab-ctrl">
+            <div class="pp-lab-row"><label for="mBeatTempo">Tempo</label><input type="range" id="mBeatTempo" min="60" max="180" step="1" value="104"><span class="pp-lab-val" id="mBeatV">104</span></div>
+            <div class="pp-lab-row"><button class="pp-lab-btn" id="mBeatPlay">Play</button><button class="pp-lab-btn" id="mBeatRand">Surprise me</button><button class="pp-lab-btn" id="mBeatClear">Clear</button><span class="pp-mk-tag">Sound is made on the spot, nothing is downloaded</span></div>
+          </div>
+        </article>
+        <article class="pp-lab" style="--plate:var(--c)">
+          <span class="pp-mono pp-lab-n">Toy 04</span>
+          <h3>Poster maker</h3>
+          <p class="pp-game-d">Type your name. It comes back set in the display face, split into printing plates and screened into halftone dots — then you can keep it.</p>
+          <div class="pp-lab-stage pp-mk-stage"><canvas id="mPoster"></canvas></div>
+          <div class="pp-lab-ctrl">
+            <div class="pp-lab-row"><input type="text" id="mPosterIn" maxlength="14" value="SAAD" autocomplete="off" spellcheck="false" style="flex:1;min-width:110px;background:var(--paper-2);border:1px solid var(--rule);border-radius:2px;padding:7px 9px;font-family:var(--f-mono);font-size:11px;color:var(--ink)"><button class="pp-lab-btn" id="mPosterStyle">Another style</button><button class="pp-lab-btn" id="mPosterSave">Save poster</button></div>
+          </div>
+        </article>
+        <article class="pp-lab" style="--plate:var(--m)">
+          <span class="pp-mono pp-lab-n">Toy 05</span>
+          <h3>Spirograph</h3>
+          <p class="pp-game-d">Two gears and a pen, the way the plastic toy worked. Move a slider and it draws the whole curve again from the beginning.</p>
+          <div class="pp-lab-stage pp-mk-stage"><canvas id="mSpiro"></canvas></div>
+          <div class="pp-lab-ctrl">
+            <div class="pp-lab-row"><label for="mSpiroB">Small gear</label><input type="range" id="mSpiroB" min="1" max="60" step="1" value="23"><span class="pp-lab-val" id="mSpiroBV">23</span></div>
+            <div class="pp-lab-row"><label for="mSpiroD">Pen hole</label><input type="range" id="mSpiroD" min="5" max="90" step="1" value="62"><span class="pp-lab-val" id="mSpiroDV">62</span></div>
+            <div class="pp-lab-row"><button class="pp-lab-btn" id="mSpiroNew">Draw again</button><button class="pp-lab-btn" id="mSpiroSave">Save picture</button></div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
   <!-- ======================= DETOUR ======================= -->
   <section class="pp-sec" id="detour" style="--plate:var(--m)">
     <i class="pp-reg pp-reg-tl"><span></span></i><i class="pp-reg pp-reg-tr"><span></span></i>
@@ -1853,7 +1987,7 @@ body{background:var(--paper);margin:0}
 
   /* ---------------------------------------------------- scroll: progress, nav, ink */
   var prog = $("#ppProg"), ink = $("#ppInk"), navLinks = $$("#ppNav a");
-  var sections = ["lab", "work", "essay", "studio", "process", "contact", "play", "detour", "games"].map(function (id) { return document.getElementById(id); });
+  var sections = ["lab", "work", "essay", "studio", "process", "contact", "play", "shader", "make", "detour", "games"].map(function (id) { return document.getElementById(id); });
   var ticking = false;
   function onScroll() {
     var max = document.documentElement.scrollHeight - window.innerHeight;
@@ -6075,6 +6209,852 @@ body{background:var(--paper);margin:0}
     }).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme", "class"] });
   }
 
+})();
+</script>
+<script>
+/* ------------------------------------------------------------
+   SHADER PLAYGROUND
+   A fragment shader, compiled on the visitor's own GPU as they
+   type. Raw WebGL — no library — for the same reason as the rest
+   of this page. The last shader that compiled keeps drawing while
+   a broken one is being fixed, so the canvas never goes black.
+   ------------------------------------------------------------ */
+(function () {
+  "use strict";
+  var card = document.querySelector("#shader .pp-sh");
+  var cv = document.getElementById("shView");
+  var ta = document.getElementById("shCode");
+  var log = document.getElementById("shLog");
+  if (!card || !cv || !ta || !log) return;
+
+  var runBtn = document.getElementById("shRun"),
+      resetBtn = document.getElementById("shReset"),
+      fullBtn = document.getElementById("shFull"),
+      fpsOut = document.getElementById("shFps"),
+      bar = document.getElementById("shPresets");
+
+  var HEAD = [
+    "precision highp float;",
+    "uniform vec2  u_res;",
+    "uniform float u_time;",
+    "uniform vec2  u_mouse;",
+    "#define PI 3.141592653589793"
+  ].join("\n") + "\n";
+  var HEAD_LINES = 5;
+
+  var VERT = "attribute vec2 p; void main(){ gl_Position = vec4(p, 0.0, 1.0); }";
+
+  var PRESETS = [
+    ["Gradient",
+"// The simplest thing a shader can be: a colour that\n\
+// depends on where the pixel is. uv runs 0 to 1.\n\
+void main() {\n\
+  vec2 uv = gl_FragCoord.xy / u_res;\n\
+  vec3 col = mix(vec3(0.24, 0.73, 0.87),\n\
+                 vec3(0.91, 0.40, 0.62), uv.x);\n\
+  col *= 0.35 + 0.65 * uv.y;\n\
+  gl_FragColor = vec4(col, 1.0);\n\
+}"],
+    ["Plasma",
+"// Four sine waves added together, then fed through a\n\
+// cosine palette. Change any number and watch.\n\
+void main() {\n\
+  vec2 uv = (gl_FragCoord.xy - 0.5 * u_res) / u_res.y;\n\
+  float t = u_time * 0.6;\n\
+  float v = sin(uv.x * 6.0 + t)\n\
+          + sin(uv.y * 7.0 - t * 1.3)\n\
+          + sin((uv.x + uv.y) * 5.0 + t * 0.7)\n\
+          + sin(length(uv) * 9.0 - t * 2.0);\n\
+  v *= 0.25;\n\
+  vec3 col = 0.5 + 0.5 * cos(vec3(0.0, 2.1, 4.2) + v * PI * 2.0);\n\
+  gl_FragColor = vec4(col, 1.0);\n\
+}"],
+    ["Noise",
+"// Value noise, five octaves deep. This is the same idea\n\
+// the carrot's skin is built from.\n\
+float hash(vec2 p) {\n\
+  return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);\n\
+}\n\
+float noise(vec2 p) {\n\
+  vec2 i = floor(p), f = fract(p);\n\
+  f = f * f * (3.0 - 2.0 * f);\n\
+  return mix(mix(hash(i), hash(i + vec2(1.0, 0.0)), f.x),\n\
+             mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), f.x), f.y);\n\
+}\n\
+float fbm(vec2 p) {\n\
+  float a = 0.5, s = 0.0;\n\
+  for (int i = 0; i < 5; i++) { s += a * noise(p); p *= 2.03; a *= 0.5; }\n\
+  return s;\n\
+}\n\
+void main() {\n\
+  vec2 uv = gl_FragCoord.xy / u_res.y;\n\
+  float n = fbm(uv * 3.0 + vec2(0.0, u_time * 0.15));\n\
+  vec3 col = mix(vec3(0.06, 0.07, 0.09),\n\
+                 vec3(0.91, 0.76, 0.36), smoothstep(0.30, 0.78, n));\n\
+  gl_FragColor = vec4(col, 1.0);\n\
+}"],
+    ["Raymarch",
+"// No triangles here. The sphere is a distance function,\n\
+// and the ray walks forward until it is close enough.\n\
+float map(vec3 p) {\n\
+  p.y += sin(u_time) * 0.15;\n\
+  return length(p) - 1.0;\n\
+}\n\
+vec3 normalAt(vec3 p) {\n\
+  vec2 e = vec2(0.001, 0.0);\n\
+  return normalize(vec3(map(p + e.xyy) - map(p - e.xyy),\n\
+                        map(p + e.yxy) - map(p - e.yxy),\n\
+                        map(p + e.yyx) - map(p - e.yyx)));\n\
+}\n\
+void main() {\n\
+  vec2 uv = (gl_FragCoord.xy - 0.5 * u_res) / u_res.y;\n\
+  vec3 ro = vec3(0.0, 0.0, 3.2);\n\
+  vec3 rd = normalize(vec3(uv, -1.5));\n\
+  float t = 0.0, hit = 0.0;\n\
+  for (int i = 0; i < 64; i++) {\n\
+    float d = map(ro + rd * t);\n\
+    if (d < 0.001) { hit = 1.0; break; }\n\
+    t += d;\n\
+    if (t > 12.0) break;\n\
+  }\n\
+  vec3 col = vec3(0.05, 0.06, 0.08);\n\
+  if (hit > 0.5) {\n\
+    vec3 p = ro + rd * t;\n\
+    vec3 n = normalAt(p);\n\
+    vec3 l = normalize(vec3(0.7, 0.9, 0.6));\n\
+    float dif = max(dot(n, l), 0.0);\n\
+    float rim = pow(1.0 - max(dot(n, -rd), 0.0), 3.0);\n\
+    col = vec3(0.95, 0.45, 0.25) * dif + vec3(0.25, 0.15, 0.55) * rim;\n\
+  }\n\
+  gl_FragColor = vec4(col, 1.0);\n\
+}"],
+    ["Carrot light",
+"// The lighting model from the carrot further up this page,\n\
+// wrapped around a sphere so each part is visible on its own.\n\
+// Shadows are violet rather than black — that is the whole\n\
+// trick behind the Spider-Verse look.\n\
+vec3 aces(vec3 x) {\n\
+  return clamp((x * (2.51 * x + 0.03)) / (x * (2.43 * x + 0.59) + 0.14), 0.0, 1.0);\n\
+}\n\
+void main() {\n\
+  vec2 uv = (gl_FragCoord.xy - 0.5 * u_res) / u_res.y;\n\
+  float r2 = dot(uv, uv);\n\
+  if (r2 > 0.16) { gl_FragColor = vec4(0.055, 0.06, 0.075, 1.0); return; }\n\
+  vec3 n = normalize(vec3(uv, sqrt(max(0.16 - r2, 0.0))));\n\
+  vec3 v = vec3(0.0, 0.0, 1.0);\n\
+  vec3 l = normalize(vec3(cos(u_time * 0.5) * 0.8, 0.75, sin(u_time * 0.5) * 0.8));\n\
+  vec3 base = vec3(0.93, 0.42, 0.10);\n\
+  float wrap = max((dot(n, l) + 0.45) / 1.45, 0.0);\n\
+  float sss  = pow(max(dot(-l, v) * 0.5 + 0.5, 0.0), 3.0) * 0.45;\n\
+  float rim  = pow(1.0 - max(dot(n, v), 0.0), 2.6);\n\
+  float spec = pow(max(dot(reflect(-l, n), v), 0.0), 42.0);\n\
+  vec3 col = base * wrap\n\
+           + base * sss\n\
+           + vec3(0.26, 0.13, 0.42) * (1.0 - wrap) * 0.8\n\
+           + vec3(0.35, 0.55, 1.00) * rim * 0.55\n\
+           + vec3(1.00, 0.96, 0.90) * spec * 0.5;\n\
+  gl_FragColor = vec4(aces(col * 1.15), 1.0);\n\
+}"]
+  ];
+
+  var gl = null;
+  try {
+    gl = cv.getContext("webgl", { antialias: false, alpha: false, depth: false, stencil: false })
+      || cv.getContext("experimental-webgl");
+  } catch (e) {}
+  if (!gl) {
+    log.className = "pp-sh-log is-bad";
+    log.textContent = "This browser will not hand the page a WebGL context, so the playground cannot run here. Everything else on the page still works.";
+    ta.disabled = true;
+    return;
+  }
+
+  var quad = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, quad);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+
+  var vs = gl.createShader(gl.VERTEX_SHADER);
+  gl.shaderSource(vs, VERT);
+  gl.compileShader(vs);
+
+  var prog = null, uRes = null, uTime = null, uMouse = null, started = performance.now();
+
+  function tidy(info) {
+    /* the header is prepended silently, so shift reported lines back onto
+       the code the visitor can actually see */
+    return String(info || "").replace(/\u0000/g, "")
+      .split("\n").filter(function (l) { return l.trim(); })
+      .map(function (l) {
+        return l.replace(/ERROR:\s*\d+:(\d+):?\s*/g, function (_, n) {
+          return "Line " + Math.max(1, parseInt(n, 10) - HEAD_LINES) + " — ";
+        }).replace(/WARNING:\s*\d+:(\d+):?\s*/g, function (_, n) {
+          return "Line " + Math.max(1, parseInt(n, 10) - HEAD_LINES) + ", warning — ";
+        });
+      }).join("\n");
+  }
+
+  function build(src) {
+    var fs = gl.createShader(gl.FRAGMENT_SHADER);
+    gl.shaderSource(fs, HEAD + src);
+    gl.compileShader(fs);
+    if (!gl.getShaderParameter(fs, gl.COMPILE_STATUS)) {
+      var info = tidy(gl.getShaderInfoLog(fs));
+      gl.deleteShader(fs);
+      return { error: info || "The shader did not compile." };
+    }
+    var p = gl.createProgram();
+    gl.attachShader(p, vs); gl.attachShader(p, fs);
+    gl.bindAttribLocation(p, 0, "p");
+    gl.linkProgram(p);
+    gl.deleteShader(fs);
+    if (!gl.getProgramParameter(p, gl.LINK_STATUS)) {
+      var li = tidy(gl.getProgramInfoLog(p));
+      gl.deleteProgram(p);
+      return { error: li || "The shader compiled but would not link." };
+    }
+    return { program: p };
+  }
+
+  function apply(src, quiet) {
+    var out = build(src);
+    if (out.error) {
+      log.className = "pp-sh-log is-bad";
+      log.textContent = out.error;
+      return false;
+    }
+    if (prog) gl.deleteProgram(prog);
+    prog = out.program;
+    gl.useProgram(prog);
+    uRes = gl.getUniformLocation(prog, "u_res");
+    uTime = gl.getUniformLocation(prog, "u_time");
+    uMouse = gl.getUniformLocation(prog, "u_mouse");
+    gl.enableVertexAttribArray(0);
+    gl.bindBuffer(gl.ARRAY_BUFFER, quad);
+    gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
+    log.className = "pp-sh-log";
+    if (!quiet) log.textContent = "Compiled.";
+    return true;
+  }
+
+  /* ---- canvas sizing ---- */
+  var vw = 0, vh = 0;
+  function size() {
+    var r = cv.getBoundingClientRect();
+    var d = Math.min(window.devicePixelRatio || 1, 1.5);
+    var w = Math.max(1, Math.round(r.width * d)), h = Math.max(1, Math.round(r.height * d));
+    if (w === vw && h === vh) return;
+    vw = w; vh = h; cv.width = w; cv.height = h;
+    gl.viewport(0, 0, w, h);
+  }
+
+  /* ---- pointer ---- */
+  var mx = 0, my = 0;
+  cv.addEventListener("pointermove", function (e) {
+    var r = cv.getBoundingClientRect();
+    mx = (e.clientX - r.left) / Math.max(1, r.width) * vw;
+    my = (1 - (e.clientY - r.top) / Math.max(1, r.height)) * vh;
+  });
+
+  /* ---- draw loop, only while visible ---- */
+  var on = false, raf = 0, inView = false, frames = 0, fpsAt = 0;
+  function frame(now) {
+    if (!on) return;
+    size();
+    if (prog) {
+      gl.useProgram(prog);
+      if (uRes) gl.uniform2f(uRes, vw, vh);
+      if (uTime) gl.uniform1f(uTime, (now - started) / 1000);
+      if (uMouse) gl.uniform2f(uMouse, mx, my);
+      gl.drawArrays(gl.TRIANGLES, 0, 3);
+    }
+    frames++;
+    if (now - fpsAt > 500) {
+      fpsOut.textContent = Math.round(frames * 1000 / (now - fpsAt)) + " fps";
+      frames = 0; fpsAt = now;
+    }
+    raf = requestAnimationFrame(frame);
+  }
+  function start() { if (on) return; on = true; fpsAt = performance.now(); frames = 0; raf = requestAnimationFrame(frame); }
+  function stop() { on = false; cancelAnimationFrame(raf); }
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver(function (e) {
+      inView = e[0].isIntersecting;
+      if (inView && !document.hidden) start(); else stop();
+    }, { rootMargin: "160px" }).observe(cv);
+  } else { inView = true; start(); }
+  document.addEventListener("visibilitychange", function () {
+    if (document.hidden) stop(); else if (inView) start();
+  });
+
+  /* ---- presets ---- */
+  var current = 0;
+  PRESETS.forEach(function (pre, i) {
+    var b = document.createElement("button");
+    b.type = "button";
+    b.className = "pp-lab-btn";
+    b.textContent = pre[0];
+    b.addEventListener("click", function () { load(i); });
+    bar.appendChild(b);
+  });
+  function load(i) {
+    current = i;
+    ta.value = PRESETS[i][1];
+    started = performance.now();
+    apply(ta.value);
+    save();
+  }
+
+  /* ---- remember the visitor's own code ---- */
+  var KEY = "pp-shader-code";
+  function save() {
+    try { localStorage.setItem(KEY, ta.value); } catch (e) {}
+  }
+  function restore() {
+    var kept = null;
+    try { kept = localStorage.getItem(KEY); } catch (e) {}
+    if (kept && kept.indexOf("void main") > -1) {
+      ta.value = kept;
+      if (apply(kept, true)) { log.textContent = "Restored the shader you left here last time. Reset goes back to the preset."; return; }
+    }
+    load(0);
+  }
+
+  /* ---- typing ---- */
+  var debounce = 0;
+  ta.addEventListener("input", function () {
+    clearTimeout(debounce);
+    debounce = setTimeout(function () { apply(ta.value, false); save(); }, 550);
+  });
+  ta.addEventListener("keydown", function (e) {
+    if (e.key === "Tab") {
+      e.preventDefault();
+      var s = ta.selectionStart, t = ta.selectionEnd;
+      ta.value = ta.value.slice(0, s) + "  " + ta.value.slice(t);
+      ta.selectionStart = ta.selectionEnd = s + 2;
+    } else if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
+      e.preventDefault();
+      clearTimeout(debounce);
+      apply(ta.value); save();
+    }
+  });
+  runBtn.addEventListener("click", function () { clearTimeout(debounce); apply(ta.value); save(); });
+  resetBtn.addEventListener("click", function () { load(current); });
+
+  /* ---- full screen, same behaviour as the games ---- */
+  var maxed = false, prevOverflow = "";
+  function fsElement() { return document.fullscreenElement || document.webkitFullscreenElement || null; }
+  function enter() {
+    maxed = true;
+    prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    card.classList.add("is-max");
+    fullBtn.textContent = "Exit full screen";
+    var f = card.requestFullscreen || card.webkitRequestFullscreen;
+    if (f) { try { var p = f.call(card); if (p && p.catch) p.catch(function () {}); } catch (e) {} }
+  }
+  function leave() {
+    if (!maxed) return;
+    maxed = false;
+    card.classList.remove("is-max");
+    document.body.style.overflow = prevOverflow;
+    fullBtn.textContent = "Full screen";
+    var f = document.exitFullscreen || document.webkitExitFullscreen;
+    if (f && fsElement()) { try { var p = f.call(document); if (p && p.catch) p.catch(function () {}); } catch (e) {} }
+  }
+  fullBtn.addEventListener("click", function () { if (maxed) leave(); else enter(); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape") leave(); });
+  function fsChanged() { if (!fsElement() && maxed) leave(); }
+  document.addEventListener("fullscreenchange", fsChanged);
+  document.addEventListener("webkitfullscreenchange", fsChanged);
+
+  restore();
+})();
+</script>
+<script>
+/* ------------------------------------------------------------
+   MAKE SOMETHING
+   Five toys for people who do not write code. Same rules as the
+   rest of the page: no libraries, and nothing runs while it is
+   off screen.
+   ------------------------------------------------------------ */
+(function () {
+  "use strict";
+  var host = document.getElementById("make"); if (!host) return;
+
+  function el(id) { return document.getElementById(id); }
+  function tok(n, fb) {
+    var v = getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+    return v || fb;
+  }
+  function fit(cv) {
+    var r = cv.getBoundingClientRect();
+    var d = Math.min(window.devicePixelRatio || 1, 2);
+    cv.width = Math.max(1, Math.round(r.width * d));
+    cv.height = Math.max(1, Math.round(r.height * d));
+    var x = cv.getContext("2d"); x.setTransform(d, 0, 0, d, 0, 0); return x;
+  }
+  function loop(watch, step) {
+    var on = false, raf = 0, inView = false;
+    function tick(t) { if (!on) return; step(t); raf = requestAnimationFrame(tick); }
+    function start() { if (on) return; on = true; raf = requestAnimationFrame(tick); }
+    function stop() { on = false; cancelAnimationFrame(raf); }
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (e) {
+        inView = e[0].isIntersecting;
+        if (inView && !document.hidden) start(); else stop();
+      }, { rootMargin: "140px" }).observe(watch);
+    } else { inView = true; start(); }
+    document.addEventListener("visibilitychange", function () {
+      if (document.hidden) stop(); else if (inView) start();
+    });
+  }
+  function at(cv, e) {
+    var r = cv.getBoundingClientRect();
+    return { x: e.clientX - r.left, y: e.clientY - r.top };
+  }
+  function drag(cv, down, move, up) {
+    var live = false;
+    cv.addEventListener("pointerdown", function (e) {
+      live = true; e.preventDefault();
+      try { cv.setPointerCapture(e.pointerId); } catch (err) {}
+      down(at(cv, e));
+    });
+    window.addEventListener("pointermove", function (e) { if (live) move(at(cv, e)); });
+    window.addEventListener("pointerup", function () { if (live) { live = false; if (up) up(); } });
+    window.addEventListener("blur", function () { if (live) { live = false; if (up) up(); } });
+  }
+  function keep(cv, name) {
+    var a = document.createElement("a");
+    try { a.href = cv.toDataURL("image/png"); } catch (e) { return; }
+    a.download = name + ".png";
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  }
+  function onResize(fn) {
+    var t = 0;
+    window.addEventListener("resize", function () { clearTimeout(t); t = setTimeout(fn, 250); });
+  }
+
+  /* =================================================== 01 kaleidoscope */
+  (function () {
+    var cv = el("mKal"); if (!cv) return;
+    var x = fit(cv), seg = 12, hue = 0, last = null, painted = false;
+    function wipe() {
+      x = fit(cv);
+      x.fillStyle = tok("--paper-2", "#161a22");
+      x.fillRect(0, 0, cv.clientWidth, cv.clientHeight);
+      painted = false;
+    }
+    function stroke(a, b) {
+      var w = cv.clientWidth, h = cv.clientHeight, cx = w / 2, cy = h / 2;
+      var speed = Math.hypot(b.x - a.x, b.y - a.y);
+      var width = Math.max(1.2, 9 - speed * 0.35);
+      hue = (hue + 1.4) % 360;
+      x.strokeStyle = "hsla(" + hue + ",72%,62%,0.9)";
+      x.lineWidth = width; x.lineCap = "round";
+      for (var i = 0; i < seg; i++) {
+        var ang = i * Math.PI * 2 / seg;
+        var c = Math.cos(ang), s = Math.sin(ang);
+        function rot(p, flip) {
+          var dx = p.x - cx, dy = (p.y - cy) * (flip ? -1 : 1);
+          return [cx + dx * c - dy * s, cy + dx * s + dy * c];
+        }
+        var p1 = rot(a, false), p2 = rot(b, false);
+        x.beginPath(); x.moveTo(p1[0], p1[1]); x.lineTo(p2[0], p2[1]); x.stroke();
+        p1 = rot(a, true); p2 = rot(b, true);
+        x.beginPath(); x.moveTo(p1[0], p1[1]); x.lineTo(p2[0], p2[1]); x.stroke();
+      }
+      painted = true;
+    }
+    drag(cv, function (p) { last = p; }, function (p) {
+      if (last) stroke(last, p);
+      last = p;
+    }, function () { last = null; });
+    var segIn = el("mKalSeg"), segOut = el("mKalSegV");
+    segIn.addEventListener("input", function () { seg = +segIn.value; segOut.textContent = segIn.value; });
+    el("mKalClear").addEventListener("click", wipe);
+    el("mKalSave").addEventListener("click", function () { keep(cv, "kaleidoscope"); });
+    wipe();
+    onResize(function () { if (!painted) wipe(); });
+  })();
+
+  /* =================================================== 02 falling sand */
+  (function () {
+    var cv = el("mSand"); if (!cv) return;
+    var ctx = cv.getContext("2d");
+    var SCALE = 4, gw = 0, gh = 0, grid = null, off = null, offx = null, img = null;
+    var EMPTY = 0, SAND = 1, WATER = 2, STONE = 3;
+    var brush = SAND, pointer = null;
+    function build() {
+      var r = cv.getBoundingClientRect();
+      cv.width = Math.max(1, Math.round(r.width));
+      cv.height = Math.max(1, Math.round(r.height));
+      gw = Math.max(20, Math.floor(cv.width / SCALE));
+      gh = Math.max(20, Math.floor(cv.height / SCALE));
+      grid = new Uint8Array(gw * gh);
+      off = document.createElement("canvas"); off.width = gw; off.height = gh;
+      offx = off.getContext("2d");
+      img = offx.createImageData(gw, gh);
+      ctx.imageSmoothingEnabled = false;
+    }
+    function pour(p) {
+      var r = cv.getBoundingClientRect();
+      var gx = Math.floor(p.x / r.width * gw), gy = Math.floor(p.y / r.height * gh);
+      var rad = brush === STONE ? 2 : 3;
+      for (var dy = -rad; dy <= rad; dy++) for (var dx = -rad; dx <= rad; dx++) {
+        var nx = gx + dx, ny = gy + dy;
+        if (nx < 0 || ny < 0 || nx >= gw || ny >= gh) continue;
+        if (dx * dx + dy * dy > rad * rad) continue;
+        if (brush !== EMPTY && Math.random() < 0.35) continue;
+        grid[ny * gw + nx] = brush;
+      }
+    }
+    function settle() {
+      for (var y = gh - 2; y >= 0; y--) {
+        var flip = Math.random() < 0.5;
+        for (var k = 0; k < gw; k++) {
+          var xx = flip ? k : gw - 1 - k;
+          var i = y * gw + xx, v = grid[i];
+          if (v === EMPTY || v === STONE) continue;
+          var below = i + gw;
+          if (grid[below] === EMPTY) { grid[below] = v; grid[i] = EMPTY; continue; }
+          if (v === SAND && grid[below] === WATER) { grid[below] = SAND; grid[i] = WATER; continue; }
+          var dir = Math.random() < 0.5 ? -1 : 1;
+          var d1 = below + dir, d2 = below - dir;
+          if (xx + dir >= 0 && xx + dir < gw && grid[d1] === EMPTY) { grid[d1] = v; grid[i] = EMPTY; continue; }
+          if (xx - dir >= 0 && xx - dir < gw && grid[d2] === EMPTY) { grid[d2] = v; grid[i] = EMPTY; continue; }
+          if (v === WATER) {
+            var s1 = i + dir;
+            if (xx + dir >= 0 && xx + dir < gw && grid[s1] === EMPTY) { grid[s1] = v; grid[i] = EMPTY; }
+          }
+        }
+      }
+    }
+    var COL = null;
+    function palette() {
+      function rgb(css, fb) {
+        var d = document.createElement("canvas").getContext("2d");
+        d.fillStyle = fb; d.fillStyle = css;
+        var m = d.fillStyle;
+        if (m.charAt(0) === "#") {
+          return [parseInt(m.substr(1, 2), 16), parseInt(m.substr(3, 2), 16), parseInt(m.substr(5, 2), 16)];
+        }
+        var n = m.match(/\d+/g) || [0, 0, 0];
+        return [+n[0], +n[1], +n[2]];
+      }
+      COL = [rgb(tok("--paper-2", "#161a22"), "#161a22"),
+             rgb(tok("--y", "#e8c25b"), "#e8c25b"),
+             rgb(tok("--c", "#3dbbdd"), "#3dbbdd"),
+             rgb(tok("--ink-soft", "#8e96a5"), "#8e96a5")];
+    }
+    function paint() {
+      var d = img.data;
+      for (var i = 0, j = 0; i < grid.length; i++, j += 4) {
+        var c = COL[grid[i]];
+        d[j] = c[0]; d[j + 1] = c[1]; d[j + 2] = c[2]; d[j + 3] = 255;
+      }
+      offx.putImageData(img, 0, 0);
+      ctx.imageSmoothingEnabled = false;
+      ctx.drawImage(off, 0, 0, cv.width, cv.height);
+    }
+    drag(cv, function (p) { pointer = p; pour(p); }, function (p) { pointer = p; pour(p); }, function () { pointer = null; });
+    function pick(btn, kind) {
+      el(btn).addEventListener("click", function () {
+        brush = kind;
+        ["mSandSand", "mSandWater", "mSandStone"].forEach(function (b) { el(b).classList.remove("is-on"); });
+        if (kind !== EMPTY) el(btn).classList.add("is-on");
+      });
+    }
+    pick("mSandSand", SAND); pick("mSandWater", WATER); pick("mSandStone", STONE);
+    el("mSandClear").addEventListener("click", function () { grid.fill(EMPTY); });
+    build(); palette();
+    loop(cv, function () { settle(); paint(); });
+    onResize(function () { build(); palette(); });
+    if (window.MutationObserver) {
+      new MutationObserver(palette).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme", "class"] });
+    }
+  })();
+
+  /* =================================================== 03 beat maker */
+  (function () {
+    var cv = el("mBeat"); if (!cv) return;
+    var STEPS = 16, ROWS = 5;
+    var NAMES = ["Kick", "Snare", "Hat", "Bass", "Blip"];
+    var on = [];
+    for (var r = 0; r < ROWS; r++) { on.push(new Uint8Array(STEPS)); }
+    on[0][0] = on[0][4] = on[0][8] = on[0][12] = 1;
+    on[2][2] = on[2][6] = on[2][10] = on[2][14] = 1;
+    var playing = false, step = 0, ac = null, tempo = 104, nextAt = 0, timer = 0;
+
+    function audio() {
+      if (ac) return ac;
+      var C = window.AudioContext || window.webkitAudioContext;
+      if (!C) return null;
+      ac = new C();
+      return ac;
+    }
+    function noise(dur) {
+      var n = Math.floor(ac.sampleRate * dur);
+      var b = ac.createBuffer(1, n, ac.sampleRate), d = b.getChannelData(0);
+      for (var i = 0; i < n; i++) d[i] = Math.random() * 2 - 1;
+      var s = ac.createBufferSource(); s.buffer = b; return s;
+    }
+    function hit(row, t) {
+      var g = ac.createGain(); g.connect(ac.destination);
+      if (row === 0) {
+        var o = ac.createOscillator(); o.type = "sine";
+        o.frequency.setValueAtTime(126, t);
+        o.frequency.exponentialRampToValueAtTime(44, t + 0.13);
+        g.gain.setValueAtTime(0.5, t);
+        g.gain.exponentialRampToValueAtTime(0.001, t + 0.33);
+        o.connect(g); o.start(t); o.stop(t + 0.35);
+      } else if (row === 1) {
+        var s = noise(0.2), f = ac.createBiquadFilter();
+        f.type = "bandpass"; f.frequency.value = 1750; f.Q.value = 0.9;
+        g.gain.setValueAtTime(0.32, t);
+        g.gain.exponentialRampToValueAtTime(0.001, t + 0.19);
+        s.connect(f); f.connect(g); s.start(t); s.stop(t + 0.2);
+      } else if (row === 2) {
+        var s2 = noise(0.05), f2 = ac.createBiquadFilter();
+        f2.type = "highpass"; f2.frequency.value = 7600;
+        g.gain.setValueAtTime(0.16, t);
+        g.gain.exponentialRampToValueAtTime(0.001, t + 0.045);
+        s2.connect(f2); f2.connect(g); s2.start(t); s2.stop(t + 0.05);
+      } else if (row === 3) {
+        var o2 = ac.createOscillator(); o2.type = "triangle";
+        o2.frequency.setValueAtTime(58, t);
+        g.gain.setValueAtTime(0.34, t);
+        g.gain.exponentialRampToValueAtTime(0.001, t + 0.26);
+        o2.connect(g); o2.start(t); o2.stop(t + 0.28);
+      } else {
+        var o3 = ac.createOscillator(); o3.type = "square";
+        o3.frequency.setValueAtTime(892, t);
+        g.gain.setValueAtTime(0.10, t);
+        g.gain.exponentialRampToValueAtTime(0.001, t + 0.08);
+        o3.connect(g); o3.start(t); o3.stop(t + 0.09);
+      }
+    }
+    function schedule() {
+      if (!playing || !ac) return;
+      var spb = 60 / tempo / 4;
+      while (nextAt < ac.currentTime + 0.12) {
+        for (var r = 0; r < ROWS; r++) if (on[r][step]) hit(r, nextAt);
+        nextAt += spb;
+        step = (step + 1) % STEPS;
+      }
+      timer = setTimeout(schedule, 25);
+    }
+    function play() {
+      var c = audio();
+      if (!c) return;
+      if (c.state === "suspended") c.resume();
+      playing = true; nextAt = c.currentTime + 0.06;
+      el("mBeatPlay").textContent = "Stop";
+      schedule();
+    }
+    function halt() {
+      playing = false; clearTimeout(timer); step = 0;
+      el("mBeatPlay").textContent = "Play";
+    }
+    el("mBeatPlay").addEventListener("click", function () { if (playing) halt(); else play(); });
+    el("mBeatClear").addEventListener("click", function () { for (var r = 0; r < ROWS; r++) on[r].fill(0); });
+    el("mBeatRand").addEventListener("click", function () {
+      var odds = [0.30, 0.18, 0.45, 0.16, 0.12];
+      for (var r = 0; r < ROWS; r++) for (var s = 0; s < STEPS; s++) on[r][s] = Math.random() < odds[r] ? 1 : 0;
+    });
+    var tin = el("mBeatTempo"), tout = el("mBeatV");
+    tin.addEventListener("input", function () { tempo = +tin.value; tout.textContent = tin.value; });
+    document.addEventListener("visibilitychange", function () { if (document.hidden && playing) halt(); });
+
+    cv.addEventListener("pointerdown", function (e) {
+      var p = at(cv, e), w = cv.clientWidth, h = cv.clientHeight;
+      var lab = Math.min(58, w * 0.17);
+      var cwid = (w - lab) / STEPS, rh = h / ROWS;
+      var s = Math.floor((p.x - lab) / cwid), r = Math.floor(p.y / rh);
+      if (s < 0 || r < 0 || s >= STEPS || r >= ROWS) return;
+      on[r][s] = on[r][s] ? 0 : 1;
+    });
+
+    var x = fit(cv);
+    loop(cv, function () {
+      var w = cv.clientWidth, h = cv.clientHeight;
+      var lab = Math.min(58, w * 0.17);
+      var cwid = (w - lab) / STEPS, rh = h / ROWS;
+      x.fillStyle = tok("--paper-2", "#161a22"); x.fillRect(0, 0, w, h);
+      var C = [tok("--m", "#e7679f"), tok("--c", "#3dbbdd"), tok("--y", "#e8c25b"), tok("--m", "#e7679f"), tok("--c", "#3dbbdd")];
+      x.font = "500 9px 'IBM Plex Mono', monospace";
+      x.textBaseline = "middle";
+      for (var r = 0; r < ROWS; r++) {
+        x.fillStyle = tok("--ink-faint", "#616978");
+        x.fillText(NAMES[r].toUpperCase(), 4, r * rh + rh / 2);
+        for (var s = 0; s < STEPS; s++) {
+          var bx = lab + s * cwid, by = r * rh;
+          var live = playing && s === (step + STEPS - 1) % STEPS;
+          if (on[r][s]) x.fillStyle = C[r];
+          else x.fillStyle = (s % 4 === 0) ? tok("--rule", "#2a3039") : tok("--rule-soft", "#20252d");
+          x.fillRect(bx + 1, by + 2, cwid - 2, rh - 4);
+          if (live) {
+            x.strokeStyle = tok("--ink", "#e8eaef"); x.lineWidth = 1;
+            x.strokeRect(bx + 1.5, by + 2.5, cwid - 3, rh - 5);
+          }
+        }
+      }
+      x.textBaseline = "alphabetic";
+    });
+    onResize(function () { x = fit(cv); });
+  })();
+
+  /* =================================================== 04 poster maker */
+  (function () {
+    var cv = el("mPoster"); if (!cv) return;
+    var inp = el("mPosterIn"), style = 0;
+    function draw() {
+      var x = fit(cv), w = cv.clientWidth, h = cv.clientHeight;
+      var word = (inp.value || "SAAD").toUpperCase();
+      x.fillStyle = tok("--paper-2", "#161a22");
+      x.fillRect(0, 0, w, h);
+
+      var off = document.createElement("canvas");
+      var d = Math.min(window.devicePixelRatio || 1, 2);
+      off.width = Math.round(w * d); off.height = Math.round(h * d);
+      var o = off.getContext("2d");
+      o.setTransform(d, 0, 0, d, 0, 0);
+      var size = Math.min(h * 0.5, w * 1.7 / Math.max(3, word.length));
+      o.font = "800 " + size + "px 'Big Shoulders Display', Impact, sans-serif";
+      o.textAlign = "center"; o.textBaseline = "middle";
+      o.fillStyle = "#fff";
+      o.fillText(word, w / 2, h / 2);
+
+      var src = o.getImageData(0, 0, off.width, off.height).data;
+      function ink(px, py) {
+        var sx = Math.round(px * d), sy = Math.round(py * d);
+        if (sx < 0 || sy < 0 || sx >= off.width || sy >= off.height) return 0;
+        return src[(sy * off.width + sx) * 4 + 3] / 255;
+      }
+      var plates = [
+        { c: tok("--c", "#3dbbdd"), dx: -3, dy: -2, ang: 15 },
+        { c: tok("--m", "#e7679f"), dx: 3, dy: 2, ang: 75 },
+        { c: tok("--y", "#e8c25b"), dx: 0, dy: 0, ang: 0 }
+      ];
+      var pitch = style === 1 ? 4.4 : (style === 2 ? 8 : 6);
+      x.globalCompositeOperation = "lighter";
+      for (var pi = 0; pi < plates.length; pi++) {
+        var pl = plates[pi];
+        var a = pl.ang * Math.PI / 180, ca = Math.cos(a), sa = Math.sin(a);
+        x.fillStyle = pl.c;
+        var span = Math.max(w, h) * 1.5;
+        for (var v = -span; v < span; v += pitch) {
+          for (var u = -span; u < span; u += pitch) {
+            var px = w / 2 + u * ca - v * sa, py = h / 2 + u * sa + v * ca;
+            var t = ink(px - pl.dx, py - pl.dy);
+            if (t <= 0.04) continue;
+            var rad = pitch * 0.52 * Math.sqrt(t);
+            if (style === 2) x.fillRect(px - rad, py - rad, rad * 2, rad * 2);
+            else { x.beginPath(); x.arc(px, py, rad, 0, 7); x.fill(); }
+          }
+        }
+      }
+      x.globalCompositeOperation = "source-over";
+      x.fillStyle = tok("--ink-faint", "#616978");
+      x.font = "500 8px 'IBM Plex Mono', monospace";
+      x.fillText("SVVDESIGN.GITHUB.IO", 8, h - 8);
+    }
+    inp.addEventListener("input", draw);
+    el("mPosterStyle").addEventListener("click", function () { style = (style + 1) % 3; draw(); });
+    el("mPosterSave").addEventListener("click", function () { keep(cv, "poster"); });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(draw);
+    draw();
+    onResize(draw);
+    if (window.MutationObserver) {
+      new MutationObserver(function () { setTimeout(draw, 30); })
+        .observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme", "class"] });
+    }
+  })();
+
+  /* =================================================== 05 spirograph */
+  (function () {
+    var cv = el("mSpiro"); if (!cv) return;
+    var x = fit(cv), b = 23, dd = 62, t = 0, done = false, hue = 0;
+    function restart() {
+      x = fit(cv);
+      x.fillStyle = tok("--paper-2", "#161a22");
+      x.fillRect(0, 0, cv.clientWidth, cv.clientHeight);
+      t = 0; done = false; hue = (Math.random() * 360) | 0;
+    }
+    function point(tt, R, r, d, cx, cy) {
+      var k = (R - r) / r;
+      return [cx + (R - r) * Math.cos(tt) + d * Math.cos(k * tt),
+              cy + (R - r) * Math.sin(tt) - d * Math.sin(k * tt)];
+    }
+    loop(cv, function () {
+      if (done) return;
+      var w = cv.clientWidth, h = cv.clientHeight;
+      var R = Math.min(w, h) * 0.44, r = R * (b / 100), d = R * (dd / 100);
+      x.lineWidth = 1.15; x.lineCap = "round";
+      for (var i = 0; i < 90; i++) {
+        var p1 = point(t, R, r, d, w / 2, h / 2);
+        t += 0.012;
+        var p2 = point(t, R, r, d, w / 2, h / 2);
+        x.strokeStyle = "hsla(" + ((hue + t * 9) % 360) + ",70%,62%,0.85)";
+        x.beginPath(); x.moveTo(p1[0], p1[1]); x.lineTo(p2[0], p2[1]); x.stroke();
+        if (t > Math.PI * 2 * 60) { done = true; break; }
+      }
+    });
+    function bind(id, outId, set) {
+      var i = el(id), o = el(outId);
+      i.addEventListener("input", function () { o.textContent = i.value; set(+i.value); restart(); });
+    }
+    bind("mSpiroB", "mSpiroBV", function (v) { b = v; });
+    bind("mSpiroD", "mSpiroDV", function (v) { dd = v; });
+    el("mSpiroNew").addEventListener("click", restart);
+    el("mSpiroSave").addEventListener("click", function () { keep(cv, "spirograph"); });
+    restart();
+    onResize(restart);
+  })();
+
+  /* ---- full screen for these five, same as the games ---- */
+  (function () {
+    var open = null, prevOverflow = "";
+    function reflow() {
+      setTimeout(function () { window.dispatchEvent(new Event("resize")); }, 60);
+      setTimeout(function () { window.dispatchEvent(new Event("resize")); }, 420);
+    }
+    function fsElement() { return document.fullscreenElement || document.webkitFullscreenElement || null; }
+    function exit() {
+      if (!open) return;
+      var card = open; open = null;
+      card.classList.remove("is-max");
+      document.body.style.overflow = prevOverflow;
+      var b = card.querySelector("[data-mkfull]");
+      if (b) b.textContent = "Full screen";
+      var f = document.exitFullscreen || document.webkitExitFullscreen;
+      if (f && fsElement()) { try { var p = f.call(document); if (p && p.catch) p.catch(function () {}); } catch (e) {} }
+      reflow();
+    }
+    [].forEach.call(host.querySelectorAll(".pp-lab"), function (card) {
+      var rows = card.querySelectorAll(".pp-lab-row");
+      var row = rows[rows.length - 1]; if (!row) return;
+      var b = document.createElement("button");
+      b.type = "button"; b.className = "pp-lab-btn"; b.setAttribute("data-mkfull", "");
+      b.textContent = "Full screen";
+      row.appendChild(b);
+      b.addEventListener("click", function () {
+        if (open === card) { exit(); return; }
+        if (open) exit();
+        open = card;
+        prevOverflow = document.body.style.overflow;
+        document.body.style.overflow = "hidden";
+        card.classList.add("is-max");
+        b.textContent = "Exit full screen";
+        var f = card.requestFullscreen || card.webkitRequestFullscreen;
+        if (f) { try { var p = f.call(card); if (p && p.catch) p.catch(function () {}); } catch (e) {} }
+        reflow();
+      });
+    });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") exit(); });
+    function changed() { if (!fsElement() && open) exit(); }
+    document.addEventListener("fullscreenchange", changed);
+    document.addEventListener("webkitfullscreenchange", changed);
+  })();
 })();
 </script>
 </body>
