@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="pp-intro-on">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -182,6 +182,82 @@ body{background:var(--paper);margin:0}
   padding:5px 0;border-bottom:1px solid transparent;transition:color .18s,border-color .18s;
 }
 .pp-nav a:hover,.pp-nav a.is-live{color:var(--ink);border-bottom-color:var(--m)}
+
+/* ============================================================ OPENING */
+.pp-intro-on{overflow:hidden}
+.pp-intro{
+  position:fixed;inset:0;z-index:200;display:grid;place-items:center;
+  background:var(--paper);opacity:1;
+  transition:opacity 1.5s ease;
+}
+.pp-intro.is-going{opacity:0;pointer-events:none}
+.pp-intro::before{
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
+  background-image:radial-gradient(var(--rule) 1px,transparent 1px);
+  background-size:14px 14px;
+  -webkit-mask-image:radial-gradient(circle at 50% 45%,transparent 22%,#000 72%);
+  mask-image:radial-gradient(circle at 50% 45%,transparent 22%,#000 72%);
+}
+.pp-intro-in{
+  position:relative;display:grid;gap:clamp(14px,2.4vw,24px);justify-items:center;
+  text-align:center;padding:24px;max-width:min(680px,92vw);
+}
+.pp-intro-chips{display:flex;gap:5px}
+.pp-intro-chips i{width:10px;height:10px;border-radius:50%;display:block}
+.pp-intro-eyebrow{
+  font-family:var(--f-mono);font-size:10px;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--ink-faint);
+}
+.pp-intro-title{
+  font-family:var(--f-display);font-weight:800;text-transform:uppercase;
+  font-size:clamp(72px,17vw,196px);line-height:.8;letter-spacing:.005em;color:var(--ink);
+}
+.pp-intro-sub{
+  font-size:clamp(14px,1.6vw,17px);line-height:1.6;color:var(--ink-soft);margin:0;
+  max-width:34ch;
+}
+.pp-intro-btn{margin-top:6px}
+.pp-intro-note{
+  font-family:var(--f-mono);font-size:9px;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--ink-faint);
+}
+.pp-intro-in>*{opacity:0;animation:ppIntroRise .7s cubic-bezier(.22,.7,.3,1) both}
+.pp-intro-in>:nth-child(1){animation-delay:.10s}
+.pp-intro-in>:nth-child(2){animation-delay:.18s}
+.pp-intro-in>:nth-child(3){animation-delay:.26s}
+.pp-intro-in>:nth-child(4){animation-delay:.40s}
+.pp-intro-in>:nth-child(5){animation-delay:.58s}
+.pp-intro-in>:nth-child(6){animation-delay:.72s}
+@keyframes ppIntroRise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){
+  .pp-intro-in>*{animation:none;opacity:1}
+}
+
+/* ---- specular button ---- */
+.pp-spec{
+  --sb-radius:44px;--sb-tint:#ffffff;--sb-tint-opacity:.04;--sb-blur:0px;--sb-text-color:#940a30;
+  position:relative;display:inline-flex;align-items:center;justify-content:center;
+  border:none;margin:0;font-family:var(--f-mono);font-weight:500;
+  letter-spacing:.14em;text-transform:uppercase;line-height:1;
+  font-size:clamp(12px,1.25vw,15px);padding:18px 40px;
+  color:var(--sb-text-color);
+  background:color-mix(in srgb,var(--sb-tint) calc(var(--sb-tint-opacity) * 100%),transparent);
+  border-radius:var(--sb-radius);
+  backdrop-filter:blur(var(--sb-blur));-webkit-backdrop-filter:blur(var(--sb-blur));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 8px 24px rgba(0,0,0,.25);
+  cursor:pointer;outline:none;transition:transform .15s ease;
+}
+.pp-spec:active{transform:scale(.97)}
+.pp-spec:focus-visible{outline:2px solid color-mix(in srgb,var(--sb-text-color) 60%,transparent);outline-offset:3px}
+.pp-spec-fx{position:absolute;inset:-20px;pointer-events:none;z-index:1}
+.pp-spec-fx canvas{display:block;width:100%;height:100%}
+.pp-spec-label{position:relative;z-index:2}
+/* if WebGL2 is refused there is no rim, so the button draws its own edge */
+.pp-spec.is-plain{border:1px solid color-mix(in srgb,var(--sb-text-color) 55%,transparent)}
+:root[data-theme="dark"] .pp-spec{--sb-text-color:#ec0000}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]) .pp-spec{--sb-text-color:#ec0000}
+}
 
 /* ============================================================ GOOEY NAV */
 .pp-goo{
@@ -722,8 +798,20 @@ body{background:var(--paper);margin:0}
 .pp-byline{font-family:var(--f-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);line-height:1.8}
 .pp-endmark::after{content:"";display:inline-block;width:9px;height:9px;background:var(--m);margin-left:9px;vertical-align:baseline;border-radius:50%}
 </style>
+<noscript><style>.pp-intro{display:none}.pp-intro-on{overflow:visible}</style></noscript>
 </head>
 <body>
+<div class="pp-intro" id="ppIntro" role="dialog" aria-modal="true" aria-label="Opening">
+  <div class="pp-intro-in">
+    <span class="pp-intro-chips" aria-hidden="true"><i style="background:var(--c)"></i><i style="background:var(--m)"></i><i style="background:var(--y)"></i><i style="background:var(--ink)"></i></span>
+    <span class="pp-intro-eyebrow">Plate C M Y K &mdash; on press</span>
+    <span class="pp-intro-title">Saad</span>
+    <p class="pp-intro-sub">Graphics programming, shaders and physics &mdash; on a page written entirely by hand.</p>
+    <button class="pp-spec pp-intro-btn" type="button" id="ppIntroGo"><span class="pp-spec-fx" aria-hidden="true"></span><span class="pp-spec-label">Enter the page</span></button>
+    <span class="pp-intro-note">Nothing is tracked</span>
+  </div>
+</div>
+
 
 <div class="pp">
 
@@ -2442,8 +2530,19 @@ body{background:var(--paper);margin:0}
   if (scrim) scrim.addEventListener("click", close);
   if (reopen) reopen.addEventListener("click", function () { reset(); open(); });
 
-  /* every visit, every time */
-  window.setTimeout(open, reduce ? 500 : 1200);
+  /* every visit, every time — but only once the opening screen has cleared */
+  var armed = false;
+  function begin() {
+    if (armed) return;
+    armed = true;
+    window.setTimeout(open, reduce ? 500 : 1200);
+  }
+  if (document.documentElement.classList.contains("pp-intro-on")) {
+    document.addEventListener("pp-intro-done", begin);
+    window.setTimeout(begin, 20000);          /* never leave it hanging */
+  } else {
+    begin();
+  }
 })();
 </script>
 
@@ -7290,6 +7389,220 @@ void main() {\n\
   if (document.fonts && document.fonts.ready) {
     document.fonts.ready.then(function () { if (active > -1) place(items[active]); });
   }
+})();
+</script>
+<script>
+/* ------------------------------------------------------------
+   OPENING SCREEN
+   One button, then a slow cross-fade into the page itself.
+   The support clip waits for this to finish rather than
+   appearing underneath it.
+   ------------------------------------------------------------ */
+(function () {
+  "use strict";
+  var intro = document.getElementById("ppIntro");
+  var root = document.documentElement;
+  if (!intro) { root.classList.remove("pp-intro-on"); return; }
+  var go = document.getElementById("ppIntroGo");
+  var done = false;
+
+  function finish() {
+    if (done) return;
+    done = true;
+    intro.classList.add("is-going");
+    root.classList.remove("pp-intro-on");     /* give scrolling back at once */
+    window.setTimeout(function () {
+      if (typeof stopSpec === "function") stopSpec();
+      if (intro.parentNode) intro.parentNode.removeChild(intro);
+      try {
+        document.dispatchEvent(new CustomEvent("pp-intro-done"));
+      } catch (e) {
+        var ev = document.createEvent("Event");
+        ev.initEvent("pp-intro-done", true, true);
+        document.dispatchEvent(ev);
+      }
+    }, 1500);                                  /* the length of the fade */
+  }
+
+
+  /* ---------------------------------------------------------
+     The button's rim is a signed-distance field drawn in WebGL:
+     a dark stroke hugging the edge, plus a specular streak that
+     turns to follow the pointer. Ported off React and ogl to
+     raw WebGL2, because this page carries no libraries.
+     --------------------------------------------------------- */
+  function specular(btn, opt) {
+    var fx = btn.querySelector(".pp-spec-fx");
+    if (!fx) return null;
+    var cv = document.createElement("canvas");
+    var gl = null;
+    try {
+      gl = cv.getContext("webgl2", { alpha: true, premultipliedAlpha: true, antialias: true });
+    } catch (e) {}
+    if (!gl) { btn.classList.add("is-plain"); return null; }
+
+    var VERT =
+      "#version 300 es\n" +
+      "in vec2 position;\n" +
+      "void main(){ gl_Position = vec4(position, 0.0, 1.0); }\n";
+
+    var FRAG =
+      "#version 300 es\n" +
+      "precision highp float;\n" +
+      "uniform vec2 uCenter; uniform vec2 uHalfSize; uniform float uRadius;\n" +
+      "uniform float uAngle; uniform float uPx;\n" +
+      "uniform vec3 uLineColor; uniform vec3 uBaseColor;\n" +
+      "uniform float uIntensity; uniform float uShineSize; uniform float uShineFade;\n" +
+      "uniform float uThickness; uniform float uBaseWidth;\n" +
+      "out vec4 fragColor;\n" +
+      "float sdRoundedRect(vec2 p, vec2 b, float r){\n" +
+      "  vec2 q = abs(p) - b + r;\n" +
+      "  return length(max(q, 0.0)) + min(max(q.x, q.y), 0.0) - r;\n" +
+      "}\n" +
+      "float gaussianLine(float d, float sigma){\n" +
+      "  float x = d / (sigma + 1e-6);\n" +
+      "  float k = mix(1.0, 1.6, smoothstep(0.0, 1.5, x));\n" +
+      "  return exp(-k * x * x);\n" +
+      "}\n" +
+      "void main(){\n" +
+      "  vec2 p = gl_FragCoord.xy - uCenter;\n" +
+      "  float d = sdRoundedRect(p, uHalfSize, uRadius);\n" +
+      "  vec2 L = vec2(cos(uAngle), sin(uAngle));\n" +
+      "  float base = (1.0 - smoothstep(0.0, uBaseWidth, abs(d))) * 0.45;\n" +
+      "  vec2 nEll = normalize(p / (uHalfSize * uHalfSize) + 1e-6);\n" +
+      "  float phi = acos(clamp(abs(dot(nEll, L)), 0.0, 1.0));\n" +
+      "  float rim = 1.0 - smoothstep(uShineSize - uShineFade, uShineSize + uShineFade + 1e-4, phi);\n" +
+      "  float line = gaussianLine(d, uThickness);\n" +
+      "  float edgeClamp = 1.0 - smoothstep(0.5 * uPx, 3.0 * uPx, abs(d));\n" +
+      "  float hi = line * rim * edgeClamp * uIntensity;\n" +
+      "  vec3 col = uBaseColor * base + uLineColor * hi;\n" +
+      "  float a = clamp(base + hi, 0.0, 1.0);\n" +
+      "  fragColor = vec4(col, a);\n" +
+      "}\n";
+
+    function shader(type, src) {
+      var s = gl.createShader(type);
+      gl.shaderSource(s, src); gl.compileShader(s);
+      if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) { gl.deleteShader(s); return null; }
+      return s;
+    }
+    var vs = shader(gl.VERTEX_SHADER, VERT), fs = shader(gl.FRAGMENT_SHADER, FRAG);
+    if (!vs || !fs) { btn.classList.add("is-plain"); return null; }
+    var prog = gl.createProgram();
+    gl.attachShader(prog, vs); gl.attachShader(prog, fs);
+    gl.bindAttribLocation(prog, 0, "position");
+    gl.linkProgram(prog);
+    if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) { btn.classList.add("is-plain"); return null; }
+    gl.useProgram(prog);
+
+    var buf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+    gl.enableVertexAttribArray(0);
+    gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
+
+    gl.clearColor(0, 0, 0, 0);
+    gl.enable(gl.BLEND);
+    gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+
+    var U = {};
+    ["uCenter","uHalfSize","uRadius","uAngle","uPx","uLineColor","uBaseColor",
+     "uIntensity","uShineSize","uShineFade","uThickness","uBaseWidth"]
+      .forEach(function (n) { U[n] = gl.getUniformLocation(prog, n); });
+
+    function rgb(hex) {
+      var n = parseInt(String(hex).replace("#", ""), 16);
+      return [(n >> 16 & 255) / 255, (n >> 8 & 255) / 255, (n & 255) / 255];
+    }
+    var PAD = 20, dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var W = 1, H = 1;
+    function resize() {
+      var r = btn.getBoundingClientRect();
+      W = r.width; H = r.height;
+      var cw = W + PAD * 2, ch = H + PAD * 2;
+      cv.style.width = cw + "px"; cv.style.height = ch + "px";
+      cv.width = Math.round(cw * dpr); cv.height = Math.round(ch * dpr);
+      gl.viewport(0, 0, cv.width, cv.height);
+      gl.uniform2f(U.uCenter, (PAD + W / 2) * dpr, (PAD + H / 2) * dpr);
+      gl.uniform2f(U.uHalfSize, (W / 2) * dpr, (H / 2) * dpr);
+    }
+    fx.appendChild(cv);
+    resize();
+    if (window.ResizeObserver) new ResizeObserver(resize).observe(btn);
+
+    /* the light turns toward the pointer, and brightens as it gets close */
+    var pointerAngle = null, near = 0;
+    function onMove(e) {
+      var r = btn.getBoundingClientRect();
+      var cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+      var dx = Math.max(r.left - e.clientX, 0, e.clientX - r.right);
+      var dy = Math.max(r.top - e.clientY, 0, e.clientY - r.bottom);
+      var dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist === 0) {
+        var nx = (e.clientX - cx) / (r.width / 2);
+        var ny = (cy - e.clientY) / (r.height / 2);
+        pointerAngle = Math.atan2(2 / r.height, -2 / r.width) + nx * 0.3 + ny * 0.15;
+      } else {
+        pointerAngle = Math.atan2(cy - e.clientY, e.clientX - cx);
+      }
+      var t = Math.max(0, 1 - dist / Math.max(opt.proximity, 1));
+      near = t * t * (3 - 2 * t);
+    }
+    window.addEventListener("pointermove", onMove);
+
+    var angle = 2.4, idle = 2.4, bright = 0, last = performance.now(), raf = 0, dead = false;
+    var lineC = rgb(opt.lineColor), baseC = rgb(opt.baseColor);
+    function frame(now) {
+      if (dead) return;
+      raf = requestAnimationFrame(frame);
+      var dt = Math.min((now - last) / 1000, 0.05); last = now;
+      idle += opt.speed * dt;
+      var steer = opt.followMouse && pointerAngle !== null && (!opt.autoAnimate || near > 0);
+      var target = steer ? pointerAngle : idle;
+      var diff = ((target - angle + Math.PI * 3) % (Math.PI * 2)) - Math.PI;
+      angle += diff * (1 - Math.exp(-dt * 7));
+      var wanted = opt.autoAnimate ? 1 : near;
+      bright += (wanted - bright) * (1 - Math.exp(-dt * 8));
+      gl.uniform1f(U.uAngle, angle);
+      gl.uniform1f(U.uRadius, Math.min(opt.radius, Math.min(W, H) / 2) * dpr);
+      gl.uniform1f(U.uPx, dpr);
+      gl.uniform3f(U.uLineColor, lineC[0], lineC[1], lineC[2]);
+      gl.uniform3f(U.uBaseColor, baseC[0], baseC[1], baseC[2]);
+      gl.uniform1f(U.uIntensity, opt.intensity * bright);
+      gl.uniform1f(U.uShineSize, opt.shineSize * Math.PI / 180);
+      gl.uniform1f(U.uShineFade, opt.shineFade * Math.PI / 180);
+      gl.uniform1f(U.uThickness, opt.thickness * dpr);
+      gl.uniform1f(U.uBaseWidth, dpr);
+      gl.clear(gl.COLOR_BUFFER_BIT);
+      gl.drawArrays(gl.TRIANGLES, 0, 3);
+    }
+    raf = requestAnimationFrame(frame);
+
+    return function stop() {
+      dead = true;
+      cancelAnimationFrame(raf);
+      window.removeEventListener("pointermove", onMove);
+      var lose = gl.getExtension("WEBGL_lose_context");
+      if (lose) lose.loseContext();
+    };
+  }
+
+  /* a touch screen never sends a pointermove, so let the light sweep on its own */
+  var noHover = window.matchMedia && window.matchMedia("(hover: none)").matches;
+  var stopSpec = go ? specular(go, {
+    radius: 44, lineColor: "#ec0000", baseColor: "#1b1a1a",
+    intensity: 1.6, shineSize: 26, shineFade: 40, thickness: 3.7,
+    speed: 0.35, followMouse: true, proximity: 250, autoAnimate: noHover
+  }) : null;
+
+  if (go) {
+    go.addEventListener("click", finish);
+    window.setTimeout(function () { try { go.focus({ preventScroll: true }); } catch (e) { go.focus(); } }, 700);
+  }
+  /* never trap anyone behind it */
+  document.addEventListener("keydown", function (e) {
+    if (!done && (e.key === "Escape" || e.key === "Enter")) finish();
+  });
 })();
 </script>
 </body>
