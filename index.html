@@ -182,6 +182,82 @@ body{background:var(--paper);margin:0}
   padding:5px 0;border-bottom:1px solid transparent;transition:color .18s,border-color .18s;
 }
 .pp-nav a:hover,.pp-nav a.is-live{color:var(--ink);border-bottom-color:var(--m)}
+
+/* ============================================================ GOOEY NAV */
+.pp-goo{
+  position:relative;transform:translate3d(0,0,0.01px);
+  --goo-ease:linear(
+    0, 0.068, 0.19 2.7%, 0.804 8.1%, 1.037, 1.199 13.2%, 1.245, 1.27 15.8%,
+    1.274, 1.272 17.4%, 1.249 19.1%, 0.996 28%, 0.949, 0.928 33.3%, 0.926,
+    0.933 36.8%, 1.001 45.6%, 1.013, 1.019 50.8%, 1.018 54.4%, 1 63.1%,
+    0.995 68%, 1.001 85%, 1
+  );
+  --color-1:var(--c);--color-2:var(--m);--color-3:var(--y);--color-4:var(--ink);
+}
+.pp-goo ul{
+  display:flex;gap:clamp(2px,0.5vw,8px);list-style:none;margin:0;padding:0;
+  position:relative;z-index:3;
+}
+.pp-goo li{position:relative;border-radius:100vw}
+.pp-goo li a{
+  display:inline-block;padding:5px clamp(6px,0.85vw,12px);
+  white-space:nowrap;border-bottom:0;transition:color .3s ease;
+}
+@media (max-width:1080px){
+  .pp-goo ul{gap:0}
+  .pp-goo li a{padding:5px 5px;letter-spacing:.08em}
+}
+.pp-goo li::after{
+  content:"";position:absolute;inset:0;border-radius:100vw;
+  background:var(--ink);opacity:0;transform:scale(0);z-index:-1;
+  transition:opacity .3s ease,transform .3s ease;
+}
+@supports (transition-timing-function:linear(0,1)){
+  .pp-goo li::after{transition:opacity .3s ease,transform .42s var(--goo-ease)}
+}
+.pp-goo li.is-on::after{opacity:1;transform:scale(1)}
+.pp-goo li.is-on a,.pp-goo li.is-on a.is-live{color:var(--paper)}
+.pp-goo-fx{
+  position:absolute;left:0;top:0;width:0;height:0;opacity:1;
+  pointer-events:none;display:grid;place-items:center;
+}
+.pp-goo-def{position:absolute;width:0;height:0;overflow:hidden}
+/* the gooeyness: blur the blobs, then push alpha through a steep curve so the
+   soft edges snap back together into one shape. An SVG filter rather than
+   blur+contrast, because that trick needs an opaque backdrop and this header
+   is deliberately see-through. */
+.pp-goo-layer{position:absolute;inset:0;pointer-events:none;z-index:1;filter:url(#ppGoo)}
+.pp-goo-fx.filter::after{
+  content:"";position:absolute;inset:0;background:var(--ink);
+  transform:scale(0);opacity:0;z-index:-1;border-radius:100vw;
+}
+.pp-goo-fx.is-on::after{animation:ppGooPill .3s ease both}
+@keyframes ppGooPill{to{transform:scale(1);opacity:1}}
+.pp-goo .pp-goo-p,.pp-goo .pp-goo-d{
+  display:block;opacity:0;width:20px;height:20px;border-radius:100%;transform-origin:center;
+}
+.pp-goo .pp-goo-p{
+  --time:5s;position:absolute;top:calc(50% - 8px);left:calc(50% - 8px);
+  animation:ppGooFly calc(var(--time)) ease 1 -350ms;
+}
+.pp-goo .pp-goo-d{background:var(--color);opacity:1;animation:ppGooPop calc(var(--time)) ease 1 -350ms}
+@keyframes ppGooFly{
+  0%{transform:rotate(0deg) translate(var(--start-x),var(--start-y));opacity:1;animation-timing-function:cubic-bezier(.55,0,1,.45)}
+  70%{transform:rotate(calc(var(--rotate) * .5)) translate(calc(var(--end-x) * 1.2),calc(var(--end-y) * 1.2));opacity:1;animation-timing-function:ease}
+  85%{transform:rotate(calc(var(--rotate) * .66)) translate(var(--end-x),var(--end-y));opacity:1}
+  100%{transform:rotate(calc(var(--rotate) * 1.2)) translate(calc(var(--end-x) * .5),calc(var(--end-y) * .5));opacity:1}
+}
+@keyframes ppGooPop{
+  0%{transform:scale(0);opacity:0;animation-timing-function:cubic-bezier(.55,0,1,.45)}
+  25%{transform:scale(calc(var(--scale) * .25))}
+  38%{opacity:1}
+  65%{transform:scale(var(--scale));opacity:1;animation-timing-function:ease}
+  85%{transform:scale(var(--scale));opacity:1}
+  100%{transform:scale(0);opacity:0}
+}
+@media (prefers-reduced-motion:reduce){
+  .pp-goo-fx.filter{display:none}
+}
 .pp-tools{display:flex;gap:6px;align-items:center}
 .pp-tool{
   background:transparent;border:1px solid var(--rule);
@@ -660,18 +736,28 @@ body{background:var(--paper);margin:0}
         <span class="pp-chips"><i style="background:var(--c)"></i><i style="background:var(--m)"></i><i style="background:var(--y)"></i><i style="background:var(--ink)"></i></span>
         Saad
       </a>
-      <nav class="pp-nav" id="ppNav">
-        <a href="#lab">Lab</a>
-        <a href="#work">Craft</a>
-        <a href="#essay">Essay</a>
-        <a href="#studio">This page</a>
-        <a href="#process">Principles</a>
-        <a href="#contact">Contact</a>
-        <a href="#play">Play</a>
-        <a href="#shader">Shader</a>
-        <a href="#make">Make</a>
-        <a href="#detour">Detour</a>
-        <a href="#games">Games</a>
+      <nav class="pp-nav pp-goo" id="ppNav">
+        <ul>
+          <li><a href="#lab">Lab</a></li>
+          <li><a href="#work">Craft</a></li>
+          <li><a href="#essay">Essay</a></li>
+          <li><a href="#studio">This page</a></li>
+          <li><a href="#process">Principles</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a href="#play">Play</a></li>
+          <li><a href="#shader">Shader</a></li>
+          <li><a href="#make">Make</a></li>
+          <li><a href="#detour">Detour</a></li>
+          <li><a href="#games">Games</a></li>
+        </ul>
+        <span class="pp-goo-layer" aria-hidden="true"><span class="pp-goo-fx filter"></span></span>
+        <svg class="pp-goo-def" aria-hidden="true" focusable="false">
+          <filter id="ppGoo" x="-30%" y="-400%" width="160%" height="900%" color-interpolation-filters="sRGB">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="soft"/>
+            <feColorMatrix in="soft" type="matrix"
+              values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 21 -9"/>
+          </filter>
+        </svg>
       </nav>
       <div class="pp-tools">
         <span class="pp-mono pp-ink">Ink <span id="ppInk">0</span>%</span>
@@ -7082,6 +7168,128 @@ void main() {\n\
     document.addEventListener("fullscreenchange", changed);
     document.addEventListener("webkitfullscreenchange", changed);
   })();
+})();
+</script>
+<script>
+/* ------------------------------------------------------------
+   GOOEY NAV
+   The pill that follows the active section, and the burst of
+   particles when a link is clicked. Ported from the React
+   component to plain JS so it costs the page nothing extra.
+   The gooeyness is one CSS line: blur, then enormous contrast,
+   which turns overlapping soft circles into one merged shape.
+   ------------------------------------------------------------ */
+(function () {
+  "use strict";
+  var nav = document.getElementById("ppNav");
+  if (!nav || !nav.classList.contains("pp-goo")) return;
+  var fx = nav.querySelector(".pp-goo-fx.filter");
+  var items = [].slice.call(nav.querySelectorAll("li"));
+  if (!fx || !items.length) return;
+
+  var PARTICLES = 15,
+      DIST = [90, 10],
+      R = 100,
+      TIME = 600,
+      VARIANCE = 300,
+      COLORS = [1, 2, 3, 1, 2, 3, 1, 4];
+
+  var calm = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var active = -1;
+
+  function noise(n) { n = n || 1; return n / 2 - Math.random() * n; }
+  function xy(distance, i, total) {
+    var angle = ((360 + noise(8)) / total) * i * (Math.PI / 180);
+    return [distance * Math.cos(angle), distance * Math.sin(angle)];
+  }
+  function place(li) {
+    var box = nav.getBoundingClientRect(), pos = li.getBoundingClientRect();
+    var css = {
+      left: (pos.x - box.x) + "px",
+      top: (pos.y - box.y) + "px",
+      width: pos.width + "px",
+      height: pos.height + "px"
+    };
+    for (var k in css) fx.style[k] = css[k];
+  }
+  function burst(li) {
+    if (calm) return;
+    place(li);
+    fx.style.setProperty("--time", (TIME * 2 + VARIANCE) + "ms");
+    for (var i = 0; i < PARTICLES; i++) {
+      var life = TIME * 2 + noise(VARIANCE * 2);
+      var rot = noise(R / 10);
+      rot = rot > 0 ? (rot + R / 20) * 10 : (rot - R / 20) * 10;
+      var start = xy(DIST[0], PARTICLES - i, PARTICLES);
+      var end = xy(DIST[1] + noise(7), PARTICLES - i, PARTICLES);
+      var scale = 1 + noise(0.2);
+      var col = COLORS[Math.floor(Math.random() * COLORS.length)];
+      fx.classList.remove("is-on");
+      (function (life, rot, start, end, scale, col) {
+        setTimeout(function () {
+          var p = document.createElement("span"), d = document.createElement("span");
+          p.className = "pp-goo-p";
+          p.style.cssText =
+            "--start-x:" + start[0] + "px;--start-y:" + start[1] + "px;" +
+            "--end-x:" + end[0] + "px;--end-y:" + end[1] + "px;" +
+            "--time:" + life + "ms;--scale:" + scale + ";" +
+            "--color:var(--color-" + col + ", var(--ink));--rotate:" + rot + "deg";
+          d.className = "pp-goo-d";
+          p.appendChild(d);
+          fx.appendChild(p);
+          void fx.offsetWidth;                 /* flush so the pill animation restarts */
+          fx.classList.add("is-on");
+          setTimeout(function () { if (p.parentNode === fx) fx.removeChild(p); }, life);
+        }, 30);
+      })(life, rot, start, end, scale, col);
+    }
+  }
+  function light(i, withBurst) {
+    if (i < 0 || i >= items.length) {
+      items.forEach(function (li) { li.classList.remove("is-on"); });
+      active = -1;
+      return;
+    }
+    if (i === active && !withBurst) return;
+    active = i;
+    items.forEach(function (li, n) { li.classList.toggle("is-on", n === i); });
+    place(items[i]);
+    if (withBurst) burst(items[i]);
+  }
+
+  items.forEach(function (li, i) {
+    li.addEventListener("click", function () { light(i, true); });
+  });
+
+  /* follow the page's own scroll-spy, which marks the live link itself */
+  function fromSpy() {
+    var found = -1;
+    items.forEach(function (li, i) {
+      var a = li.querySelector("a");
+      if (a && a.classList.contains("is-live")) found = i;
+    });
+    if (found !== active) light(found, false);
+  }
+  if (window.MutationObserver) {
+    new MutationObserver(function (records) {
+      /* only react to the scroll-spy marking an <a>; the pill we put on the
+         <li> ourselves would otherwise re-trigger this and wipe itself out */
+      for (var i = 0; i < records.length; i++) {
+        var t = records[i].target;
+        if (t && t.tagName === "A") { fromSpy(); return; }
+      }
+    }).observe(nav, { subtree: true, attributes: true, attributeFilter: ["class"] });
+  }
+  fromSpy();
+
+  var t = 0;
+  window.addEventListener("resize", function () {
+    clearTimeout(t);
+    t = setTimeout(function () { if (active > -1) place(items[active]); }, 150);
+  });
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(function () { if (active > -1) place(items[active]); });
+  }
 })();
 </script>
 </body>
