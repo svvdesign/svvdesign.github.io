@@ -1408,9 +1408,10 @@ body{background:var(--paper);margin:0}
         <article class="pp-lab" style="--plate:var(--c)">
           <span class="pp-mono pp-lab-n">Toy 04</span>
           <h3>Poster maker</h3>
-          <p class="pp-game-d">Type your name. It comes back set in the display face, split into printing plates and screened into halftone dots — then you can keep it.</p>
+          <p class="pp-game-d">Type your name. It comes back set in the display face, split into three printing plates and screened into halftone dots. Choose your own three inks and your own paper, then keep it.</p>
           <div class="pp-lab-stage pp-mk-stage"><canvas id="mPoster"></canvas></div>
           <div class="pp-lab-ctrl">
+            <div class="pp-lab-row"><label>Ink</label><input type="color" id="mPosterC1" value="#0E8FB6"><input type="color" id="mPosterC2" value="#C6316F"><input type="color" id="mPosterC3" value="#D9A222"><label for="mPosterPaper" style="min-width:auto">Paper</label><input type="color" id="mPosterPaper" value="#E5E7EC"><button class="pp-lab-btn" id="mPosterInk">Back to CMY</button></div>
             <div class="pp-lab-row"><input type="text" id="mPosterIn" maxlength="14" value="SAAD" autocomplete="off" spellcheck="false" style="flex:1;min-width:110px;background:var(--paper-2);border:1px solid var(--rule);border-radius:2px;padding:7px 9px;font-family:var(--f-mono);font-size:11px;color:var(--ink)"><button class="pp-lab-btn" id="mPosterStyle">Another style</button><button class="pp-lab-btn" id="mPosterSave">Save poster</button></div>
           </div>
         </article>
@@ -6907,10 +6908,30 @@ void main() {\n\
   (function () {
     var cv = el("mPoster"); if (!cv) return;
     var inp = el("mPosterIn"), style = 0;
+    var ink = [el("mPosterC1"), el("mPosterC2"), el("mPosterC3")], paper = el("mPosterPaper");
+    var touched = false;
+
+    function lum(hex) {
+      var n = parseInt(String(hex).replace("#", ""), 16);
+      if (isNaN(n)) return 0;
+      var r = (n >> 16 & 255) / 255, g = (n >> 8 & 255) / 255, b = (n & 255) / 255;
+      return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+    }
+    function fromTheme() {
+      /* follow the page's own plate colours until the visitor picks their own */
+      if (touched) return;
+      ink[0].value = tok("--c", "#0E8FB6");
+      ink[1].value = tok("--m", "#C6316F");
+      ink[2].value = tok("--y", "#D9A222");
+      paper.value = tok("--paper-2", "#E5E7EC");
+    }
+
     function draw() {
       var x = fit(cv), w = cv.clientWidth, h = cv.clientHeight;
       var word = (inp.value || "SAAD").toUpperCase();
-      x.fillStyle = tok("--paper-2", "#161a22");
+      var sheet = paper.value || "#E5E7EC";
+      var light = lum(sheet) > 0.55;
+      x.fillStyle = sheet;
       x.fillRect(0, 0, w, h);
 
       var off = document.createElement("canvas");
@@ -6925,18 +6946,19 @@ void main() {\n\
       o.fillText(word, w / 2, h / 2);
 
       var src = o.getImageData(0, 0, off.width, off.height).data;
-      function ink(px, py) {
+      function coverAt(px, py) {
         var sx = Math.round(px * d), sy = Math.round(py * d);
         if (sx < 0 || sy < 0 || sx >= off.width || sy >= off.height) return 0;
         return src[(sy * off.width + sx) * 4 + 3] / 255;
       }
       var plates = [
-        { c: tok("--c", "#3dbbdd"), dx: -3, dy: -2, ang: 15 },
-        { c: tok("--m", "#e7679f"), dx: 3, dy: 2, ang: 75 },
-        { c: tok("--y", "#e8c25b"), dx: 0, dy: 0, ang: 0 }
+        { c: ink[0].value, dx: -3, dy: -2, ang: 15 },
+        { c: ink[1].value, dx: 3, dy: 2, ang: 75 },
+        { c: ink[2].value, dx: 0, dy: 0, ang: 0 }
       ];
       var pitch = style === 1 ? 4.4 : (style === 2 ? 8 : 6);
-      x.globalCompositeOperation = "lighter";
+      /* ink on pale paper takes light away; light on a dark sheet adds it */
+      x.globalCompositeOperation = light ? "multiply" : "lighter";
       for (var pi = 0; pi < plates.length; pi++) {
         var pl = plates[pi];
         var a = pl.ang * Math.PI / 180, ca = Math.cos(a), sa = Math.sin(a);
@@ -6945,7 +6967,7 @@ void main() {\n\
         for (var v = -span; v < span; v += pitch) {
           for (var u = -span; u < span; u += pitch) {
             var px = w / 2 + u * ca - v * sa, py = h / 2 + u * sa + v * ca;
-            var t = ink(px - pl.dx, py - pl.dy);
+            var t = coverAt(px - pl.dx, py - pl.dy);
             if (t <= 0.04) continue;
             var rad = pitch * 0.52 * Math.sqrt(t);
             if (style === 2) x.fillRect(px - rad, py - rad, rad * 2, rad * 2);
@@ -6954,18 +6976,23 @@ void main() {\n\
         }
       }
       x.globalCompositeOperation = "source-over";
-      x.fillStyle = tok("--ink-faint", "#616978");
+      x.fillStyle = light ? "rgba(0,0,0,0.42)" : "rgba(255,255,255,0.38)";
       x.font = "500 8px 'IBM Plex Mono', monospace";
       x.fillText("SVVDESIGN.GITHUB.IO", 8, h - 8);
     }
     inp.addEventListener("input", draw);
+    ink.concat([paper]).forEach(function (picker) {
+      picker.addEventListener("input", function () { touched = true; draw(); });
+    });
+    el("mPosterInk").addEventListener("click", function () { touched = false; fromTheme(); draw(); });
     el("mPosterStyle").addEventListener("click", function () { style = (style + 1) % 3; draw(); });
     el("mPosterSave").addEventListener("click", function () { keep(cv, "poster"); });
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(draw);
+    fromTheme();
     draw();
     onResize(draw);
     if (window.MutationObserver) {
-      new MutationObserver(function () { setTimeout(draw, 30); })
+      new MutationObserver(function () { setTimeout(function () { fromTheme(); draw(); }, 30); })
         .observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme", "class"] });
     }
   })();
